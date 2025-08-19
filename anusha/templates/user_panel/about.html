@@ -1,118 +1,206 @@
-@login_required
-# def user_profile(request):
-#     user = request.user
-#     profile, _ = UserProfile.objects.get_or_create(user=user)
+{% extends 'layouts/main.html' %}
 
-#     orders = (
-#         Order.objects
-#         .filter(user=user)
-#         .order_by('-created_at')
-#         .prefetch_related('items__product', 'items__product_variant')  # Prefetch nested items
-#     )
+{% block title %}About Perfume Valley{% endblock %}
 
-#     wishlist = Wishlist.objects.filter(user=user).select_related('product')
-#     addresses = AddressModel.objects.filter(user=user)
-#     help_queries = HelpQuery.objects.filter(user=user).order_by('-created_at')
+{% block extra_css %}
+<style>
+    /* Luxury Color Scheme */
+    :root {
+        --gold: #D4AF37;
+        --deep-navy: #0A1A2F;
+        --cream: #F5F0E6;
+        --rose-gold: #B76E79;
+    }
+    
+    body {
+        background-color: var(--cream);
+        color: var(--deep-navy);
+    }
+    
+    /* Hero Section */
+    .luxury-hero {
+        background: url('https://images.unsplash.com/photo-1615634262417-98ba434aea1e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center;
+        background-size: cover;
+        height: 60vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        margin-bottom: 3rem;
+    }
+    
+    .luxury-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(10, 26, 47, 0.6);
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 800px;
+        padding: 2rem;
+    }
+    
+    .hero-content h1 {
+        font-size: 3.5rem;
+        color: var(--gold);
+        margin-bottom: 1.5rem;
+        font-family: 'Playfair Display', serif;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .hero-content p {
+        font-size: 1.3rem;
+        color: white;
+        line-height: 1.8;
+    }
+    
+    /* Mission Section */
+    .mission-section {
+        background: white;
+        padding: 4rem 2rem;
+        margin: 0 auto 3rem;
+        max-width: 1200px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        border-top: 3px solid var(--gold);
+    }
+    
+    .mission-section h2 {
+        text-align: center;
+        font-size: 2.2rem;
+        color: var(--deep-navy);
+        margin-bottom: 2rem;
+        font-family: 'Playfair Display', serif;
+    }
+    
+    .mission-section p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    /* Promise Section */
+    .promise-section {
+        background: var(--deep-navy);
+        padding: 4rem 2rem;
+        color: white;
+    }
+    
+    .promise-section h2 {
+        text-align: center;
+        font-size: 2.2rem;
+        color: var(--gold);
+        margin-bottom: 3rem;
+        font-family: 'Playfair Display', serif;
+    }
+    
+    .promise-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .promise-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        padding: 2rem;
+        text-align: center;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+    
+    .promise-card:hover {
+        transform: translateY(-10px);
+        background: rgba(212, 175, 55, 0.1);
+    }
+    
+    .promise-card i {
+        font-size: 2.5rem;
+        color: var(--gold);
+        margin-bottom: 1.5rem;
+    }
+    
+    .promise-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--gold);
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .hero-content h1 {
+            font-size: 2.5rem;
+        }
+        
+        .hero-content p {
+            font-size: 1.1rem;
+        }
+        
+        .mission-section, .promise-section {
+            padding: 2rem 1rem;
+        }
+    }
+</style>
+<!-- Add Google Fonts for luxury typography -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+{% endblock %}
 
-#     default_address = addresses.first()
+{% block content %}
+<!-- Luxury Hero Section -->
+<div class="luxury-hero">
+    <div class="hero-content">
+        <h1>Perfume Valley</h1>
+        <p>Where luxury meets tradition in every bottle. Our exquisite fragrances are crafted to transport you to an oasis of sensory delight.</p>
+    </div>
+</div>
 
-#     for order in orders:
-#         if not order.shiprocket_tracking_events or not isinstance(order.shiprocket_tracking_events, list):
-#             order.shiprocket_tracking_events = []
+<!-- Mission Section -->
+<div class="mission-section">
+    <h2>Our Essence</h2>
+    <p>At Perfume Valley, we believe scent is the most powerful memory trigger. Our master perfumers blend the rarest ingredients from around the world to create fragrances that tell your unique story.</p>
+    <p>We've redefined luxury perfumery by making exceptional quality accessible without compromise. Each bottle contains not just fragrance, but artistry, passion, and centuries of perfumery tradition.</p>
+</div>
 
-#         if order.shiprocket_tracking_info and isinstance(order.shiprocket_tracking_info, str):
-#             try:
-#                 order.shiprocket_tracking_info = json.loads(order.shiprocket_tracking_info)
-#             except json.JSONDecodeError:
-#                 order.shiprocket_tracking_info = {}
-
-#         if order.shiprocket_tracking_events and isinstance(order.shiprocket_tracking_events, str):
-#             try:
-#                 order.shiprocket_tracking_events = json.loads(order.shiprocket_tracking_events)
-#             except json.JSONDecodeError:
-#                 order.shiprocket_tracking_events = []
-
-#     ordered_product_ids = OrderItem.objects.filter(order__user=user).values_list('product_id', flat=True)
-#     product_reviews = Review.objects.filter(product_id__in=ordered_product_ids)
-
-#     avg_rating_dict = {
-#         item['product_id']: {
-#             'rating': round(item['avg_rating'], 1),
-#             'percentage': round((item['avg_rating'] / 5) * 100, 2)
-#         }
-#         for item in product_reviews.values('product_id').annotate(avg_rating=Avg('rating'))
-#     }
-
-#     reviewed_product_ids = list(
-#         product_reviews.filter(user=user).values_list('product_id', flat=True)
-#     )
-
-#     tracking_stages = ["AWB Assigned", "Pickup Generated", "Out for Delivery", "Delivered"]
-
-#     if request.method == 'POST':
-#         form = UserProfileForm(request.POST, request.FILES, instance=profile)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, "Profile updated successfully!")
-#             return redirect('user_profile')
-#     else:
-#         form = UserProfileForm(instance=profile)
-
-#     return render(request, 'user_panel/user_profile2.html', {
-#         'profile': profile,
-#         'user': user,
-#         'orders': orders,
-#         'wishlist': wishlist,
-#         'addresses': addresses,
-#         'help_queries': help_queries,
-#         'form': form,
-#         'avg_rating_dict': avg_rating_dict,
-#         'reviewed_product_ids': reviewed_product_ids,
-#         'tracking_stages': tracking_stages
-#     })
-{% for order in orders %}
-
-            <div id="expectDeliverySection-{{ order.shiprocket_order_id}}" class="content-section" style="display: none;" >
-              <div class="section-body">
-                <h3 class="section-heading"> <i class="bi bi-arrow-left me-2" style="cursor: pointer;" onclick="showSection('orders-section')"></i> Order Details</h3>
-                <div class="expect-deliver-card d-flex flex-row" >
-                  <h4 class="ms-2 mt-1" style="color: #121111;font-family: Jomolhari, serif;font-size: 16px;" >Order ID</h4>
-                  <p class="ms-2 " style="color: #4D4D4D;font-family: Jomolhari, serif;font-size: 16px;margin-top: 10px;" >#{{ order.shiprocket_order_id }}</p>
-                </div>
-                
-                <div class="row">
-                  <!-- Product Details -->
-                   {% for item in order.items.all %}
-                  <div class="col-md-6 col-12 d-flex">
-                    <img src="{{ item.product.image1.url }}" alt="Item Image" class="img-fluid expect-deliver-image me-3">
-                    <div class="d-flex flex-column">
-                      <h5 class="card-title mt-2" style="color: #0c0c0c; font-family: Jomolhari, serif; font-size: 18px;">{{ item.product.name }}</h5>
-                      <p class="card-text mb-0 mt-2" style="color: #4D4D4D; font-family: Jomolhari, serif; font-size: 12px;">Brand: {{ item.product.subcategory }}</p>
-                      <div class="d-flex flex-row mt-2">
-{% if item.product_variant.size %}
-      <p class="card-text mb-0 me-2" style="color: #4D4D4D; font-family: Jomolhari, serif; font-size: 14px;">
-        Size: {{ item.product_variant.size }}
-      </p>
-      {% endif %}
-                              <p class="card-text mb-0" style="color: #4D4D4D; font-family: Jomolhari, serif; font-size: 14px; background-color: white;">Qty:{{ item.quantity }}</p>
-                      </div>
-                      <p class="card-text mb-0 mt-2" style="color: #4D4D4D; font-family: Jomolhari, serif; font-size: 18px;">₹{{ item.product_variant.price }}</p>
-                    </div>
-                  </div>
-                  {% endfor %}
-                  <!-- Shipping Details -->
-                  <div class="col-md-6 col-12">
-                    {% for address in addresses %}
-
-                    <div class="shipping-card">
-                      <h5 class="card-title " style="color: #0c0c0c; font-family: Jomolhari, serif; font-size: 20px;">Shipping Details</h5>
-                      <div class="d-flex ">
-                        <p class="card-text mb-0 mt-2 me-2" style="color: #0f0f0f; font-family: Jomolhari, serif; font-size: 18px;">{{ address.Name|default:user.username }}</p> <span class="mt-2">|</span>
-                        <p class="card-text mb-0 mt-2 ms-2" style="color: #0f0e0e; font-family: Jomolhari, serif; font-size: 18px;">{{ address.MobileNumber|default:"No phone number" }}</p>
-                      </div>
-                      <p class="card-text mb-0 " style="color: #4D4D4D; font-family: Jomolhari, serif; font-size: 16px;">{{ address.location }} - {{ address.Pincode }}</p>
-                    </div>
-                    {% endfor %}
-                  </div>
-                </div>
- this template is for displyig multple order detils
+<!-- Promise Section -->
+<div class="promise-section">
+    <h2>Our Sacred Vows</h2>
+    <div class="promise-grid">
+        <div class="promise-card">
+            <i class="fas fa-gem"></i>
+            <h3>Exquisite Ingredients</h3>
+            <p>Only the finest oils from Grasse, rare oud from Middle East, and precious florals handpicked at dawn.</p>
+        </div>
+        
+        <div class="promise-card">
+            <i class="fas fa-hand-holding-heart"></i>
+            <h3>Artisan Crafted</h3>
+            <p>Each fragrance is meticulously blended by our master perfumers with decades of experience.</p>
+        </div>
+        
+        <div class="promise-card">
+            <i class="fas fa-hourglass-half"></i>
+            <h3>Timeless Elegance</h3>
+            <p>Scents that evolve beautifully through the hours, leaving an unforgettable trail.</p>
+        </div>
+        
+        <div class="promise-card">
+            <i class="fas fa-leaf"></i>
+            <h3>Conscious Luxury</h3>
+            <p>Ethically sourced, cruelty-free, and environmentally responsible packaging.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
