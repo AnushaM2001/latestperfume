@@ -77,7 +77,8 @@ urlpatterns = [
     path('order/<int:order_id>/tracking/', views.order_tracking_view, name='order_tracking'),
     path('order/<int:order_id>/download-invoice/', views.download_invoice, name='download_invoice'),
 
-    path('about/',views.about,name='about'),
+    path('stores/', views.store_locator, name='store_locator'),
+    path('about/', views.about_us, name='about_us'),
     path('terms_and_conditions/',views.terms_and_conditions,name='terms_and_conditions'),
 
     path('privacy_policy/',views.privacy_policy,name='privacy_policy'),
