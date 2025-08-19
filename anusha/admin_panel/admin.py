@@ -1,8 +1,9 @@
 from django.contrib import admin
 from .models import (
-    Category, Subcategory, Product, Order, OrderItem, Notification,
+    Category, Subcategory, Product, Order, OrderItem, Notification,StoreLocation,
     Shipping, Payment, Review, Coupon, Notification,Banner,ProductVariant,CouponUsage,PremiumFestiveOffer,PremiumOfferUsage,GiftSet,Flavour,ProductVideo,ShiprocketToken
 )
+admin.site.register(StoreLocation)
 admin.site.register(ShiprocketToken)
 admin.site.register(Flavour)
 admin.site.register(Notification)
