@@ -1,90 +1,169 @@
 {% load static %}
-<footer class="footer-container  p-5">
-    <div class="row">
-        <div class="col-md-3 text-center">
-            <!-- Logo Image -->
-            <img src="{% static 'images2/logo.png' %}" alt="Logo" class="img-fluid mb-3">
-        
-            <!-- Container for Additional Images -->
-            <div class="d-flex justify-content-center gap-3">
-                <img src="{% static 'images2/facebook.svg' %}" alt="Facebook" class="img-fluid" style="width: 30px; height: 30px;">
-                <img src="{% static 'images2/pinterest.svg' %}" alt="Facebook" class="img-fluid" style="width: 30px; height: 30px;">
-                <img src="{% static 'images2/youtube.svg' %}" alt="Facebook" class="img-fluid" style="width: 30px; height: 30px;">
-                <img src="{% static 'images2/instagram.svg' %}" alt="Facebook" class="img-fluid" style="width: 30px; height: 30px;">
-
-            </div>
-        </div>
-        
-        
-        <div class="col-md-3">
-            <div class="row">
-                <div class="col-md-6">
-                <h5>Action</h5>
-            <a href=""><p>About us</a><br><a href="">Contact us</p></a>
+<footer class="footer-container">
+    <div class="container">
+        <div class="row footer-top">
+            <!-- Logo & Social -->
+            <div class="col-lg-3 col-md-6  mb-4">
+                <img src="{% static 'images2/logo.png' %}" alt="Logo" class="footer-logo ">
+                <p class="footer-tagline ">Your Destination for Luxury Perfumes</p>
+                <div class="social-icons  gap-5 mt-3">
+                    <a href="#"><img src="{% static 'images2/facebook.svg' %}" alt="Facebook"></a>
+                    <a href="#"><img src="{% static 'images2/pinterest.svg' %}" alt="Pinterest"></a>
+                    <a href="#"><img src="{% static 'images2/youtube.svg' %}" alt="YouTube"></a>
+                    <a href="#"><img src="{% static 'images2/instagram.svg' %}" alt="Instagram"></a>
                 </div>
-                <div class="col-md-6">
-                        <h5>Categories</h5>
+            </div>
 
+            <!-- Quick Links -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5>Quick Links</h5>
+                <ul class="footer-links">
+                    <li><a href="{% url 'about' %}">About Us</a></li>
+                    <li><a href="{% url 'store_locator' %}">Store Locator</a></li>
+                    <li><a href="{% url 'terms_and_conditions' %}">Terms & Conditions</a></li>
+                    <li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
+                </ul>
+            </div>
+
+            <!-- Categories -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5>Categories</h5>
+                <ul class="footer-links">
                     {% for category in navbar_categories %}
-                    <a href="{% url 'products_list' %}?category={{ category.id }}"><p>{{ category.name }}</p></a>
-{% endfor %}
-                </div>
+                    <li><a href="{% url 'products_list' %}?category={{ category.id }}">{{ category.name }}</a></li>
+                    {% endfor %}
+                </ul>
             </div>
-           
+
+            <!-- Contact Info -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5>Contact</h5>
+                <p><strong>Address:</strong> 8-1-354, 1/C, Shaikpet Rd, Hyderabad, Telangana 500008</p>
+                <p><strong>Email:</strong> perfumevalleyworld@gmail.com</p>
+                <p><strong>Phone:</strong> 9059069188</p>
+            </div>
         </div>
-        <div class="col-md-3">
-            <h5>INFORMATION</h5>
-            <p>Return Policy<br>FAQ<br><a href="{% url 'terms_and_conditions' %}" style="text-decoration: none;">Terms and Conditions</a><br><a href="{% url 'privacy_policy' %}">Privacy Policy</a></p>
-        </div>
-        <div class="col-md-3">
-            <h5>Contact</h5>
-            <p>Address: 8-1-354, 1/C, Shaikpet Rd, Rahul Colony, Aravind Nagar Colony, Toli Chowki, Hyderabad, Telangana 500008</p>
-            <p>Email: perfumevalleyworld@gmail.com<br>Phone: 9059069188</p>
+
+        <hr class="footer-divider">
+
+        <!-- Bottom Section -->
+        <div class="footer-bottom text-center">
+            <p>© Perfume Valley 2023-2024. All Rights Reserved.</p>
         </div>
     </div>
 </footer>
 
-<!-- End Text -->
-<div class="endtext text-center p-3">
-    Perfumevalley@ 2023-2024 All rights reserved.
-</div>
-</div>
+
+
 
 <style>
 .footer-container {
     background: #FBF0EF;
-    width: 100%;
+    padding: 3rem 1rem;
+    color: #4D4D4D;
+    font-family: 'Jomolhari', serif;
+}
+
+.footer-logo {
+    max-width: 150px;
+}
+
+.footer-tagline {
+    font-size: 1rem;
+    color: #6D3F0B;
+    margin-bottom: 10px;
+}
+
+.footer-top h5 {
+    font-size: 1.2rem;
+    color: #981945;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
     margin: 0;
 }
 
-@media (max-width: 768px) {
-    .footer-container .row {
-        flex-direction: column;
-        gap: 2rem;
-    }
-    .footer-container .col-md-3 {
-        width: 100%;
-        max-width: 100%;
-        margin-bottom: 1.5rem;
+.footer-links li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-links li a {
+    color: #4D4D4D;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.footer-links li a:hover {
+    color: #981945;
+}
+
+.social-icons img {
+    width: 35px;
+    height: 35px;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.social-icons a:hover img {
+    transform: scale(1.2);
+    filter: brightness(0) saturate(100%) invert(17%) sepia(98%) saturate(7492%) hue-rotate(312deg) brightness(90%) contrast(110%);
+}
+
+.footer-divider {
+    border: 0;
+    border-top: 1px solid #ddd;
+    margin: 2rem 0 1rem;
+}
+
+.footer-bottom {
+    font-size: 0.9rem;
+    color: #6D3F0B;
+}
+
+/* ✅ Responsive Adjustments */
+@media (max-width: 991px) {
+    .footer-top {
         text-align: center;
     }
-    .footer-container {
-        padding: 1.5rem 0.5rem !important;
-    }
-    .footer-container img {
-        max-width: 120px;
-        height: auto;
+    .footer-top .social-icons {
+        justify-content: center;
     }
 }
-@media (max-width: 576px) {
-    .footer-container {
-        padding: 1rem 0.2rem !important;
+
+@media (max-width: 768px) {
+    .footer-top h5 {
+        font-size: 1.1rem;
     }
-    .footer-container h5 {
-        font-size: 1rem;
-    }
-    .footer-container p {
+    .footer-links li a {
         font-size: 0.95rem;
     }
 }
+
+@media (max-width: 576px) {
+    .footer-container {
+        padding: 2rem 0.5rem;
+    }
+    .footer-logo {
+        max-width: 120px;
+    }
+}
+
+/* Center columns evenly on tablets and small laptops */
+@media (max-width: 1024px) and (min-width: 768px) {
+    .footer-container .footer-top {
+        justify-content: center !important;
+        text-align: center;
+        gap: 2rem;
+        margin-top: 15px;
+    }
+    .footer-container .col-lg-3 {
+        max-width: 45%; /* Two columns per row */
+    }
+}
+
+
 </style>
