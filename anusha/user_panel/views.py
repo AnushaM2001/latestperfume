@@ -786,34 +786,6 @@ def add_to_cart(request, product_id):
             }, status=400)
         messages.error(request, str(e))
         return redirect('product_detail', product_id=product_id)
-
-
-# def update_cart_item(request, item_id):
-#     if request.method == "POST":
-        
-#         try:
-#             cart_item = Cart.objects.get(id=item_id, user=request.user)
-#             print("Found Cart Item:", cart_item)
-#         except Cart.DoesNotExist:
-#             print("Cart item not found.")
-#             return JsonResponse({"status": "error", "message": "CartItem not found."})
-
-#         action = request.POST.get("action")
-#         if action == "increase":
-#             cart_item.quantity += 1
-#         elif action == "decrease" and cart_item.quantity > 1:
-#             cart_item.quantity -= 1
-        
-#         cart_item.save()
-
-#         return redirect("view_cart")
-
-
-
-
-
-
-# 
     
 from decimal import Decimal
 from django.db.models import Sum
@@ -2294,8 +2266,12 @@ def send_invoice_email(user, order):
 
 
 
-def about(request):
-    return render(request,'user_panel/about.html')
+def store_locator(request):
+    stores = StoreLocation.objects.all()
+    return render(request, 'user_panel/locator.html', {'stores': stores})
+
+def about_us(request):
+    return render(request, 'user_panel/about.html')
 
 def terms_and_conditions(request):
     return render(request,'user_panel/terms_and_conditions.html') 
