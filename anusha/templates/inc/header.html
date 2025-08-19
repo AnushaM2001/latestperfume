@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{% static 'css/user_profile.css' %}?v2">   
     
 
-    <title>Document</title>
+    <title></title>
 </head>
 <body>
    <!-- Include the Canvas Confetti Library -->
@@ -85,10 +85,9 @@
                 width: 100%;
             }
  
-</style>
 
-<!-- SEARCH SECTION -->
-<style>
+
+
   .searchCon {
     display: none;
     z-index: 1000;
@@ -935,7 +934,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (!response.ok) throw new Error('Network response was not ok');
                     return response.json();
                 })
-                .then(data => {
+                .then data => {
                     document.querySelectorAll('.cart-count').forEach(el => {
                         el.textContent = data.count;
                     });
