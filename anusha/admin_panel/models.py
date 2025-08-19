@@ -518,5 +518,13 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.category} - {self.message[:30]}"
+class StoreLocation(models.Model):
+    name = models.CharField(max_length=100)
+    address = models.TextField()
+    phone = models.CharField(max_length=20, blank=True)
+    map_link = models.URLField(blank=True)  # Google Maps link
+
+    def __str__(self):
+        return self.name
 
 
