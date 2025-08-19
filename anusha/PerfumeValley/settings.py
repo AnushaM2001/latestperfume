@@ -194,19 +194,19 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # settings.py
 
 # S3 Storage settings
-#AWS_STORAGE_BUCKET_NAME = 'perfumevalleybucket'
-#AWS_S3_REGION_NAME = 'eu-north-1'
-#AWS_S3_SIGNATURE_VERSION = 's3v4'
-#AWS_S3_FILE_OVERWRITE = False
-#AWS_DEFAULT_ACL = None
-#AWS_S3_VERIFY = True
+AWS_STORAGE_BUCKET_NAME = 'perfumevalleybucket'
+AWS_S3_REGION_NAME = 'eu-north-1'
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+AWS_S3_VERIFY = True
 
 # Build the custom domain URL for media
-#AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
-#MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
+AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
+MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
 
 # Tell Django to use S3 for media files
-#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 LOGIN_URL = '/login/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
