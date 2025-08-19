@@ -1,0 +1,229 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Add Address</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+
+       
+        .section-box {
+            border: 1px dashed #bbb;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            
+        }
+
+        .form-label {
+            font-weight: 500;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: #80002a;
+            color: white;
+            font-weight: bold;
+            border-radius: 20px;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover, .btn-submit:focus {
+            background-color: #a0003a;
+            color: #fff;
+        }
+
+        .header-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-heading {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .form-control {
+            border-radius: 0.5rem;
+            background-color: #FBF0EF;
+        }
+        /* Responsive Styling by kartheek*/
+        @media (max-width: 1200px) {
+            .container {
+                max-width: 98vw;
+            }
+        }
+        @media (max-width: 992px) {
+            .header-line {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .form-heading {
+                font-size: 1.1rem;
+            }
+
+            .btn-submit {
+                font-size: 15px;
+                padding: 12px;
+            }
+
+            .form-label {
+                font-size: 15px;
+            }
+
+            .form-control {
+                font-size: 15px;
+            }
+
+            .section-box {
+                padding: 0.75rem 1rem;
+            }
+
+            .row > .col-md-6 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-heading {
+                font-size: 1rem;
+            }
+
+            .btn-submit {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .form-label {
+                font-size: 14px;
+            }
+
+            .form-control {
+                font-size: 14px;
+            }
+
+            .section-box {
+                padding: 0.75rem;
+            }
+            .container {
+                padding: 0 0.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 0.2rem;
+            }
+
+            .form-heading {
+                font-size: 0.95rem;
+            }
+
+            .btn-submit {
+                font-size: 13px;
+                padding: 8px;
+            }
+
+            .form-label {
+                font-size: 13px;
+            }
+
+            .form-control {
+                font-size: 13px;
+            }
+
+            .section-box {
+                padding: 0.5rem;
+            }
+        }
+        /* Extra: Prevent horizontal scroll on mobile */
+        html, body {
+            max-width: 100vw;
+            overflow-x: hidden;
+            background: rgb(250, 235, 234)
+        }
+        /* Make reset link more touch friendly */
+        .header-line a {
+            font-size: 0.95em;
+            padding: 0.3em 0.7em;
+            border-radius: 12px;
+            transition: background 0.2s;
+        }
+        .header-line a:hover, .header-line a:focus {
+            background: #f8d7da;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-4 mb-4">
+    <form method="post" id="address-form" autocomplete="off">
+        {% csrf_token %}
+        <div class="header-line mb-3">
+            {% if address %}
+            <h4 class="form-heading">Update Address</h4>
+            {% else %}
+            <h4 class="form-heading">Add New Address</h4>
+            {% endif %}
+            <a href="#" onclick="document.getElementById('address-form').reset();" class="text-danger text-decoration-none">Reset</a>
+        </div>
+
+        <input type="hidden" name="next" value="{{ request.GET.next|default:request.META.HTTP_REFERER }}">
+
+        <div class="section-box">
+            <h6 class="mb-3">Contact Info</h6>
+            <div class="row g-2">
+                <div class="col-md-6 col-12 mb-3">
+                    <label class="form-label">Name</label>
+                    {{ form.Name }}
+                </div>
+                <div class="col-md-6 col-12 mb-3">
+                    <label class="form-label">Phone number (+91)</label>
+                    {{ form.MobileNumber }}
+                </div>
+                <div class="col-md-6 col-12 mb-3">
+                    <label class="form-label">Alternate Phone number (+91)</label>
+                    {{ form.Alternate_MobileNumber }}
+                </div>
+            </div>
+        </div>
+        <div class="section-box">
+            <h6 class="mb-3">Address Info</h6>
+            <div class="row g-2">
+                <div class="col-md-6 col-12 mb-3">
+                    <label class="form-label">Pincode</label>
+                    {{ form.Pincode }}
+                </div>
+                <div class="col-md-6 col-12 mb-3">
+                    <label class="form-label">City</label>
+                    {{ form.City }}
+                </div>
+            </div>
+            <div class="row g-2">
+                <div class="col-md-6 col-12 mb-3">
+                    <label class="form-label">State</label>
+                    {{ form.State }}
+                </div>
+                <div class="col-md-6 col-12 mb-3">
+                    <label class="form-label">Locality / Area / Street/House No</label>
+                    {{ form.location }}
+                </div>
+                <!-- <div class="col-md-6 col-12 mb-3">
+                    <label class="form-label">Building name / Flat no</label>
+                    {{ form.Building }}
+                </div> -->
+                <div class="col-md-6 col-12 mb-3">
+                    <label class="form-label">Landmark (optional)</label>
+                    {{ form.Landmark }}
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn-submit py-2 mt-2">Add address</button>
+    </form>
+</div>
+</body>
+</html>

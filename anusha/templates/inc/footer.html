@@ -1,0 +1,90 @@
+{% load static %}
+<footer class="footer-container  p-5">
+    <div class="row">
+        <div class="col-md-3 text-center">
+            <!-- Logo Image -->
+            <img src="{% static 'images2/logo.png' %}" alt="Logo" class="img-fluid mb-3">
+        
+            <!-- Container for Additional Images -->
+            <div class="d-flex justify-content-center gap-3">
+                <img src="{% static 'images2/facebook.svg' %}" alt="Facebook" class="img-fluid" style="width: 30px; height: 30px;">
+                <img src="{% static 'images2/pinterest.svg' %}" alt="Facebook" class="img-fluid" style="width: 30px; height: 30px;">
+                <img src="{% static 'images2/youtube.svg' %}" alt="Facebook" class="img-fluid" style="width: 30px; height: 30px;">
+                <img src="{% static 'images2/instagram.svg' %}" alt="Facebook" class="img-fluid" style="width: 30px; height: 30px;">
+
+            </div>
+        </div>
+        
+        
+        <div class="col-md-3">
+            <div class="row">
+                <div class="col-md-6">
+                <h5>Action</h5>
+            <a href=""><p>About us</a><br><a href="">Contact us</p></a>
+                </div>
+                <div class="col-md-6">
+                        <h5>Categories</h5>
+
+                    {% for category in navbar_categories %}
+                    <a href="{% url 'products_list' %}?category={{ category.id }}"><p>{{ category.name }}</p></a>
+{% endfor %}
+                </div>
+            </div>
+           
+        </div>
+        <div class="col-md-3">
+            <h5>INFORMATION</h5>
+            <p>Return Policy<br>FAQ<br><a href="{% url 'terms_and_conditions' %}" style="text-decoration: none;">Terms and Conditions</a><br><a href="{% url 'privacy_policy' %}">Privacy Policy</a></p>
+        </div>
+        <div class="col-md-3">
+            <h5>Contact</h5>
+            <p>Address: 8-1-354, 1/C, Shaikpet Rd, Rahul Colony, Aravind Nagar Colony, Toli Chowki, Hyderabad, Telangana 500008</p>
+            <p>Email: perfumevalleyworld@gmail.com<br>Phone: 9059069188</p>
+        </div>
+    </div>
+</footer>
+
+<!-- End Text -->
+<div class="endtext text-center p-3">
+    Perfumevalley@ 2023-2024 All rights reserved.
+</div>
+</div>
+
+<style>
+.footer-container {
+    background: #FBF0EF;
+    width: 100%;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .footer-container .row {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    .footer-container .col-md-3 {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+    .footer-container {
+        padding: 1.5rem 0.5rem !important;
+    }
+    .footer-container img {
+        max-width: 120px;
+        height: auto;
+    }
+}
+@media (max-width: 576px) {
+    .footer-container {
+        padding: 1rem 0.2rem !important;
+    }
+    .footer-container h5 {
+        font-size: 1rem;
+    }
+    .footer-container p {
+        font-size: 0.95rem;
+    }
+}
+</style>

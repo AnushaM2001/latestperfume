@@ -1,0 +1,283 @@
+ * {
+  padding: 0;
+  margin: 0;
+}
+body, html {
+  overflow-x: visible;
+}
+.navbar {
+    position: fixed;
+    
+    background-color: #FBF0EF;
+    height: 80px;
+    padding: 0 20px;
+} .navbar-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        /* position: fixed; */
+    }
+.nav-item{
+    font-size: 18px;
+    font-family: Lato;
+    font-weight: 400;
+    line-height: 20px;
+    color: black;
+    padding: 10px;
+    padding-left: 25px;
+    margin-top: 1px;
+    /* word-wrap: break-word; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    }
+    .navbar-nav .nav-link {
+                color: black !important; /* Force black text */
+            }
+            .navbar-nav .nav-link:hover {
+                color: black !important; /* Force black text on hover */
+                text-decoration: none; /* Remove underline on hover */
+            }
+            
+   @media (max-width: 768px) {
+  .navbar-nav {
+    flex-direction: column;
+    align-items: flex-start !important; /* Align items to the left */
+    margin-left: 10px; /* Optional spacing from the left edge */
+  }
+
+  .nav-item {
+    justify-content: flex-start !important; /* Ensure left alignment */
+    text-align: left;
+    width: 100%; /* Full width clickable area */
+    padding-left: 0; /* Optional: reduce left padding */
+  }
+}
+
+   @media (max-width: 768px) {
+  .offcanvas-start {
+    width: 250px !important; /* or any size you want */
+  }
+}
+ 
+    @media (max-width: 768px) {
+        .navbar {
+            height: auto; /* Adjust for small screens */
+        }
+    
+        .navbar-nav {
+            flex-direction: column;
+            text-align: left;
+        }
+        
+        .navbar-toggler{
+                margin-right: 10px;
+                margin-bottom: 10px;
+            }
+    
+            }
+            .img-fluid1{
+                height: 10px;
+                width: 10px;
+            }
+            .navbar-toggler{
+                margin-left: 10px;
+                margin-bottom: 10px;
+            }
+            .navbar-nav{
+                margin-left: 10px;
+            
+            }
+            
+            .icon-bold:hover {
+                color: crimson;
+                transform: scale(1.1);
+                transition: 0.2s;
+            }
+            
+
+            .icon-bold {
+                font-size: 1.5rem; /* Increase size */
+                color: #000;/* Darker makes it appear bolder */
+            }
+            .icons img {
+                width: 24px;
+                height: 24px;
+                
+            }.img-fluid{
+                width: 169px;
+                height: 96px;
+            }
+           
+    .logo{
+        border-radius:0px;
+    }
+    
+    
+    
+            .footer-container {
+                background: #FBF0EF;
+            }
+            .endtext {
+                background: #FBF0EF;
+            }
+            @media (max-width: 768px) {
+                
+                .logo img {
+                    margin-left: 20px;
+                }
+                .nav-item {
+                    font-size: 16px;
+                }
+                .icons img {
+                    width: 20px;
+                    height: 20px;
+                }
+        
+    
+            }
+            .img-fluid1{
+                height: 10px;
+                width: 10px;
+            }
+            .navbar-toggler{
+                margin-left: 10px;
+                margin-bottom: 10px;
+            }
+            .navbar-nav{
+                margin-left: 10px;
+            }
+    
+/* search bar css */
+  /* Search Icon */
+  #searchIcon {
+    font-size: 28px;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
+  #searchIcon:hover {
+    color: #000;
+  }
+.searchCon {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: auto;
+    width: 50vw;
+    height: 100vh;
+    background-color: #fff;
+    z-index: 1000;
+    padding: 20px;
+}
+
+/* Default for desktop */
+
+
+/* Full width on smaller screens */
+@media (max-width: 768px) {
+    .searchCon {
+        width: 100vw;
+        left: 0;
+        right: 0;
+    }
+}
+
+
+
+  /* Search Modal */
+  .search-modal {
+    position: fixed;
+    top: 20px;
+    right: 20px;   /* Move to top-right */
+    left: auto;    /* Override left */
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 12px 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 999;
+  }
+  
+  .search-modal.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .search-modal input {
+    border: none;
+    outline: none;
+    padding: 10px 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    background-color: transparent !important;
+    width: 900px;
+    transition: background-color 0.3s ease;
+  }
+
+  .search-modal input:focus {
+    background-color: #e9ecef;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #666;
+    transition: color 0.3s ease;
+  }
+
+  .close-btn:hover {
+    color: #111;
+  }
+   
+    body.modal-open {
+  overflow: hidden;
+}
+#search-results {
+  overflow-x: auto;
+  white-space: nowrap;
+  max-height: 300px; /* Adjust this value */
+}
+nav.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1050; /* Bootstrap's navbar default */
+}
+@media (max-width: 768px) {
+  #searchCon {
+    width: 100vw !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 60px !important; /* Adjust to match mobile navbar height */
+    height: calc(100vh - 60px); /* Full screen minus navbar */
+    overflow-y: auto;
+  }
+
+  #search-results {
+    overflow-x: auto;
+    max-height: none !important;
+  }
+
+  #search-results .row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+
+  #search-results .col-6 {
+    flex: 0 0 auto;
+    width: 70%; /* Show 1 or 2 cards at a time */
+    max-width: 70%;
+  }
+}

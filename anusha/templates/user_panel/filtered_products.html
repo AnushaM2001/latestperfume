@@ -1,0 +1,1053 @@
+{% extends 'layouts/main.html' %}
+{% load static %}
+{% block title %}
+<h1>Add to cart </h1>
+{% endblock title %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}?v2" type="text/css" />
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+/* --- Card and Grid Styling --- */
+.card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+ 
+    border: 1.5px solid #D8CBBD;
+    background: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    position: relative;
+    z-index: 1;
+    transform-origin: center;
+    opacity: 1 !important;
+    margin: 0 !important;
+    cursor: pointer;
+}
+.card:hover {
+    transform: scale(1.05);
+    z-index: 3;
+}
+.card-img {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    height: 328px;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 10px 10px 0 0;
+    background: #FBFAF4;
+    position: relative;
+}
+.card-img-top.main-img,
+.card-img-top.hover-img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+.card-img-top.hover-img {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.card-img:hover .main-img { display: none; }
+.card-img:hover .hover-img { display: block; }
+
+.card-body {
+    padding: 12px;
+    background: #FBF0EF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 0 0 10px 10px;
+    border-top: 1.5px solid #D8CBBD;
+    font-size: 18px;
+}
+.card-title {
+    color: #4D4D4D;
+    font-size: calc(12px + 0.3vw);
+    font-family: Jomolhari;
+    font-weight: 400;
+    text-transform: capitalize;
+    line-height: 18px;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.card-text {
+    color: #4D4D4D;
+    font-size: calc(12px + 0.3vw);
+    font-family: Jomolhari;
+    font-weight: 400;
+    text-transform: capitalize;
+    line-height: 18px;
+    margin: 0;
+}
+
+.favorite {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #FFF;
+    border-radius: 50%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    cursor: pointer;
+}
+.card:hover .favorite { display: flex; }
+
+.cart {
+    width: 100% !important;
+    min-width: 0;
+    max-width: 100%;
+    height: 58px !important;
+    opacity: 1 !important;
+    gap: 12px !important;
+    padding: 20px 10px !important;
+    background: #6D3F0BF2 !important;
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: white;
+    font-size: 18px;
+    font-family: Jomolhari;
+    text-transform: capitalize;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+.card:hover .cart { display: flex; }
+
+.blurred-image {
+    filter: blur(2px);
+    opacity: 0.6;
+    pointer-events: none;
+}
+.out-of-stock-cross {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    background-color: rgba(220, 53, 69, 0.9);
+    color: white;
+    padding: 8px 25px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border-radius: 5px;
+    z-index: 10;
+    text-transform: uppercase;
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* --- Responsive Grid --- */
+#productGrid.row {
+    margin-right: 0 !important;
+    margin-left: 0;
+    overflow: visible;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center !important;
+}
+#productGrid [class^="col-"] {
+    padding: 0 8px;
+    margin-bottom: 16px;
+}
+
+@media (max-width: 576px) {
+    #productGrid .col-12,
+    #productGrid .col-6,
+    #productGrid .col-sm-6,
+    #productGrid .col-md-6 {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+    .card-img-top { height: 180px; }
+}
+@media (min-width: 576px) and (max-width: 767.98px) {
+    #productGrid .col-sm-4 {
+        flex: 0 0 33.333%;
+        max-width: 33.333%;
+    }
+    .card-img-top { height: 200px; }
+}
+@media (min-width: 768px) and (max-width: 991.98px) {
+    #productGrid .col-12,
+    #productGrid .col-sm-6,
+    #productGrid .col-md-6,
+    #productGrid .col-lg-4,
+    #productGrid .col-xl-4 {
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+    }
+    #productGrid .col-md-6 {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        margin-bottom: 32px !important;
+    }
+    .card-img-top { height: 220px; }
+}
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    #productGrid .col-lg-4, #productGrid .col-xl-4 {
+        flex: 0 0 33.333% !important;
+        max-width: 33.333% !important;
+    }
+    .card {
+        max-width: 340px !important;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .card-img-top { height: 240px; }
+}
+@media (min-width: 1200px) {
+    #productGrid .col-xl-2 {
+        flex: 0 0 16.666%;
+        max-width: 16.666%;
+    }
+    .card-img-top { height: 260px; }
+}
+@media (max-width: 1024px) {
+    .sidebar-filter-desktop { display: none !important; }
+    .filter-btn-mobile, .d-flex.justify-content-center.my-3.w-100.d-lg-none {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        margin: 20px auto 10px auto !important;
+        width: 100% !important;
+    }
+    .right { width: 100% !important; left: 0 !important; position: static !important; margin: 0 auto !important; display: flex;justify-content: center; align-items: center; }
+    .filter-btn-mobile { display: flex !important; }
+    #productGrid .col-12, #productGrid .col-sm-6, #productGrid .col-md-6, #productGrid .col-lg-4, #productGrid .col-xl-4 {
+        flex: 0 0 50% !important;
+        max-width: 90% !important;
+    }
+}
+@media (max-width: 768px) {
+    #productGrid .col-12, #productGrid .col-sm-6, #productGrid .col-md-6, #productGrid .col-lg-4, #productGrid .col-xl-4 {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+    .perfume-title {
+        font-size: 36px;
+        line-height: 40px;
+        margin-left: 0;
+    }
+    .logo img { margin-left: 20px; }
+    .nav-item { font-size: 16px; }
+    .icons img { width: 20px; height: 20px; }
+    .banner { height: 100px; }
+    .subcategory-banner { width:150%; }
+}
+
+/* --- Utility and Misc --- */
+.img-fluid1{ height: 10px; width: 10px; }
+.navbar-toggler{ margin-left: 10px; margin-bottom: 10px; }
+.navbar-nav{ margin-left: 10px; }
+.icons img { width: 24px; height: 24px; }
+.img-fluid{ width: 169px; height: 96px; }
+.perfume-title {
+    color: white;
+    font-size: 56px;
+    font-family: Jomolhari, serif;
+    font-weight: 400;
+    line-height: 58px;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+}
+
+/* --- Filter/Sidebar/Dropdown --- */
+#selectedFilters { display: flex; flex-wrap: wrap; gap: 10px; }
+.filter-item1 {
+    background-color: white;
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 100%;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+.clear-all, .clearAll {
+    color: #6D3F0B;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 18px;
+    text-decoration: none;
+    text-align:right;
+    padding-right:25px;
+    cursor: pointer;
+}
+
+/* --- Offer/Badge/Rating --- */
+.offer-info-bar {
+    position: absolute;
+    top: 10px;
+    /* ensure it can stretch */
+    left: 1px;
+    padding: 0;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* this separates left and right items */
+    font-size: 12px;
+    color: white;
+    z-index: 10;
+    white-space: nowrap;
+    width: calc(100% - 20px); /* optional: fit parent width */
+}
+
+.discount-percentage {
+    background-color: green;
+    padding: 2px 6px;
+    color: #fff;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.aa {
+    font-family: monospace;
+    background-color: #981945;
+    color: #f5f3f3;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: auto;
+}
+
+.badge-rating {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #ecebe7;
+    color: #333;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    z-index: 2;
+    font-weight: 600;
+    box-shadow: 0 0 4px rgba(0,0,0,0.1);
+    transition: opacity 0.2s, z-index 0.2s;
+}
+.card:hover .badge-rating { z-index: 0; opacity: 0; }
+
+
+/* --- Banner --- */
+.banner-container {
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+    height: 130px;
+}
+.banner-container img { width: 100%; object-fit: cover; }
+.banner-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 10px;
+    max-width: 90%;
+}
+
+/* --- Miscellaneous --- */
+.font-jomolhari { font-family: 'Jomolhari', serif; }
+.font-sf-pro { font-family: 'SF Pro Display', sans-serif; }
+
+
+
+</style>
+<style>
+.blurred {
+  filter: blur(2px);
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.8;
+}
+
+.out-of-stock-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(51, 51, 51, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f7f2f2;
+  font-size: 1.1rem;
+  font-weight: 600;
+  z-index: 10;
+}
+
+.product-card.disabled-card {
+  cursor: not-allowed;
+}
+
+.product-card.disabled-card:hover .hover-img {
+  display: none;
+}
+
+.product-title, .product-price {
+  font-size: 0.9rem;
+}
+
+.text-muted {
+  color: #888 !important;
+}
+
+.add-to-cart-btn {
+  transition: all 0.3s ease;
+}
+
+/* Low Stock blinking */
+.low-stock-blink {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #ffc107;
+  color: black;
+  padding: 0.3rem 0.6rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  animation: blink 1s infinite;
+  z-index: 10;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.2; }
+  100% { opacity: 1; }
+}
+.right,
+.container-fluid,
+#productGrid {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+</head>
+<body>
+    <div class="container-fluid p-0">
+        <!-- Display Category Banner with Name Overlay -->
+        <div id="category-banner" class="banner-container">
+            <!-- Category Banner will be dynamically inserted here -->
+        </div>
+        <div id="subcategory-banner" class="banner-container">
+            <!-- Subcategory Banner will be dynamically inserted here -->
+        </div>
+        <!-- Mobile & Tablet Filter Button (centered, always visible on <=1024px) -->
+<div class="d-flex justify-content-center my-3 w-100 d-lg-none">
+  <button class="btn px-4 py-2 text-white" style="background-color:#981945" data-bs-toggle="modal" data-bs-target="#filterModal">
+    <i class="bi bi-funnel"></i> Filter
+  </button>
+</div>
+
+        <!-- Main Content -->
+        <div class="container-fluid" style="background-color:#F7E7E8;">
+            <div class="row">
+                <!-- Sidebar filter: only visible above 1024px, no Bootstrap d-none/d-lg-block -->
+                <div class="col-sm-10 col-md-3 sidebar-filter-desktop"> <!-- Only visible above 1024px by custom CSS -->
+                    <div class="dropdown-container mt-3" style="background-color:#FBF0EF; border-radius: 8px; border-color: black;">
+                        <!-- Sidebar filter content START -->
+                        <div class="mb-4">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button" id="sortByDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Sort By
+                                </button>
+                            </div>
+                        </div>
+                        <div id="sortByContent" class="dropdown-content">
+                            <div class="d-flex flex-row justify-content-between align-items-center p-3 w-100">
+                                <div class="text-black fs-5 fw-normal font-jomolhari">Filter</div>
+                                <div class="text-secondary fs-6 fw-normal font-jomolhari">160 products</div>
+                            </div>
+                            <div class="filter-container p-3" style="background-color: #fff1f0; border-radius: 10px;">
+                                <div class="d-flex flex-wrap justify-content-between align-items-start mb-3">
+                                    <div id="selectedFilters" class="d-flex flex-wrap gap-2"></div>
+                                    <button id="clearAllFilters" class="btn btn-outline-danger btn-sm">Clear All</button>
+                                </div>
+                            </div>
+                            <!-- Dropdown for Category -->
+                            <div class="mb-4 mt-3">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Category
+                                    </button>
+                                </div>
+                                <div id="categoryContent" class="drpdwn" style="display: none;">
+                                    <ul class="w-100" aria-labelledby="categoryDropdown" style="list-style-type:none;">
+                                        {% for cat in categories %}
+                                        <li>
+                                            <label class="dropdown-item d-flex align-items-center">
+                                                <input class="form-check-input me-2 categoryFilter" type="checkbox" value="{{ cat.id }}" {% if cat.id == category.id %}selected{% endif %} id="cat{{ cat.id }}" data-name="{{ cat.name }}">
+                                                {{ cat.name }}
+                                            </label>
+                                        </li>
+                                    {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Brand -->
+                            <div class="mb-4">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button" id="brandDropdown">
+                                        Brand
+                                    </button>
+                                </div>
+                                <div id="brandContent" class="drpdwn mt-2" style="display: none;">
+                                    <ul class="w-100 ps-0" style="list-style-type:none;">
+                                        {% for sub in subcategories %}
+                                        <li>
+                                            <label class="dropdown-item d-flex align-items-center">
+                                                <input class="form-check-input me-2 subcategoryFilter" type="checkbox" value="{{ sub.id }}" {% if sub.id == subcategory.id %}selected{% endif %}id="sub{{ sub.id }}" data-name="{{ sub.name }}">
+                                                {{ sub.name }}
+                                            </label>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Dropdown for Size -->
+                            <div class="mb-4">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button" id="sizeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Size
+                                    </button>
+                                </div>
+                                <div id="sizeContent" class="drpdwn" style="display: none;">
+                                    <ul class=" w-100" aria-labelledby="categoryDropdown" style="list-style-type:none;">
+                                        {% for size in sizes %}
+                                        <li>
+                                            <label class="dropdown-item d-flex align-items-center">
+                                                <input class="form-check-input me-2 sizeFilter" type="checkbox" value="{{ size }}" id="size{{ size }}" data-name="{{ size }}">
+                                                {{ size }}
+                                            </label>
+                                        </li>
+                                    {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Dropdown for Price -->
+                            <div class="mb-4">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button" id="priceDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Price range
+                                    </button>
+                                </div>
+                                <div id="priceContent" style="display: block;">
+                                    <input type="range" class="custom-range" id="priceRange" min="{{ min_price }}" max="{{ max_price }}" value="{{ max_price }}" step="10" style="width:90%;">
+                                    <div class="mt-2 text-center">
+                                        <span>₹<span id="priceRangeValue">{{ max_price }}</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Discount -->
+                            <div class="mb-4 ">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button" id="discountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Discount
+                                    </button>
+                                </div>
+                                <div id="discountContent" class="drpdwn" style="display: none;">
+                                    <ul class=" w-100" aria-labelledby="discountDropdown" style="list-style-type:none;">
+                                        <li>
+                                            <label class="dropdown-item d-flex align-items-center">
+                                                <input class="form-check-input me-2" type="checkbox" checked> 2%
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="dropdown-item d-flex align-items-center">
+                                                <input class="form-check-input me-2" type="checkbox"> 5%
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="dropdown-item d-flex align-items-center">
+                                                <input class="form-check-input me-2" type="checkbox"> 10%
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="dropdown-item d-flex align-items-center">
+                                                <input class="form-check-input me-2" type="checkbox"> 15%
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Sidebar filter content END -->
+                    </div>
+                </div>
+                <!-- Right Section -->
+                <div class="right col-md-8 ms-3">
+                    <div class="container-fluid px-0">
+                        <div class="row g-4 mb-5 mt-2" id="productGrid">
+                            <!-- Product Cards -->
+                            {% for product in products %}
+                            {% if product.image1 %}
+<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4"><!-- Responsive: 1/row mobile, 2/row tablet, 3/row desktop -->
+    <div class="card h-100">
+      
+        {% if product.is_active %}
+        <div class="favorite {% if product.id in wishlist_product_ids %}active{% endif %}" 
+             data-product-id="{{ product.id }}">
+            <img src="{% static 'images2/favorite.svg' %}" alt="">
+        </div>
+        
+        <div class="card-img position-relative">
+            {% if product.image1 and product.image2 %}
+            <img src="{{ product.image1.url }}" class="card-img-top main-img" alt="{{ product.name }}"
+                 onmouseover="this.src='{{ product.image2.url }}'" 
+                 onmouseout="this.src='{{ product.image1.url }}'">
+            {% endif %}
+            
+            <a href="{% url 'product_detail' product.id %}">
+                <div class="cart text-white text-center fs-6 fw-normal font-jomolhari text-capitalize">
+                    <img src="{% static 'images2/shopping_cart.svg' %}" alt=""> Add to Cart
+                </div>
+            </a>
+        </div>
+        
+        {% else %}
+        <div class="card-img position-relative">
+            <img src="{{ product.image1.url }}" class="card-img-top blurred-image" alt="{{ product.name }}">
+            <div class="out-of-stock-cross">OUT OF STOCK</div>
+            <div class="cart text-white text-center fs-6 fw-normal font-jomolhari text-capitalize">
+                <img src="{% static 'images2/shopping_cart.svg' %}" alt=""> Add to Cart
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">₹{{ product.price }}</p>
+           
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+
+        <!-- End Text -->
+        
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script>
+        document.getElementById("sortByDropdown").addEventListener("click", function() {
+            if (window.innerWidth <= 768) {
+                const content = document.getElementById("sortByContent");
+                const currentDisplay = content.style.display;
+                content.style.display = (currentDisplay === "none" || currentDisplay === "") ? "block" : "none";
+            }
+            
+        });
+        
+        document.getElementById("categoryDropdown").addEventListener("click", function() {
+            const content = document.getElementById("categoryContent");
+            const currentDisplay = content.style.display;
+            content.style.display = (currentDisplay === "none" || currentDisplay === "") ? "block" : "none";
+        });
+        
+        document.getElementById("sizeDropdown").addEventListener("click", function() {
+            const content = document.getElementById("sizeContent");
+            const currentDisplay = content.style.display;
+            content.style.display = (currentDisplay === "none" || currentDisplay === "") ? "block" : "none";
+        });
+        
+        document.getElementById("priceDropdown").addEventListener("click", function() {
+            const content = document.getElementById("priceContent");
+            const currentDisplay = content.style.display;
+            content.style.display = (currentDisplay === "none" || currentDisplay === "") ? "block" : "none";
+        });
+
+        document.getElementById("brandDropdown").addEventListener("click", function() {
+            const content = document.getElementById("brandContent");
+            const currentDisplay = content.style.display;
+            content.style.display = (currentDisplay === "none" || currentDisplay === "") ? "block" : "none";
+        });
+
+        document.getElementById("discountDropdown").addEventListener("click", function() {
+            const content = document.getElementById("discountContent");
+            const currentDisplay = content.style.display;
+            content.style.display = (currentDisplay === "none" || currentDisplay === "") ? "block" : "none";
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+let autoRefreshInterval = null;
+
+function fetchProducts() {
+    let categories = [];
+    let subcategories = [];
+    let sizes = [];
+    let selectedFilters = [];
+
+    // Gather checked filters
+    $('.categoryFilter:checked').each(function() {
+        categories.push($(this).val());
+        selectedFilters.push({ type: 'category', id: $(this).val(), name: $(this).data('name') });
+    });
+    $('.subcategoryFilter:checked').each(function() {
+        subcategories.push($(this).val());
+        selectedFilters.push({ type: 'subcategory', id: $(this).val(), name: $(this).data('name') });
+    });
+    $('.sizeFilter:checked').each(function() {
+        sizes.push($(this).val());
+        selectedFilters.push({ type: 'size', id: $(this).val(), name: $(this).data('name') });
+    });
+
+    let max_price = $('#priceRange').val();
+
+    renderSelectedFilters(selectedFilters);
+
+    $.ajax({
+        url: "{% url 'ajax_filter_products' %}",
+        data: {
+            "category[]": categories,
+            "subcategory[]": subcategories,
+            "size[]": sizes,
+            "min_price": 0,
+            "max_price": max_price
+        },
+        dataType: "json",
+        success: function(res) {
+            let html = "";
+
+            if (res.products.length > 0) {
+                res.products.forEach(prod => {
+                    const discountPercentage = prod.discounted_price && prod.price
+                        ? Math.round(((prod.price - prod.discounted_price) / prod.price) * 100)
+                        : null;
+
+                    html += `
+<div class="col-6 col-md-4 col-lg-3 mb-4">
+  <div class="card h-100 position-relative product-card ${prod.stock_status === 'Out of Stock' ? 'disabled-card' : ''}" data-original-price="${prod.price}">
+    
+    <div class="card-img position-relative">
+      <img src="${prod.image}" class="card-img-top main-img ${prod.stock_status === 'Out of Stock' ? 'blurred' : ''}" alt="${prod.name}">
+      ${prod.image2 ? `<img src="${prod.image2}" class="card-img-top hover-img ${prod.stock_status === 'Out of Stock' ? 'blurred' : ''}" alt="${prod.name}">` : ''}
+
+      ${prod.stock_status === 'Out of Stock' ? `
+        <div class="out-of-stock-overlay">
+          <span>Out of Stock</span>
+        </div>` : ''}
+
+      ${prod.stock_status === 'Low Stock' ? `
+        <span class="low-stock-blink">Low Stock</span>` : ''}
+
+      <span class="badge-rating">
+        <i class="bi bi-star-fill me-1" style="color:#AF9164;"></i>
+        ${(prod.average_rating !== undefined && prod.average_rating !== null ? prod.average_rating.toFixed(1) : '0.0')} | ${prod.review_count || 0}
+      </span>
+
+      ${prod.discounted_price && prod.offer_code ? `
+      <div class="offer-info-bar" id="offer-${prod.id}">
+        <span class="offer-badge">
+          <span class="discount-percentage">${discountPercentage}% OFF</span>
+<span id="countdown-${prod.id}" data-endtime="${prod.offer_end_time}" class="aa"></span>
+
+
+        </span>
+      </div>` : ''}
+
+      <a href="/product/${prod.id}/">
+        <div class="cart text-white text-center fs-6 fw-normal font-jomolhari text-capitalize">
+          <img src="{% static 'images2/shopping_cart.svg' %}" alt=""> Add to Cart
+        </div>
+      </a>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">${prod.name}</h5>
+      ${prod.discounted_price ? `
+        <p class="card-text text-danger fw-bold">₹${prod.discounted_price}</p>
+        <p class="text-muted"><del>₹${prod.price}</del></p>` : `
+        <p class="card-text fw-bold text-danger">₹${prod.price}</p>`}
+    </div>
+  </div>
+</div>`;
+                });
+            } else {
+                html = '<p class="text-center text-danger">No products found.</p>';
+            }
+
+            $('#productGrid').html(html);
+
+            if (res.category_banner_url) {
+                $('#category-banner').html(`
+                    <img src="${res.category_banner_url}" alt="Category Banner" class="img-fluid">
+                    <div class="banner-title">${res.category_name}</div>
+                `).show();
+            } else {
+                $('#category-banner').hide();
+            }
+
+            if (res.subcategory_banner_url) {
+                $('#subcategory-banner').html(`
+                    <img src="${res.subcategory_banner_url}" alt="Subcategory Banner" class="img-fluid">
+                    <div class="banner-title">${res.subcategory_name}</div>
+                `).show();
+            } else {
+                $('#subcategory-banner').hide();
+            }
+
+            startCountdowns();
+        },
+        error: function() {
+            $('#productGrid').html('<p class="text-center text-danger">Something went wrong while loading products.</p>');
+        }
+    });
+}
+
+
+
+function autoRefresh() {
+    if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+    autoRefreshInterval = setInterval(fetchProducts, 60000);
+}
+
+function renderSelectedFilters(filters) {
+    let html = '';
+    filters.forEach(filter => {
+        html += `
+        <div class="filter-item1 d-flex align-items-center justify-content-between gap-2">
+            <div class="text-black font-jomolhari">${filter.name}</div>
+            <img src="{% static 'images2/close_small.svg' %}" class="img-fluid remove-filter"
+                style="max-width: 20px; cursor:pointer;"
+                data-type="${filter.type}" data-id="${filter.id}">
+        </div>`;
+    });
+    $('#selectedFilters').html(html);
+}
+
+$(document).ready(function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const catId = urlParams.get("category");
+    const subcatId = urlParams.get("subcategory");
+
+    if (catId) $(`.categoryFilter[value="${catId}"]`).prop("checked", true);
+    if (subcatId) $(`.subcategoryFilter[value="${subcatId}"]`).prop("checked", true);
+
+    fetchProducts();
+    autoRefresh();
+
+    $('.categoryFilter, .subcategoryFilter, .sizeFilter, #priceRange').on('change', fetchProducts);
+
+    $('#priceRange').on('input', function() {
+        $('#priceRangeValue').text(this.value);
+    });
+
+    $('#clearAllFilters').on('click', function() {
+        $('.categoryFilter, .subcategoryFilter, .sizeFilter').prop('checked', false);
+        fetchProducts();
+    });
+
+    $(document).on('click', '.remove-filter', function() {
+        const type = $(this).data('type');
+        const id = $(this).data('id');
+        $(`.${type}Filter[value="${id}"]`).prop('checked', false);
+        fetchProducts();
+    });
+});
+</script>
+<script>
+function startCountdowns() {
+    document.querySelectorAll('[id^="countdown-"]').forEach(function(el) {
+        const endTime = new Date(el.getAttribute('data-endtime'));
+
+        function update() {
+            const now = new Date();
+            const dist = endTime - now;
+
+            if (dist <= 0) {
+                el.innerText = "Expired";
+                el.closest(".offer-info-bar").remove();
+                return;
+            }
+
+            const d = Math.floor(dist / (1000 * 60 * 60 * 24));
+            const h = Math.floor(dist / (1000 * 60 * 60)) % 24;
+            const m = Math.floor((dist / (1000 * 60)) % 60);
+            const s = Math.floor((dist / 1000) % 60);
+
+            el.innerText = `Expires in: ${d}d ${h}h ${m}m ${s}s`;
+        }
+
+        update();
+        setInterval(update, 1000);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', startCountdowns);
+</script>
+
+
+    <!-- Filter Modal for Mobile/Tablet -->
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true" >
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content" style="background-color: #FBF0EF;">
+      <div class="modal-header">
+        <h5 class="modal-title">Filter Products</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body"  >
+        <!-- Category -->
+        <div class="mb-3">
+          <button class="btn btn-secondary w-100" id="categoryDropdownModal">Category</button>
+          <div id="categoryContentModal" class="mt-2" style="display:none;">
+            <ul class="list-unstyled">
+              {% for cat in categories %}
+              <li>
+                <label>
+                  <input type="checkbox" class="form-check-input me-2 categoryFilterModal" value="{{ cat.id }}" data-name="{{ cat.name }}">
+                  {{ cat.name }}
+                </label>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <!-- Brand -->
+        <div class="mb-3">
+          <button class="btn btn-secondary w-100" id="brandDropdownModal">Brand</button>
+          <div id="brandContentModal" class="mt-2" style="display:none;">
+            <ul class="list-unstyled">
+              {% for sub in subcategories %}
+              <li>
+                <label>
+                  <input type="checkbox" class="form-check-input me-2 subcategoryFilterModal" value="{{ sub.id }}" data-name="{{ sub.name }}">
+                  {{ sub.name }}
+                </label>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <!-- Size -->
+        <div class="mb-3">
+          <button class="btn btn-secondary w-100" id="sizeDropdownModal">Size</button>
+          <div id="sizeContentModal" class="mt-2" style="display:none;">
+            <ul class="list-unstyled">
+              {% for size in sizes %}
+              <li>
+                <label>
+                  <input type="checkbox" class="form-check-input me-2 sizeFilterModal" value="{{ size }}" data-name="{{ size }}">
+                  {{ size }}
+                </label>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <!-- Price Range -->
+        <div class="mb-3">
+          <label>Price Range</label>
+          <input type="range" id="priceRangeModal" min="{{ min_price }}" max="{{ max_price }}" value="{{ max_price }}">
+          <div>₹<span id="priceRangeValueModal">{{ max_price }}</span></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button class="btn text-white" style="background-color:#981945" id="applyFiltersModal">Apply Filters</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+// Dropdown toggles inside modal
+$('#categoryDropdownModal').click(() => $('#categoryContentModal').slideToggle(150));
+$('#brandDropdownModal').click(() => $('#brandContentModal').slideToggle(150));
+$('#sizeDropdownModal').click(() => $('#sizeContentModal').slideToggle(150));
+
+// Update price label in modal
+$('#priceRangeModal').on('input', function(){
+  $('#priceRangeValueModal').text(this.value);
+});
+
+// Apply filters
+$('#applyFiltersModal').click(function() {
+  // Remove focus (avoid aria-hidden error)
+  this.blur();
+
+  // Sync filters
+  $('.categoryFilter').prop('checked', false);
+  $('.categoryFilterModal:checked').each(function(){
+    $('.categoryFilter[value="'+$(this).val()+'"]').prop('checked', true);
+  });
+  $('.subcategoryFilter').prop('checked', false);
+  $('.subcategoryFilterModal:checked').each(function(){
+    $('.subcategoryFilter[value="'+$(this).val()+'"]').prop('checked', true);
+  });
+  $('.sizeFilter').prop('checked', false);
+  $('.sizeFilterModal:checked').each(function(){
+    $('.sizeFilter[value="'+$(this).val()+'"]').prop('checked', true);
+  });
+
+  $('#priceRange').val($('#priceRangeModal').val()).trigger('input');
+
+  const modalEl = document.getElementById('filterModal');
+  const modalInstance = bootstrap.Modal.getInstance(modalEl);
+
+  // Wait for fade-out to finish
+  $(modalEl).one('hidden.bs.modal', function(){
+    // Extra clean up
+    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
+    fetchProducts();
+  });
+
+  modalInstance.hide();
+});
+
+document.getElementById("discountDropdown").style.backgroundColor = "#981945";
+
+document.getElementById("priceDropdown").style.backgroundColor = "#981945";
+
+document.getElementById("sizeDropdown").style.backgroundColor = "#981945";
+
+document.getElementById("brandDropdown").style.backgroundColor = "#981945";
+document.getElementById("categoryDropdown").style.backgroundColor = "#981945";
+document.getElementById("sortByDropdown").style.backgroundColor = "#981945";
+
+
+</script>
+
+<!-- Bootstrap JS Bundle (for modal functionality) -->
+
+{% endblock content %}

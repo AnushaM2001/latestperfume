@@ -1,0 +1,607 @@
+{% extends 'layouts/main.html' %}
+{% load static %}
+{% block title %}
+<h1>Add to cart </h1>
+{% endblock title %}
+
+{% block extra_css %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="{% static 'css/home.css' %}?v2" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Add your custom styles here */
+       
+       
+.blurred-image {
+    filter: blur(2px);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .out-of-stock-cross {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    background-color: rgba(220, 53, 69, 0.9); /* red overlay */
+    color: white;
+    padding: 8px 25px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border-radius: 5px;
+    z-index: 10;
+    text-transform: uppercase;
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+
+
+
+@media (min-width:800px) and (max-width: 2560px) {
+    .navbar {
+    
+    padding: 50px; /* Remove extra padding */
+}
+
+}
+
+
+@media (max-width: 768px) {
+    .navbar {
+        height: auto; /* Adjust for small screens */
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+        text-align: left;
+    }
+    .navbar-toggler{
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        }
+        .img-fluid1{
+            height: 10px;
+            width: 10px;
+        }
+        .navbar-toggler{
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
+        .navbar-nav{
+            margin-left: 10px;
+        
+}
+
+
+        .icons img {
+            width: 24px;
+            height: 24px;
+        }.img-fluid{
+            width: 169px;
+            height: 96px;
+        }
+       
+        .banner {
+            background-color:#6D3F0B;;
+            height: 200px; /* Increase the height of the banner */
+            position: relative;
+            overflow: hidden; /* Ensure the image doesn't overflow */
+        }
+
+        .banner img {
+            width: auto;
+            height: auto; /* Make the image fill the banner height */
+            object-fit: cover; /* Ensure the image covers the entire banner */
+        }
+
+        .perfume-title {
+            color: white;
+            font-size: 56px;
+            font-family: Jomolhari, serif;
+            font-weight: 400;
+            line-height: 58px;
+            text-align: center;
+            position: absolute;
+            top: 50%; /* Center vertically */
+            left: 60%; /* Center horizontally */
+            transform: translate(-50%, -50%); /* Adjust for exact centering */
+        }
+
+
+        /* Media Query for Smaller Screens */
+        @media (max-width: 768px) {
+            .banner {
+                height: 100px; /* Adjust height for smaller screens */
+            }
+
+
+            .perfume-title {
+                font-size: 25px; /* Adjust font size for smaller screens */
+                line-height: 40px;
+            }
+        }
+        .card {
+            background: #FBF0EF;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .footer-container {
+            background: #FBF0EF;
+        }
+        .endtext {
+            background: #FBF0EF;
+        }
+        @media (max-width: 768px) {
+            .perfume-title {
+                font-size: 36px;
+                line-height: 40px;
+                margin-left: 0;
+            }
+            .logo img {
+                margin-left: 20px;
+            }
+            .nav-item {
+                font-size: 16px;
+            }
+            .icons img {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        .card-img-top{
+            height: 370px;
+
+        }
+        .dropdown-menu {
+        max-height: 550px; /* Adjust height as needed */
+        overflow-y: auto; /* Enables scrolling if content overflows */
+    }
+        
+        .dropdown-container .btn-secondary {
+    background-color: #FBF0EF;
+    border: none;
+    color: black;
+    font-size: 16px;
+    font-weight: 400;
+}
+.dropdown-container .btn-secondary:hover {
+    background-color:#FBF0EF;
+}
+.dropdown-menu{
+    background-color: #FBF0EF;
+}
+.dropdown-menu:hover{
+    background-color: #FBF0EF;
+}
+.drop-item{
+color: black;
+ font-size: 16px;
+ font-family: Jomolhari;
+ font-weight: 400;
+ line-height: 18px;
+ word-wrap: break-word
+}
+
+
+.font-jomolhari {
+            font-family: 'Jomolhari', serif;
+        }
+
+        .font-sf-pro {
+            font-family: 'SF Pro Display', sans-serif;
+        }
+
+        /* Custom Styles for Filter Items */
+        .filter-item {
+            background: white;
+            border-radius: 5px;
+            padding: 4px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .filter-item1 {
+            background: white;
+            border-radius: 5px;
+            padding: 4px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100px;
+        }
+
+        .filter-item .close-icon {
+            width: 24px;
+            height: 24px;
+            background: #D9D9D9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .filter-item .close-icon svg {
+            width: 10px;
+            height: 10px;
+        }
+
+        /* Clear All Link */
+        .clear-all {
+            color: #6D3F0B;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 18px;
+            text-decoration: none;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .filter-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+
+            .clear-all {
+                display: flex;
+                
+                text-align: right;
+                
+            }
+            .navbar-toggler{
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        }
+        .img-fluid1{
+            height: 10px;
+            width: 10px;
+        }
+        .navbar-toggler{
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
+        .navbar-nav{
+            margin-left: 10px;
+        }
+
+
+
+
+
+
+
+
+
+        /* modifications 21-04-2025 */
+        .row{
+            margin-right: -35px;
+        }
+        .col{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-body{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+        }
+        .card-img{
+            position:relative;
+            
+        }
+        .cart{
+            position:absolute;
+            background-color: rgba(109, 63, 11, 0.95);
+            width:100%;
+            height:15%;
+            left:0;
+            bottom:0;
+            display: none;
+        }
+        .card{
+            cursor: pointer;
+            width:320px;
+        }
+        @media(max-width: 768px){
+            
+            .row{
+                margin-right: -12px;
+            }
+        }
+        .card:hover .cart{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap:10px;
+            cursor:pointer;
+        }
+        .favorite{
+            position:absolute;
+            top:18px;
+            right:15px;
+            width:50px;
+            height:50px;
+            border: 1px solid #FBF0EF;
+            border-radius:50%;
+            display:none;
+            z-index:1;
+            cursor: pointer;
+        }
+        .card:hover .favorite{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .form-check-input{
+            width: 20px;
+            height: 20px;
+            border:2px solid black;
+            border-radius: 0 !important;
+        }
+        .form-check-input:checked{
+            background-color: #65558F;
+            border:2px solid #65558F;
+        }
+        .drpdwn{
+            padding-top:5px;
+            padding-bottom: 10px;
+        }
+        .dropdown-content{
+            position:relative;
+
+        }
+        .clearAll{
+            color: #6D3F0B;
+            text-align:right;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 18px;
+            padding-right:25px;
+            cursor: pointer;
+        }
+        
+        .custom-range {
+            -webkit-appearance: none; /* For Safari */
+            appearance: none; /* For other browsers */
+            width: 100%;
+            height: 10px;
+            background: #ddd; /* Set the default background color */
+            border-radius: 5px;
+            outline: none;
+            margin-left: 20px;
+          }
+          
+          /* Style the track color when the slider is active */
+          .custom-range::-webkit-slider-runnable-track {
+            background: #65558F;
+            height: 10px;
+            border-radius: 5px;
+          }
+          
+          /* Style the thumb (dot) color */
+          .custom-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #65558F;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            margin-top: -5px;
+          }
+
+          @media (max-width: 945px) and (min-width: 425px) {
+            .left {
+              width: 250px;
+            }
+            .right{
+                width:300px;
+            }
+            .row{
+                gap:50px;
+            }
+          }
+          @media(max-width:768px){
+            #sortByContent{
+                display: none;
+            }
+          }
+          
+    </style>
+    {% endblock extra_css %}
+
+    {% block content %}
+</head>
+<body>
+    <div class="container-fluid p-0">
+        <!-- Banner -->
+        <div class="banner position-relative">
+            <img src="{% static 'images2/h1.png' %}" class="img-fluid w-100" alt="Banner">
+            <div class="perfume-title position-absolute">
+                {% if subcategory %} {{ subcategory.name }} {% endif %}
+                {% if category %}{{ category.name }} {% endif %}
+            </div>
+        </div>
+    
+        <!-- Main Content -->
+        <div class="container-fluid mt-1" style="background-color:#F7E7E8;">
+            <div class="row">
+                <!-- Filters Sidebar -->
+                <div class="col-md-3">
+                    <h4 class="mt-4">Filters</h4>
+    
+                    <div class="mb-3">
+                        <label for="categoryFilter">Category</label>
+                        <select id="categoryFilter" class="form-control">
+                            <option value="">All</option>
+                            {% for cat in categories %}
+                                <option value="{{ cat.id }}" {% if cat.id == category.id %}selected{% endif %}>{{ cat.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+    
+                    <div class="mb-3">
+                        <label for="subcategoryFilter">Subcategory</label>
+                        <select id="subcategoryFilter" class="form-control">
+                            <option value="">All</option>
+                            {% for subcat in subcategories %}
+                                <option value="{{ subcat.id }}" {% if subcat.id == subcategory.id %}selected{% endif %}>{{ subcat.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+    
+                    <div class="mb-3">
+                        <label>Size</label><br>
+                        {% for size in sizes %}
+                            <div class="form-check">
+                                <input class="form-check-input sizeFilter" type="checkbox" value="{{ size }}" id="size{{ forloop.counter }}">
+                                <label class="form-check-label" for="size{{ forloop.counter }}">{{ size }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+    
+                    <div class="mb-3">
+                        <label for="priceRange">Max Price: ₹<span id="priceRangeValue">{{ max_price }}</span></label>
+                        <input type="range" class="form-range" id="priceRange" min="{{ min_price }}" max="{{ max_price }}" value="{{ max_price }}">
+                    </div>
+                </div>
+    
+                <!-- Product Grid -->
+                <div class="col-md-9">
+                    <div class="row g-4 mt-3" id="productGrid">
+                        {% for product in products %}
+                            {% if product.image1 %}
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <img src="{{ product.image1.url }}" class="card-img-top" alt="{{ product.name }}">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ product.name }}</h5>
+                                            <p class="card-text">₹{{ product.price }}</p>
+                                            {% if product.is_active %}
+                                                <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View</a>
+                                            {% else %}
+                                                <span class="text-danger">Out of Stock</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- AJAX Script -->
+    <script>
+        function fetchProducts() {
+            let category = $('#categoryFilter').val();
+            let subcategory = $('#subcategoryFilter').val();
+            let sizes = [];
+            $('.sizeFilter:checked').each(function() {
+                sizes.push($(this).val());
+            });
+            let max_price = $('#priceRange').val();
+    
+            $.ajax({
+                url: "{% url 'ajax_filter_products' %}",
+                data: {
+                    category: category,
+                    subcategory: subcategory,
+                    "size[]": sizes,
+                    min_price: 0,
+                    max_price: max_price
+                },
+                success: function(res) {
+                    let html = "";
+                    if(res.products.length > 0){
+                        res.products.forEach(prod => {
+                            html += `
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <img src="${prod.image}" class="card-img-top" alt="${prod.name}">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${prod.name}</h5>
+                                            <p class="card-text">₹${prod.price}</p>
+                                            ${prod.is_active ? `<a href="/product/${prod.id}/" class="btn btn-primary">View</a>` : `<span class="text-danger">Out of Stock</span>`}
+                                        </div>
+                                    </div>
+                                </div>`;
+                        });
+                    } else {
+                        html = '<p class="text-center">No products found.</p>';
+                    }
+                    $('#productGrid').html(html);
+                }
+            });
+        }
+    
+        $('#categoryFilter, #subcategoryFilter, .sizeFilter, #priceRange').on('change', fetchProducts);
+    
+        $('#priceRange').on('input', function() {
+            $('#priceRangeValue').text(this.value);
+        });
+    
+        $(document).ready(fetchProducts);
+    </script>
+    
+    <!-- Bootstrap JS -->
+    <script>
+        document.getElementById("sortByDropdown").addEventListener("click", function() {
+            if (window.innerWidth <= 768) {
+                const content = document.getElementById("sortByContent");
+                const currentDisplay = content.style.display;
+                content.style.display = (currentDisplay === "none" || currentDisplay === "") ? "block" : "none";
+            }
+            
+        });
+        
+        document.getElementById("categoryDropdown").addEventListener("click", function() {
+            const content = document.getElementById("categoryContent");
+            const currentDisplay = content.style.display;
+            content.style.display = (currentDisplay === "none" || currentDisplay === "") ? "block" : "none";
+        });
+        
+        document.getElementById("sizeDropdown").addEventListener("click", function() {
+            const content = document.getElementById("sizeContent");
+            const currentDisplay = content.style.display;
+            content.style.display = (currentDisplay === "none" || currentDisplay === "") ? "block" : "none";
+        });
+        
+        document.getElementById("priceDropdown").addEventListener("click", function() {
+            const content = document.getElementById("priceContent");
+            const currentDisplay = content.style.display;
+            content.style.display = (currentDisplay === "none" || currentDisplay === "") ? "block" : "none";
+        });
+
+        document.getElementById("brandDropdown").addEventListener("click", function() {
+            const content = document.getElementById("brandContent");
+            const currentDisplay = content.style.display;
+            content.style.display = (currentDisplay === "none" || currentDisplay === "") ? "block" : "none";
+        });
+
+        document.getElementById("discountDropdown").addEventListener("click", function() {
+            const content = document.getElementById("discountContent");
+            const currentDisplay = content.style.display;
+            content.style.display = (currentDisplay === "none" || currentDisplay === "") ? "block" : "none";
+        });
+    
+        // Close the dropdown content when the close button (X) is clicked
+        /* document.getElementById("closeButton").addEventListener("click", function() {
+            document.getElementById("sortByContent").style.display = "none";
+        }); */
+    </script>
+     
+{% endblock content %}

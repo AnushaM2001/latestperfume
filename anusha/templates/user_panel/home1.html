@@ -1,0 +1,2913 @@
+{% extends 'layouts/main.html' %}
+{% load static %}
+{% block title %}
+
+{% endblock title %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}?v2" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    @media (max-width: 576px) {
+        .circle-container {
+            width: 160px;
+            height: 160px;
+        }
+
+        :root {
+            --arc-size: 10px;
+            --small-arc-size: 5px;
+            --circle-spacing: 1.25rem;
+        }
+
+        .circle-text {
+            font-size: 1rem;
+        }
+    }
+
+    cards .custom-container {
+        width: auto;
+        margin: auto;
+        padding: 20px;
+        background: #F7E7E8;
+        ;
+    }
+
+
+    .custom-card {
+        width: 290px;
+        border: 1.5px solid #D8CBBD;
+        background: #FFFFFF;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .custom-img-container {
+        width: 100%;
+        height: 270px;
+        background: #FBFAF4;
+        position: relative;
+        overflow: hidden;
+    }
+
+
+    .custom-img {
+        width: 100%;
+        height: auto;
+        position: absolute;
+        top: -60px;
+        left: 0;
+    }
+
+    .fixed-layout1 {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 10px;
+        margin: 0 auto;
+        width: 100%;
+        padding-left: 10px;
+        padding-right: 10px;
+        scroll-padding: 0 10px;
+    }
+
+    .custom-card1 {
+        flex: 0 0 100%;
+        max-width: 300px;
+        border: 1.5px solid #D8CBBD;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease-in-out;
+
+        scroll-snap-align: center;
+        margin-right: 15px;
+    }
+
+    .mobile-scroll1 {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .mobile-scroll1::-webkit-scrollbar {
+        display: none;
+    }
+
+
+    @media (min-width: 768px) {
+        .custom-card1 {
+            flex: 0 0 auto;
+            width: 80%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .custom-card1 {
+            flex: 0 0 90%;
+        }
+    }
+
+
+
+
+    /* Footer Styling */
+    .custom-footer {
+        background: #FBF0EF;
+        border-top: 1px solid #161615;
+        padding: 20px 10px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .custom-footer div {
+        text-align: center;
+        color: #4D4D4D;
+        font-size: 16px;
+        font-family: Jomolhari, serif;
+        font-weight: 400;
+        text-transform: capitalize;
+        line-height: 18px;
+        word-wrap: break-word;
+    }
+
+
+
+
+    .custom-btn {
+        background: #981945;
+        color: white;
+        font-size: 16px;
+        font-family: Jomolhari, serif;
+        font-weight: 400;
+        line-height: 18px;
+        height: 58px;
+        width: 158px;
+        border-radius: 500px;
+        padding: 20px 36px;
+        border: none;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        white-space: nowrap;
+    }
+
+    .custom-btn:hover {
+        background: #7a1036;
+        /* Darker shade on hover */
+        color: white;
+    }
+
+    /* card2 */
+    .container-fluid {
+        background: #F7E7E8;
+        ;
+
+    }
+
+    .text4 {
+        color: #404040;
+        font-size: 40px;
+        font-family: Jomolhari;
+        font-weight: 100;
+        line-height: 70px;
+        word-wrap: break-word
+    }
+
+    .text3 {
+        color: #6D3F0B;
+        font-size: 60px;
+        font-family: 'Brush Script MT', cursive;
+
+        font-weight: 400;
+        line-height: 64px;
+        word-wrap: break-word
+    }
+
+    .custom-bg {
+        background-color: #FBFAF4;
+    }
+
+    .custom-border {
+        border: 1.5px solid #D8CBBD;
+    }
+
+    .custom-button {
+        background-color: rgba(109, 63, 11, 0.95);
+        color: white;
+    }
+
+    .custom-button:hover {
+        background-color: #6D3F0B;
+    }
+
+    .custom-nav-button {
+        background-color: #6D3F0B;
+        border-radius: 50%;
+        padding: 10px;
+    }
+
+    .custom-nav-button:hover {
+        background-color: #5a3510;
+    }
+
+    .custom-pagination {
+        background-color: #981945;
+    }
+
+    .custom-pagination-dot4-1,
+    .custom-pagination-dot4-2,
+    .custom-pagination-dot4-3,
+    .custom-pagination-dot4-4,
+    .custom-pagination-dot4-5 {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 1px solid #981945;
+    }
+
+    .custom-pagination-dot4-1.active,
+    .custom-pagination-dot4-2.active,
+    .custom-pagination-dot4-3.active,
+    .custom-pagination-dot4-4.active,
+    .custom-pagination-dot4-5.active {
+        background-color: #981945;
+    }
+
+
+    /* image */
+    .container10 {
+        margin-top: 20px;
+    }
+
+    .download-section {
+        width: 100%;
+        height: 450px;
+        display: flex;
+        justify-content: space-evenly;
+        padding: 30px 20px;
+    }
+
+    .download-section img {
+        object-fit: cover;
+        width: 450px;
+
+    }
+
+    .download-div1 {
+        display: flex;
+        justify-content: center;
+
+    }
+
+    .download-text {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: #404040;
+
+    }
+
+    .download-title {
+        font-size: 40px;
+        font-family: Jomolhari;
+        font-weight: 400;
+        text-transform: capitalize;
+        line-height: 42px;
+    }
+
+    .store {
+        display: flex;
+        gap: 50px;
+    }
+
+
+    .discount-text {
+        color: #6D3F0B;
+        font-size: 48px;
+        font-family: "Euphoria Script";
+        font-weight: 400;
+        text-transform: capitalize;
+        line-height: 42px;
+    }
+
+    .highlight-text {
+        color: black;
+        font-size: 40px;
+        font-family: "DM Sans";
+        font-weight: 800;
+        text-transform: capitalize;
+        line-height: 42px;
+    }
+
+    .subtext1 {
+        color: #404040;
+        font-size: 40px;
+        font-family: Jomolhari;
+        font-weight: 400;
+        text-transform: capitalize;
+        line-height: 42px;
+    }
+
+    .info-box {
+        display: flex;
+        align-items: center;
+        background: #f8f8f8;
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 20px;
+        gap: 15px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-box img {
+        width: 60px;
+        height: 40px;
+        object-fit: contain;
+    }
+
+    .info-text h1 {
+        font-size: 15px;
+        font-weight: 600;
+        margin: 0;
+        color: #404040;
+        text-transform: capitalize;
+    }
+
+    .cart {
+        width: 28px;
+        height: 28px;
+    }
+
+
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+        .download-section {
+            flex-direction: column-reverse;
+            text-align: center;
+        }
+
+        .download-text {
+            text-align: center;
+        }
+
+        .store {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .info-box {
+            justify-content: center;
+            text-align: left;
+        }
+    }
+
+    /* text */
+    .featured-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 50px 20px;
+    }
+
+    /*.featured-title span {
+            display: block;
+        }*/
+
+    .featured-title .our {
+        color: #404040;
+        font-size: 40px;
+        font-family: Jomolhari;
+        font-weight: 400;
+        line-height: 70px;
+    }
+
+    .featured-title .separator {
+        color: #981945;
+        font-size: 48px;
+        font-family: Playfair Display;
+        font-weight: 400;
+        line-height: 52px;
+    }
+
+    .featured-title .highlight {
+        color: #6D3F0B;
+        font-size: 60px;
+        font-family: "Euphoria Script";
+        font-weight: 400;
+        line-height: 64px;
+    }
+
+    .featured-description {
+        max-width: 984px;
+        color: #4D4D4D;
+        font-size: 16px;
+        font-family: Jomolhari;
+        font-weight: 400;
+        text-transform: capitalize;
+        line-height: 28px;
+        margin-top: 20px;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .featured-title .our {
+            font-size: 32px;
+            line-height: 50px;
+        }
+
+        .featured-title .separator {
+            font-size: 38px;
+            line-height: 42px;
+        }
+
+        .featured-title .highlight {
+            font-size: 48px;
+            line-height: 54px;
+        }
+
+        .featured-description {
+            font-size: 14px;
+            line-height: 24px;
+            padding: 0 15px;
+        }
+    }
+
+    /* shop text */
+    .shop-by-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 50px 20px;
+    }
+
+    /* .shop-title span {
+            display: block;
+        } */
+
+    .shop-title .shop-by {
+        color: #404040;
+        font-size: 40px;
+        font-family: Jomolhari;
+        font-weight: 400;
+        line-height: 70px;
+    }
+
+    .shop-title .separator {
+        color: #981945;
+        font-size: 48px;
+        font-family: Playfair Display;
+        font-weight: 400;
+        line-height: 52px;
+    }
+
+    .shop-title .highlight {
+        color: #6D3F0B;
+        font-family: "Euphoria Script";
+        font-size: 60px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 64px;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .shop-title .shop-by {
+            font-size: 32px;
+            line-height: 50px;
+        }
+
+        .shop-title .separator {
+            font-size: 38px;
+            line-height: 42px;
+        }
+
+        .shop-title .highlight {
+            font-size: 48px;
+            line-height: 54px;
+        }
+    }
+
+    /* star cards */
+    /*.card1 {
+            border: none;
+            border-radius: 10px;
+            transition: transform 0.3s ease-in-out;
+            border: 1.5px solid #D8CBBD;
+
+        }
+
+        .card1:hover {
+            transform: translateY(-5px);
+        }*/
+    .card1 {
+        height: 300px;
+        background-color: white;
+        display: flex;
+
+        justify-content: center;
+        align-content: center;
+        padding: 10px 20px;
+    }
+
+    .carousel-item .card1 {
+        width: 350px;
+    }
+
+    .card1 h1 {
+        font-size: 17px;
+    }
+
+    .star-rating {
+        color: #FFD700;
+        /* Gold color for stars */
+    }
+
+    .star-rating img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .card-title {
+        color: #666666;
+        font-size: 16px;
+        font-family: DM Sans;
+        font-weight: 400;
+        line-height: 26px;
+        word-wrap: break-word
+    }
+
+    /* email */
+    .email-input {
+        width: 100%;
+        max-width: 400px;
+        padding: 12px 32px;
+        border-radius: 500px;
+        border: 0.5px solid #808080;
+        font-size: 16px;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 400;
+        line-height: 26px;
+        color: black;
+        outline: none;
+    }
+
+    .subscribe-btn {
+        background: #981945;
+        color: white;
+        border: none;
+        padding: 20px 36px;
+        border-radius: 500px;
+        font-size: 16px;
+        font-family: Jomolhari;
+        font-weight: 400;
+        line-height: 18px;
+        cursor: pointer;
+        transition: 0.3s ease-in-out;
+    }
+
+    .subscribe-btn:hover {
+        background: #7d1235;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 576px) {
+        .email-input {
+            max-width: 100%;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+
+        .subscribe-btn {
+            padding: 15px 28px;
+            font-size: 14px;
+        }
+    }
+
+    .custom-card-container4 {
+        display: flex;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        scrollbar-width: none;
+        /* Hide scrollbar for modern browsers */
+        -ms-overflow-style: none;
+        /* Hide scrollbar for IE */
+    }
+
+    .custom-card-container4::-webkit-scrollbar {
+        display: none;
+        /* Hide scrollbar for Chrome & Safari */
+    }
+
+    .custom-card4 {
+        flex: 0 0 80%;
+        /* Adjust the width to fit only one card at a time */
+        max-width: 300px;
+        margin-right: 20px;
+        background: white;
+        border-radius: 10px;
+        text-align: center;
+        padding: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-img4 {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    .custom-footer4 {
+        margin-top: 10px;
+        font-size: 18px;
+    }
+
+    .custom-nav-button4 {
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .custom-pagination-dot4-1,
+    .custom-pagination-dot4-2,
+    .custom-pagination-dot4-3,
+    .custom-pagination-dot4-4,
+    .custom-pagination-dot4-5 {
+        width: 10px;
+        height: 10px;
+        background: #bbb;
+        border-radius: 50%;
+        margin: 5px;
+    }
+
+    .custom-pagination-dot4-1.active,
+    .custom-pagination-dot4-2.active,
+    .custom-pagination-dot4-3.active,
+    .custom-pagination-dot4-4.active,
+    .custom-pagination-dot4-5.active {
+        background: #6D3F0B;
+    }
+
+    .custom-card-container4 {
+        display: flex;
+        gap: 20px;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        padding-bottom: 50px;
+        /* Ensure space for buttons */
+    }
+
+    .custom-card4 {
+        background: #fff;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .custom-img4 {
+        width: 100%;
+        height: auto;
+    }
+
+    .custom-footer {
+        margin-top: 10px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .custom-nav-button1 {
+        background-color: #6D3F0B;
+        border-radius: 50%;
+        padding: 10px;
+    }
+
+    .custom-nav-button1:hover {
+        background-color: #5a3510;
+    }
+
+    .custom-nav-button1 {
+        position: absolute;
+        bottom: -40px;
+        /* Adjust as needed */
+
+        border-radius: 50%;
+        padding: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .left-nav {
+        left: 0;
+    }
+
+    .right-nav {
+        right: 0;
+    }
+
+    /* oval */
+    .oval-container {
+        width: 90%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 70px;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        margin: auto;
+        text-align: center;
+        position: relative;
+        /* important for background layering */
+        background-color: #F7E7E8;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .middle {
+        position: absolute;
+        background-image: url("{% static 'images2/bg.png' %}");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 450px;
+        width: 100%;
+        height: 100%;
+        opacity: 0.8;
+        z-index: 0;
+    }
+
+    /*.background-img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: auto;
+            height: 100%;
+            opacity: 0.1;
+            
+            z-index: 0;
+            pointer-events: none;
+            
+        }*/
+
+    .oval-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 10px;
+        gap: 20px;
+        height: 250px;
+
+        background: #F7E7E8;
+        border-radius: 10px;
+        /* ensures it's above background */
+    }
+
+    .oval-img:hover {
+        transform: scale(1.1);
+        cursor: pointer;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .oval-img {
+        width: 100px;
+        height: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50px;
+        border: 0.617px solid #AF9164;
+        background: #FBF0EF;
+        z-index: 1;
+    }
+
+    .oval-img img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 500px;
+    }
+
+    .name-text {
+        margin-top: 8px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+
+    /* product card */
+    .product-card {
+        width: 330px;
+        flex: 0 0 auto;
+        margin: 0 15px;
+        border-radius: 10px;
+        position: relative;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        z-index: 1;
+    }
+
+    .favorite {
+        position: absolute;
+        width: 55px;
+        height: 55px;
+        border: 1px solid #FFF;
+        border-radius: 50%;
+        top: 22px;
+        right: 15px;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 2;
+    }
+
+    .addcart {
+        display: none;
+        position: absolute;
+        bottom: 55px;
+        /* Position at bottom of image container */
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #6D3F0BF2;
+        color: white;
+        height: 55px;
+        width: calc(100% - 20px);
+        /* Full width minus padding */
+        justify-content: center;
+        gap: 12px;
+        align-items: center;
+        z-index: 2;
+        font-size: 18px;
+        font-family: Jomolhari;
+        text-transform: capitalize;
+
+    }
+
+    .favorite img {
+        width: 28px;
+        height: 28px;
+    }
+
+    /* Hover effects */
+    .product-card:hover {
+        transform: scale(1.05);
+        cursor: pointer;
+        z-index: 3;
+    }
+
+    .product-card:hover .favorite,
+    .product-card:hover .addcart {
+        display: flex;
+    }
+
+    .product-img-container {
+        height: 300px;
+        overflow: hidden;
+        border-radius: 10px 10px 0 0;
+        position: relative;
+    }
+
+    .product-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .product-card:hover .product-img {
+        transform: scale(1.05);
+    }
+
+    /* Product info styling */
+    .product-info {
+        padding: 15px;
+        background: #FBF0EF;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 0 0 10px 10px;
+        position: relative;
+        /* Needed for z-index stacking */
+        z-index: 1;
+    }
+
+    .product-name {
+        font-weight: 600;
+        margin: 0;
+        /* Remove default margins */
+        white-space: nowrap;
+        /* Prevent text wrapping */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        /* Add ellipsis if text is too long */
+        max-width: 60%;
+        /* Limit width to prevent overflow */
+        color: #4D4D4D;
+        font-size: 16px;
+        font-family: Jomolhari;
+        font-weight: 400;
+        text-transform: capitalize;
+        line-height: 18px;
+        word-wrap: break-word;
+    }
+
+    .product-price {
+        color: #4D4D4D;
+        font-size: 16px;
+        font-family: Jomolhari;
+        font-weight: 400;
+        text-transform: capitalize;
+        line-height: 18px;
+        word-wrap: break-word;
+        margin: 0;
+        /* Remove default margins */
+        white-space: nowrap;
+        /* Prevent price from wrapping */
+    }
+
+
+
+    /* Scrollable Products Container */
+    .products-scroll-container {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 20px 0;
+        scrollbar-width: none;
+        /* Firefox */
+        -ms-overflow-style: none;
+        /* IE/Edge */
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .products-scroll-container::-webkit-scrollbar {
+        display: none;
+        /* Chrome/Safari */
+    }
+
+    /* Navigation Controls Container */
+    .products-navigation-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+        padding: 0 20px;
+    }
+
+    /* Navigation Buttons */
+    .product-nav-button {
+        background: transparent;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+
+    .product-nav-button img {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* Pagination Dots */
+    .custom-pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+        margin: 0 20px;
+    }
+
+    .custom-pagination-dot4-1,
+    .custom-pagination-dot4-2,
+    .custom-pagination-dot4-3,
+    .custom-pagination-dot4-4,
+    .custom-pagination-dot4-5 {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #ccc;
+        margin: 0 5px;
+        cursor: pointer;
+
+    }
+
+    .back-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background-color: #6D3F0B;
+        color: #fff;
+        padding: 8px 14px;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+        z-index: 1000;
+        transition: background-color 0.3s ease;
+    }
+
+    .back-btn:hover {
+        background-color: #4f2e08;
+    }
+
+
+    /* Responsive Behavior */
+
+    @media (max-width: 1440px) {
+        .favorite {
+            width: 40px;
+            height: 40px;
+        }
+
+        .favorite img {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    @media(min-width:1440px) {
+        .oval-container {
+            height: 450px;
+        }
+    }
+
+    @media (min-width: 1025px) {
+        .products-scroll-container {
+            flex-wrap: wrap;
+            justify-content: center;
+            overflow-x: visible;
+            gap: 20px;
+        }
+
+        .product-card {
+            margin: 0;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .product-card {
+            width: 240px;
+        }
+
+        .product-img-container {
+            height: 250px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .product-card {
+            width: 55vw;
+            margin: 16px auto;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-img-container {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .addcart {
+            background-color: #6D3F0BF2;
+            font-size: 10px;
+            height: 10px;
+            color: white;
+
+            border-radius: 5px;
+        }
+    }
+
+    /* Section Titles */
+    .products-section-subtitle {
+
+        color: #404040;
+        font-size: 40px;
+        font-family: Jomolhari;
+        font-weight: 400;
+        line-height: 70px;
+        word-wrap: break-word
+    }
+
+    .products-section-title {
+        color: #6D3F0B;
+        font-size: 60px;
+        font-family: "Euphoria Script";
+        font-weight: 400;
+        line-height: 64px;
+    }
+
+    @media (max-width: 768px) {
+        .text3 {
+            font-size: 30px;
+        }
+
+        .products-section-title {
+            font-size: 30px;
+            margin-top: -30px;
+        }
+
+        .products-section-subtitle {
+            font-size: 30px;
+            margin-top: 50px;
+        }
+
+        .discount-text {
+            font-size: 30px;
+        }
+    }
+
+
+    .carousel-item {
+        transition: transform 1.5s ease-in-out !important;
+        /* Smooth & slower animation */
+    }
+
+    /* .circle-container.active {
+        border: 1px solid transparent;
+        border-radius: 50%;
+        padding: 4px;
+        transition: all 0.3s ease;
+    } */
+    @media(max-width:768px) {
+        .man-img {
+            display: none;
+        }
+    }
+
+    .custom-nav-button {
+        background-color: #6D3F0B;
+        border-radius: 50%;
+        padding: 10px;
+        z-index: 2;
+    }
+
+    .product-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        text-align: center;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .product-card:hover {
+        transform: scale(1.05);
+    }
+
+    .product-card video {
+        border-radius: 8px;
+        width: 100%;
+        height: auto;
+    }
+
+    @media (max-width: 768px) {
+        .product-card {
+            margin-bottom: 20px;
+        }
+    }
+
+    .products-scroll-row {
+        display: flex;
+        gap: 24px;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        padding: 30px 0;
+        scrollbar-width: none;
+    }
+
+    .products-scroll-row::-webkit-scrollbar {
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+
+        .custom-nav-button.left-nav,
+        .custom-nav-button.right-nav {
+            display: none !important;
+        }
+    }
+
+    .video-scroll-wrapper {
+        overflow: hidden;
+        /* Hide scrollbar and prevent manual scroll */
+        width: 100%;
+        padding-bottom: 20px;
+    }
+
+    .video-scroll-row {
+        display: flex;
+        gap: 24px;
+        transition: transform 0.7s cubic-bezier(.4, 0, .2, 1);
+        will-change: transform;
+    }
+
+    .video-card {
+        min-width: 320px;
+        max-width: 340px;
+        flex: 0 0 auto;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        padding: 10px;
+    }
+
+    .video-card video {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    @media (max-width: 768px) {
+        .video-card {
+            min-width: 220px;
+            max-width: 240px;
+        }
+    }
+
+    .custom-view-all-btn {
+        display: inline-block;
+        padding: 10px 25px;
+        background-color: #6D3F0B;
+        color: white;
+        font-size: 18px;
+        font-weight: 500;
+        text-decoration: none;
+        border-radius: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        font-family: Jomolhari, serif;
+    }
+
+    .custom-view-all-btn:hover {
+        background-color: #8a4c11;
+        transform: translateY(-2px);
+        color: #fff;
+    }
+
+    .favorite img {
+        transition: filter 0.2s, transform 0.2s;
+    }
+
+    .favorite:hover img,
+    .favorite.active img {
+        /* Darker pink tint */
+        filter: brightness(0) saturate(100%) invert(17%) sepia(98%) saturate(7492%) hue-rotate(312deg) brightness(90%) contrast(110%);
+        transform: scale(1.15);
+
+    }
+
+    .modal-split-layout {
+        display: flex;
+        flex-direction: row;
+        height: 80vh;
+        gap: 10px;
+    }
+
+    .left-video,
+    .right-iframe {
+        flex: 1;
+        height: 100%;
+    }
+
+    .left-video video,
+    .right-iframe iframe {
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        object-fit: cover;
+        border: none;
+    }
+
+    @media (max-width: 768px) {
+        .modal-split-layout {
+            flex-direction: column;
+        }
+
+        .left-video,
+        .right-iframe {
+            height: 50vh;
+        }
+    }
+
+    .badge-rating {
+        position: absolute;
+        bottom: 50px;
+        right: 10px;
+        background-color: #ecebe7;
+        color: #333;
+        padding: 4px 8px;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        z-index: 1000;
+        font-weight: 600;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+    }
+
+/* 1. Prevent entire page horizontal overflow */
+html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+/* Carousel Base Styles */
+#pvHeroCarousel {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Image Scaling */
+#pvHeroCarousel .carousel-item img {
+  width: 100%;
+  height: 500px;
+  object-fit: fill;
+  object-position: center;
+ 
+}
+
+/* Carousel Inner Container */
+#pvHeroCarousel .carousel-inner {
+  display: flex;
+  transition: transform 1.2s ease-in-out; /* smooth sliding */
+}
+
+#pvHeroCarousel .carousel-item {
+  flex: 0 0 100%;
+  max-width: 100%;
+  transition: transform 1.2s ease-in-out;
+}
+
+
+/* Fade Transition */
+#pvHeroCarousel.carousel-fade .carousel-item {
+  opacity: 0;
+  transform: scale(1.02); /* subtle zoom */
+  transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
+}
+
+#pvHeroCarousel.carousel-fade .carousel-item.active {
+  opacity: 1;
+  transform: scale(1); /* smooth zoom-out on active */
+}
+
+
+/* Progress Bar Indicators */
+#pvHeroCarousel .carousel-indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  z-index: 3;
+  padding: 0;
+}
+
+#pvHeroCarousel .carousel-indicators button {
+  width: 60px;
+  height: 2px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+  opacity: 1;
+}
+
+#pvHeroCarousel .carousel-indicators .progress-track {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.3);
+  position: relative;
+  border-radius: 2px;
+}
+
+#pvHeroCarousel .carousel-indicators .progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background: #fff;
+  will-change: width; /* Optimize for animation */
+}
+
+#pvHeroCarousel .carousel-indicators button.active .progress-fill {
+  width: 100%;
+  transition: width linear;
+}
+
+/* Clickable Areas */
+#pvHeroCarousel .carousel-item a {
+  display: block;
+  height: 100%;
+  position: relative;
+}
+
+/* Navigation Controls */
+#pvHeroCarousel .carousel-control-prev,
+#pvHeroCarousel .carousel-control-next {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.9;
+  transition: all 0.3s ease;
+  z-index: 3;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991px) {
+  #pvHeroCarousel .carousel-item img,
+  #pvHeroCarousel .carousel-inner { height: 400px; }
+}
+
+@media (max-width: 768px) {
+  #pvHeroCarousel .carousel-item img,
+  #pvHeroCarousel .carousel-inner { height: 300px; }
+  #pvHeroCarousel .carousel-indicators button { width: 40px; }
+}
+
+@media (max-width: 576px) {
+  #pvHeroCarousel .carousel-item img,
+  #pvHeroCarousel .carousel-inner { height: 220px; }
+  #pvHeroCarousel .carousel-indicators { bottom: 10px; }
+  #pvHeroCarousel .carousel-indicators button { width: 30px; height: 2px; }
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  display: none !important;
+}
+
+
+</style>
+<style>
+    .blur-image {
+    filter: blur(2px);
+    pointer-events: none;
+}
+
+.blink {
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
+
+</style>
+
+
+
+
+{% endblock extra_css %}
+
+{% block content %}
+<!-- {% if festival_offer %}
+Festival Offer Modal
+<div class="modal fade" id="festivalOfferModal" tabindex="-1" aria-labelledby="festivalOfferLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4 text-white text-center"
+            style="border-radius: 20px; background: linear-gradient(45deg, #ff4e50, #f9d423); box-shadow: 0 0 40px rgba(0,0,0,0.8); animation: popIn 0.7s ease-out;">
+            <div class="modal-header border-0" style="background-color: rgba(0,0,0,0.1);">
+                <h5 class="modal-title w-100 fw-bold" id="festivalOfferLabel"
+                    style="font-size: 2rem; text-shadow: 1px 1px 3px #000;">
+                    🎊 {{ festival_offer.offer_name|upper }} 🎊
+                </h5>
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="modal"
+                    aria-label="Close" style="background-color: #fff; border-radius: 50%; padding: 8px;">
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="fs-1 fw-bold" style="color: #fff; text-shadow: 2px 2px 5px #000;">
+                    🧨 {{ festival_offer.percentage }}% OFF 🧨
+                </p>
+                <p class="fs-5" style="color: #f0f0f0;">Valid till: <strong>{{ festival_offer.end_date}}</strong></p>
+                <p style="font-style: italic; color: #fff9;">Don't miss the Chance! 🎁</p>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!-- <style>
+    @keyframes slideDown {
+        0% {
+            transform: translateY(-100%) scale(0.9);
+            opacity: 0;
+        }
+
+        100% {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+    }
+
+    .modal.fade .modal-dialog {
+        transform: translateY(-100%);
+        transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+    }
+
+    .modal.show .modal-dialog {
+        transform: translateY(0);
+    }
+
+    .modal-content {
+        animation: slideDown 0.7s ease-out;
+        border-radius: 20px;
+        background: linear-gradient(45deg, #ff4e50, #f9d423);
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+        text-align: center;
+        color: white;
+        border: 5px dashed white;
+    }
+</style>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const modal = new bootstrap.Modal(document.getElementById('festivalOfferModal'));
+        modal.show();
+    });
+</script>
+{% endif %} -->
+
+
+
+<div id="pvHeroCarousel" class="carousel slide carousel-fade">
+  <!-- Indicators with Progress Bars -->
+  <div class="carousel-indicators">
+    {% for banner in banners %}
+    <button type="button" 
+            data-bs-target="#pvHeroCarousel" 
+            data-bs-slide-to="{{ forloop.counter0 }}"
+            class="{% if forloop.first %}active{% endif %}"
+            aria-label="Slide {{ forloop.counter }}">
+      <div class="progress-track">
+        <div class="progress-fill"></div>
+      </div>
+    </button>
+    {% endfor %}
+  </div>
+
+  <!-- Carousel Items -->
+  <div class="carousel-inner">
+    {% if first_banner_no_section %}
+    <div class="carousel-item active">
+      <a {% if first_banner_no_section.section %}href="{% url 'viewall_products' first_banner_no_section.section %}"{% endif %} class="d-block w-100 h-100">
+        <img src="{{ first_banner_no_section.banner_image.url }}" class="d-block w-100" alt="{{ first_banner_no_section.title }}">
+      </a>
+    </div>
+    {% endif %}
+
+    {% for banner in other_banners %}
+    <div class="carousel-item {% if not first_banner_no_section and forloop.first %}active{% endif %}">
+      <a {% if banner.section %}href="{% url 'viewall_products' banner.section %}"{% endif %} class="d-block w-100 h-100">
+        <img src="{{ banner.banner_image.url }}" class="d-block w-100" alt="{{ banner.title }}">
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Navigation Controls -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#pvHeroCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#pvHeroCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+  // 1. CAROUSEL WITH PROGRESS BARS
+  const initCarouselWithProgress = () => {
+    const carouselEl = document.getElementById('pvHeroCarousel');
+    if (!carouselEl) return;
+
+    // Configuration
+    const SLIDE_DURATION = 5000; // 5 seconds per slide
+    const buttons = Array.from(carouselEl.querySelectorAll('.carousel-indicators button'));
+    if (!buttons.length) return;
+    
+    let currentIndex = 0;
+    let animationId = null;
+    let startTimestamp = null;
+    let isPaused = false;
+    let pausedProgress = 0;
+
+    // Initialize Bootstrap Carousel
+    const carousel = new bootstrap.Carousel(carouselEl, {
+      interval: false,
+      ride: false
+    });
+
+    // High-precision animation using requestAnimationFrame
+    const animateProgress = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      
+      const elapsed = timestamp - startTimestamp;
+      const progress = Math.min(elapsed / SLIDE_DURATION, 1);
+      
+      const activeButton = buttons[currentIndex];
+      if (activeButton) {
+        const progressFill = activeButton.querySelector('.progress-fill');
+        if (progressFill) {
+          progressFill.style.width = `${progress * 100}%`;
+        }
+      }
+      
+      if (progress < 1) {
+        animationId = requestAnimationFrame(animateProgress);
+      } else {
+        advanceToNextSlide();
+      }
+    };
+
+    // Navigation functions
+    const advanceToNextSlide = () => {
+      cancelAnimation();
+      currentIndex = (currentIndex + 1) % buttons.length;
+      carousel.to(currentIndex);
+    };
+
+    const resetProgressBars = () => {
+      buttons.forEach(button => {
+        const progressFill = button.querySelector('.progress-fill');
+        if (progressFill) {
+          progressFill.style.transition = 'none';
+          progressFill.style.width = '0';
+        }
+      });
+    };
+
+    const startProgressAnimation = () => {
+      resetProgressBars();
+      updateActiveIndicator();
+      startTimestamp = null;
+      animationId = requestAnimationFrame(animateProgress);
+    };
+
+    const updateActiveIndicator = () => {
+      buttons.forEach((button, index) => {
+        button.classList.toggle('active', index === currentIndex);
+      });
+    };
+
+    const cancelAnimation = () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+      }
+    };
+
+    // Pause/resume functionality
+    const pauseSlideshow = () => {
+      if (isPaused) return;
+      isPaused = true;
+      cancelAnimation();
+      
+      const activeButton = buttons[currentIndex];
+      if (activeButton) {
+        const progressFill = activeButton.querySelector('.progress-fill');
+        if (progressFill) {
+          pausedProgress = parseFloat(progressFill.style.width || '0');
+          progressFill.style.transition = 'none';
+        }
+      }
+    };
+
+    const resumeSlideshow = () => {
+      if (!isPaused) return;
+      isPaused = false;
+      
+      const activeButton = buttons[currentIndex];
+      if (activeButton) {
+        const progressFill = activeButton.querySelector('.progress-fill');
+        if (progressFill) {
+          const remainingTime = SLIDE_DURATION * (1 - pausedProgress / 100);
+          
+          progressFill.style.transition = `width ${remainingTime}ms linear`;
+          progressFill.style.width = '100%';
+          
+          setTimeout(() => {
+            if (!isPaused) {
+              advanceToNextSlide();
+            }
+          }, remainingTime);
+        }
+      }
+    };
+
+    // Event listeners
+    carouselEl.addEventListener('slid.bs.carousel', (e) => {
+      currentIndex = e.to;
+      startProgressAnimation();
+    });
+
+    carouselEl.addEventListener('mouseenter', pauseSlideshow);
+    carouselEl.addEventListener('mouseleave', resumeSlideshow);
+
+    // Manual navigation
+    buttons.forEach((button, index) => {
+      button.addEventListener('click', () => {
+        if (index !== currentIndex) {
+          cancelAnimation();
+          currentIndex = index;
+          carousel.to(currentIndex);
+        }
+      });
+    });
+
+    // Initialize
+    startProgressAnimation();
+
+    // Cleanup
+    window.addEventListener('beforeunload', cancelAnimation);
+  };
+
+  // 2. SCROLLING CAROUSEL (for videoScrollRow)
+  const initScrollingCarousel = () => {
+    const row = document.getElementById('videoScrollRow');
+    if (!row) return;
+
+    const cards = row.querySelectorAll('.video-card');
+    if (!cards.length) return;
+
+    // Wait for layout to complete
+    setTimeout(() => {
+      const cardWidth = cards[0].offsetWidth + 24; // card width + gap
+      let visibleCount = Math.max(1, Math.floor(row.parentElement.offsetWidth / cardWidth));
+      let currentIndex = 0;
+      let scrollInterval = null;
+
+      const updateVisibleCount = () => {
+        visibleCount = Math.max(1, Math.floor(row.parentElement.offsetWidth / cardWidth));
+      };
+
+      const scrollToNext = () => {
+        currentIndex = (currentIndex + 1) % (cards.length - visibleCount + 1);
+        row.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+        row.style.transition = 'transform 0.5s ease';
+      };
+
+      const startAutoScroll = () => {
+        scrollInterval = setInterval(scrollToNext, 3000);
+      };
+
+      const pauseAutoScroll = () => {
+        clearInterval(scrollInterval);
+      };
+
+      // Initialize
+      updateVisibleCount();
+      startAutoScroll();
+
+      // Handle resize
+      const resizeHandler = () => {
+        updateVisibleCount();
+        row.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+      };
+
+      // Event listeners
+      row.parentElement.addEventListener('mouseenter', pauseAutoScroll);
+      row.parentElement.addEventListener('mouseleave', startAutoScroll);
+      window.addEventListener('resize', resizeHandler);
+
+      // Cleanup
+      return () => {
+        clearInterval(scrollInterval);
+        window.removeEventListener('resize', resizeHandler);
+      };
+    }, 100);
+  };
+
+  // Initialize both carousels
+  initCarouselWithProgress();
+  initScrollingCarousel();
+
+  // 3. CLICKABLE BANNERS
+  document.querySelectorAll('#pvHeroCarousel .carousel-item').forEach(item => {
+    item.addEventListener('click', function() {
+      const url = this.getAttribute('data-href');
+      if (url) {
+        window.location.href = url;
+      }
+    });
+  });
+});
+</script>
+
+
+<!-- scroll -->
+<div class="scroll-container">
+    <div class="scroll-content">
+        {% if ScrollBar %}
+        <span>{{ ScrollBar.scroll_bar }}</span>
+        {% else %}
+        <span>No scroll text available</span>
+        {% endif %}
+        <!-- <span>Scent of Elegance *</span>
+        <span>Perfume Essence *</span>
+        <span>Aroma Inspiration *</span>
+        <span>Signature Scen/*t *</span>
+        <span>Fragrance Defined *</span>
+        <span>Fragrance Defined *</span>
+        <span>Scent of Elegance *</span>
+        <span>Perfume Essence *</span>
+        <span>Aroma Inspiration *</span>
+        <span>Signature Scent *</span>
+        <span>Fragrance Defined *</span> -->
+    </div>
+</div>
+
+<!-- text1 -->
+<div class="essence-container">
+    <div class="essence-heading">Essence unleashed</div>
+    <div class="essence-description">
+        Discover our exclusive collection of fragrances inspired by renowned brands. Each scent is meticulously crafted
+        to deliver luxury, elegance, and sophistication at an affordable price, with a focus on high-quality,
+        long-lasting, alcohol-free formulas that offer timeless aromas without compromise.
+    </div>
+</div>
+
+
+<!-- text2 -->
+<div class="category-container">
+    <div>
+        <span class="category-text">Our Famous Category of</span>
+        <span class="category-brand" style="font-family: 'Brush Script MT', cursive;">Perfume Valley</span>
+    </div>
+</div>
+
+<!-- circle -->
+<section class="section-container mobile-scroll1">
+    <div class="container mt-5 mb-2">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="circle-row ">
+                    <!-- Circle 1 -->
+                    {% for subcategory in subcategories %}
+                    {% if subcategory.sub_image %}
+                    <div class="circle-container me-2 mb-2">
+                        <div class="clickable-circle circle"
+                            data-url="{% url 'products_list' %}?subcategory={{ subcategory.id }}">
+                            <img src="{{ subcategory.sub_image.url }}" alt="{{ subcategory.name }}">
+                        </div>
+                        <div class="arc-main"></div>
+                        <div class="arc-opposite"></div>
+                        <div class="circle-text">{{ subcategory.name }}</div>
+                    </div>
+                    {% else %}
+                    <h1>not found</h1>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-container mobile-scroll1">
+    <div class="container mt-5 mb-2">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="circle-row">
+                    <!-- Circle 1 -->
+                    {% for category in categories %}
+                    {% if category.gif_file %}
+                    <div class="circle-container me-2 mb-2">
+                        <div class="clickable-circle circle"
+                            data-url="{% url 'products_list' %}?category={{ category.id }}">
+                            <img src="{{ category.gif_file.url }}" alt="{{ category.name }}">
+                        </div>
+                        <div class="arc-main"></div>
+                        <div class="arc-opposite"></div>
+                        <div class="circle-text">{{ category.name }}</div>
+                    </div>
+
+
+                    {% else %}
+                    <h1>not found</h1>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Circle 2 -->
+
+
+<br><br>
+
+<div class="container-fluid products-section-container">
+    <div class="text-center products-header">
+        <h1 class="products-section-subtitle">Best Selling of</h1>
+        <h1 class="products-section-title" style="font-family: 'Brush Script MT', cursive;">Perfume Valley</h1>
+    </div>
+    <div class="position-relative">
+        <button class="btn custom-nav-button left-nav" id="bestSellingPrev"
+            style="position:absolute; left:0; top:50%; transform:translateY(-50%); z-index:2;">
+            <img src="{% static 'images2/arrow_r (2).svg' %}"
+                style="background-color: #6D3F0B; border-radius: 50%; padding: 10px;">
+        </button>
+        <div class="products-scroll-row" id="bestSellingScrollRow" style="scroll-behavior:smooth;">
+            {% for product in best_selling %}
+            <div class="product-card position-relative">
+
+    <!-- Trending Products Badge -->
+    <div class="badge-container position-absolute" style="top: 10px; left: 10px; z-index: 2;">
+        <span style="background-color: #981945; color: white; font-size: 14px; font-family: Jomolhari; font-weight: 600; padding: 5px 10px; border-radius: 5px;">Best Selling</span>
+    </div>
+
+    <!-- Out of Stock Badge -->
+    {% if product.stock_status == 'Out of Stock' %}
+    <div class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center" style="z-index: 5; top: 0; left: 0; background-color: rgba(255,255,255,0.5);">
+        <span style="background-color: rgba(222, 26, 26, 0.7); color: white; padding: 8px 16px; border-radius: 6px; font-weight: bold;">Out of Stock</span>
+    </div>
+    {% elif product.stock_status == 'Low Stock' %}
+    <!-- Low Stock Badge -->
+    <div class="position-absolute" style="top: 10px; right: 10px; z-index: 3;">
+        <span class="blink" style="background-color: orange; color: white; padding: 5px 10px; border-radius: 5px;">Low Stock</span>
+    </div>
+    {% endif %}
+
+    <!-- Favorite Icon -->
+    <div class="favorite {% if product.id in wishlist_product_ids %}active{% endif %}" data-product-id="{{ product.id }}">
+        <img src="{% static 'images2/favorite.svg' %}" alt="">
+    </div>
+
+    <!-- Product Image -->
+    <div class="product-img-container {% if product.stock_status == 'outofstock' %}blur-image{% endif %}">
+        {% if product.image1 and product.image2 %}
+        <img src="{{ product.image1.url }}"
+             class="product-img "
+             alt="{{ product.name }}"
+             loading="lazy"
+            
+             style="object-fit:fill;"
+             {% if product.stock_status != 'outofstock' %}
+             onmouseover="this.src='{{ product.image2.url }}'"
+             onmouseout="this.src='{{ product.image1.url }}'"
+             {% endif %}>
+        {% endif %}
+    </div>
+
+    <!-- Add to Cart (Disabled if out of stock) -->
+    <div class="addcart"
+         style="background-color:#6D3F0BF2; height: 55px; color: white; font-size:18px; font-weight:normal; font-family: Jomolhari; text-transform: capitalize; padding:20px;">
+        {% if product.stock_status == 'Out of Stock' %}
+        <div class="d-flex align-items-center text-muted" style="pointer-events: none;">
+            <div class="cart">
+                <img src="{% static 'images2/shopping_cart.svg' %}" alt="Cart">
+            </div>
+            <div>Out of Stock</div>
+        </div>
+        {% else %}
+        <a href="{% url 'product_detail' product.id %}" class="d-flex align-items-center" style="text-decoration: none; color: inherit;">
+            <div class="cart">
+                <img src="{% static 'images2/shopping_cart.svg' %}" alt="Cart">
+            </div>
+            <div>Add to Cart</div>
+        </a>
+        {% endif %}
+    </div>
+
+                <div class="product-info">
+                    <div class="product-name">{{ product.name }}</div>
+                    <div class="product-price">₹{{ product.min_price }} - ₹{{ product.max_price }}</div>
+                    <span class="badge-rating">
+                        <i class="bi bi-star-fill me-1" style="color:#AF9164;"></i>
+                        {{ product.average_rating|default:"0.0"|floatformat:1 }} | {{ product.review_count|default:0 }}
+                    </span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <button class="btn custom-nav-button right-nav" id="bestSellingNext"
+            style="position:absolute; right:0; top:50%; transform:translateY(-50%); z-index:2;">
+            <img src="{% static 'images2/arrow_r (1).svg' %}"
+                style="background-color: #6D3F0B; border-radius: 50%; padding: 10px;">
+        </button>
+    </div>
+
+</div>
+<div class="text-center mt-4">
+    <a href="{% url 'viewall_products' 'best-seller' %}" class="custom-view-all-btn">View All</a>
+</div>
+
+
+<!-- card2 -->
+<div class="container-fluid products-section-container">
+    <div class="text-center products-header">
+        <h1 class="products-section-subtitle">New Arrivals of</h1>
+        <h1 class="products-section-title" style="font-family: 'Brush Script MT', cursive;">Perfume Valley</h1>
+    </div>
+
+    <div class="position-relative">
+        <button class="btn custom-nav-button left-nav" id="newArrivalsPrev"
+            style="position:absolute; left:0; top:50%; transform:translateY(-50%); z-index:2;">
+            <img src="{% static 'images2/arrow_r (2).svg' %}"
+                style="background-color: #6D3F0B; border-radius: 50%; padding: 10px;">
+        </button>
+        <div class="products-scroll-row" id="newArrivalsScrollRow" style="scroll-behavior:smooth;">
+            {% for i in new_arrival %}
+           <div class="product-card position-relative">
+
+    <!-- producting Products Badge -->
+    <div class="badge-container position-absolute" style="top: 10px; left: 10px; z-index: 2;">
+        <span style="background-color: #981945; color: white; font-size: 14px; font-family: Jomolhari; font-weight: 600; padding: 5px 10px; border-radius: 5px;">New Arrivals</span>
+    </div>
+
+    <!-- Out of Stock Badge -->
+    {% if i.stock_status == 'Out of Stock' %}
+    <div class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center" style="z-index: 5; top: 0; left: 0; background-color: rgba(255,255,255,0.5);">
+        <span style="background-color: rgba(222, 26, 26, 0.7); color: white; padding: 8px 16px; border-radius: 6px; font-weight: bold;">Out of Stock</span>
+    </div>
+    {% elif i.stock_status == 'Low Stock' %}
+    <!-- Low Stock Badge -->
+    <div class="position-absolute" style="top: 10px; right: 10px; z-index: 3;">
+        <span class="blink" style="background-color: orange; color: white; padding: 5px 10px; border-radius: 5px;">Low Stock</span>
+    </div>
+    {% endif %}
+
+    <!-- Favorite Icon -->
+    <div class="favorite {% if i.id in wishlist_product_ids %}active{% endif %}" data-product-id="{{ i.id }}">
+        <img src="{% static 'images2/favorite.svg' %}" alt="">
+    </div>
+
+    <!-- Product Image -->
+    <div class="product-img-container {% if i.stock_status == 'outofstock' %}blur-image{% endif %}">
+        {% if i.image1 and i.image2 %}
+        <img src="{{ i.image1.url }}"
+             class="product-img "
+             alt="{{ i.name }}"
+             loading="lazy"
+             
+             style="object-fit:fill;"
+             {% if i.stock_status != 'outofstock' %}
+             onmouseover="this.src='{{ i.image2.url }}'"
+             onmouseout="this.src='{{ i.image1.url }}'"
+             {% endif %}>
+        {% endif %}
+    </div>
+
+    <!-- Add to Cart (Disabled if out of stock) -->
+    <div class="addcart"
+         style="background-color:#6D3F0BF2; height: 55px; color: white; font-size:18px; font-weight:normal; font-family: Jomolhari; text-transform: capitalize; padding:20px;">
+        {% if i.stock_status == 'Out of Stock' %}
+        <div class="d-flex align-items-center text-muted" style="pointer-events: none;">
+            <div class="cart">
+                <img src="{% static 'images2/shopping_cart.svg' %}" alt="Cart">
+            </div>
+            <div>Out of Stock</div>
+        </div>
+        {% else %}
+        <a href="{% url 'product_detail' i.id %}" class="d-flex align-items-center" style="text-decoration: none; color: inherit;">
+            <div class="cart">
+                <img src="{% static 'images2/shopping_cart.svg' %}" alt="Cart">
+            </div>
+            <div>Add to Cart</div>
+        </a>
+        {% endif %}
+    </div>
+
+                <div class="product-info">
+                    <div class="product-name">{{ i.name }}</div>
+                    <div class="product-price">₹{{i.min_price }} - ₹{{ i.max_price }}</div>
+                    <span class="badge-rating">
+                        <i class="bi bi-star-fill me-1" style="color:#AF9164;"></i>
+                        {{ i.average_rating|default:"0.0"|floatformat:1 }} | {{ i.review_count|default:0 }}
+                    </span>
+
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <button class="btn custom-nav-button right-nav" id="newArrivalsNext"
+            style="position:absolute; right:0; top:50%; transform:translateY(-50%); z-index:2;">
+            <img src="{% static 'images2/arrow_r (1).svg' %}"
+                style="background-color: #6D3F0B; border-radius: 50%; padding: 10px;">
+        </button>
+    </div>
+</div>
+<div class="text-center mt-4">
+    <a href="{% url 'viewall_products' 'new-arrival' %}" class="custom-view-all-btn">View All</a>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const row = document.getElementById('newArrivalsScrollRow');
+        const prev = document.getElementById('newArrivalsPrev');
+        const next = document.getElementById('newArrivalsNext');
+        const scrollAmount = 340; // Adjust to your card width + gap
+
+        prev.addEventListener('click', () => {
+            row.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+        next.addEventListener('click', () => {
+            row.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
+    });
+</script>
+ 
+<!-- card3 -->
+<div class="container-fluid products-section-container">
+    <div class="text-center products-header">
+        <h1 class="products-section-subtitle">Trending Products of</h1>
+        <h1 class="products-section-title" style="font-family: 'Brush Script MT', cursive;">Perfume Valley</h1>
+    </div>
+    <div class="position-relative">
+        <button class="btn custom-nav-button left-nav" id="trendingPrev"
+            style="position:absolute; left:0; top:50%; transform:translateY(-50%); z-index:2;">
+            <img src="{% static 'images2/arrow_r (2).svg' %}"
+                style="background-color: #6D3F0B; border-radius: 50%; padding: 10px;">
+        </button>
+        <div class="products-scroll-row" id="trendingScrollRow" style="scroll-behavior:smooth;">
+          {% for trend in trending %}
+<div class="product-card position-relative">
+
+    <!-- Trending Products Badge -->
+    <div class="badge-container position-absolute" style="top: 10px; left: 10px; z-index: 2;">
+        <span style="background-color: #981945; color: white; font-size: 14px; font-family: Jomolhari; font-weight: 600; padding: 5px 10px; border-radius: 5px;">Trending Products</span>
+    </div>
+
+    <!-- Out of Stock Badge -->
+    {% if trend.stock_status == 'Out of Stock' %}
+    <div class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center" style="z-index: 5; top: 0; left: 0; background-color: rgba(255,255,255,0.5);">
+        <span style="background-color: rgba(222, 26, 26, 0.7); color: white; padding: 8px 16px; border-radius: 6px; font-weight: bold;">Out of Stock</span>
+    </div>
+    {% elif trend.stock_status == 'Low Stock' %}
+    <!-- Low Stock Badge -->
+    <div class="position-absolute" style="top: 10px; right: 10px; z-index: 3;">
+        <span class="blink" style="background-color: orange; color: white; padding: 5px 10px; border-radius: 5px;">Low Stock</span>
+    </div>
+    {% endif %}
+
+    <!-- Favorite Icon -->
+    <div class="favorite {% if trend.id in wishlist_product_ids %}active{% endif %}" data-product-id="{{ trend.id }}">
+        <img src="{% static 'images2/favorite.svg' %}" alt="">
+    </div>
+
+    <!-- Product Image -->
+    <div class="product-img-container {% if trend.stock_status == 'outofstock' %}blur-image{% endif %}">
+        {% if trend.image1 and trend.image2 %}
+        <img src="{{ trend.image1.url }}"
+             class="product-img "
+             alt="{{ trend.name }}"
+             loading="lazy"
+            
+             style="object-fit:fill;"
+             {% if trend.stock_status != 'outofstock' %}
+             onmouseover="this.src='{{ trend.image2.url }}'"
+             onmouseout="this.src='{{ trend.image1.url }}'"
+             {% endif %}>
+        {% endif %}
+    </div>
+
+    <!-- Add to Cart (Disabled if out of stock) -->
+    <div class="addcart"
+         style="background-color:#6D3F0BF2; height: 55px; color: white; font-size:18px; font-weight:normal; font-family: Jomolhari; text-transform: capitalize; padding:20px;">
+        {% if trend.stock_status == 'Out of Stock' %}
+        <div class="d-flex align-items-center text-muted" style="pointer-events: none;">
+            <div class="cart">
+                <img src="{% static 'images2/shopping_cart.svg' %}" alt="Cart">
+            </div>
+            <div>Out of Stock</div>
+        </div>
+        {% else %}
+        <a href="{% url 'product_detail' trend.id %}" class="d-flex align-items-center" style="text-decoration: none; color: inherit;">
+            <div class="cart">
+                <img src="{% static 'images2/shopping_cart.svg' %}" alt="Cart">
+            </div>
+            <div>Add to Cart</div>
+        </a>
+        {% endif %}
+    </div>
+
+    <!-- Product Info -->
+    <div class="product-info">
+        <div class="product-name">{{ trend.name }}</div>
+        <div class="product-price">₹{{ trend.min_price }} - ₹{{ trend.max_price }}</div>
+        <span class="badge-rating">
+            <i class="bi bi-star-fill me-1" style="color:#AF9164;"></i>
+            {{ trend.average_rating|default:"0.0"|floatformat:1 }} | {{ trend.review_count|default:0 }}
+        </span>
+    </div>
+</div>
+{% endfor %}
+
+        </div>
+        <button class="btn custom-nav-button right-nav" id="trendingNext"
+            style="position:absolute; right:0; top:50%; transform:translateY(-50%); z-index:2;">
+            <img src="{% static 'images2/arrow_r (1).svg' %}"
+                style="background-color: #6D3F0B; border-radius: 50%; padding: 10px;">
+        </button>
+    </div>
+</div>
+<div class="text-center mt-4">
+    <a href="{% url 'viewall_products' 'trending' %}" class="custom-view-all-btn">View All</a>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const row = document.getElementById('trendingScrollRow');
+        const prev = document.getElementById('trendingPrev');
+        const next = document.getElementById('trendingNext');
+        const scrollAmount = 340; // Adjust to your card width + gap
+
+        prev.addEventListener('click', () => {
+            row.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+        next.addEventListener('click', () => {
+            row.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
+    });
+</script>
+<!-- image -->
+<div class="container10" style="background-color: #FBF0EF;">
+
+    <div class="row download-section ">
+        <!-- Left Side: Text Content -->
+        <div class="download-div1 col-lg-6 col-md-6">
+            <div class="download-text">
+                <div class="download-title">Download Our App</div>
+                <div class="discount-text">Get 10% Off <span class="subtext1">For First Users</span></div>
+
+
+                <!-- First Info Box -->
+                <div class="store">
+                    <div class="info-box col-lg-6">
+                        <img src="{% static 'images2/Play Store.svg' %}" alt="Feature 1">
+                        <div class="info-text">
+                            <h1>Get It On</h1>
+                            <h1>Play Store</h1>
+                        </div>
+                    </div>
+
+                    <!-- Second Info Box -->
+                    <div class="info-box col-lg-6">
+                        <img src="{% static 'images2/youtube.svg' %}" alt="Feature 2">
+                        <div class="info-text">
+                            <h1>Get It On</h1>
+                            <h1>youtube</h1>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Right Side: Image -->
+
+        <img class="man-img col-lg-6 col-md-12" src="{% static 'images2/man1.png' %}" alt="Download App Image">
+
+    </div>
+</div>
+
+<div class="colored-div" style="background-color:#F7E7E8 ;
+      height: 100px;">
+    <!-- Optional content container -->
+
+</div>
+
+<!-- filepath: e:\PerfumeValley\PerfumeValley\templates\user_panel\home1.html -->
+<div class="container11" style="background-color: #FBF0EF;">
+    <div class="featured-section">
+        <div class="featured-title"
+            style="color: #404040;text-align: center;font-family: Jomolhari;font-size: 48px;font-style: normal;font-weight: 400;line-height: 70px;">
+            Our <span class="highlight" style="font-family: 'Brush Script MT', cursive;">Featured Videos</span>
+        </div>
+        <div class="featured-description">
+            Explore our exclusive collection of videos showcasing our premium products and their unique features.
+        </div>
+    </div>
+
+    <div class="video-scroll-wrapper">
+        <div class="video-scroll-row" id="videoScrollRow">
+            {% for video in videos %}
+
+            <div class="video-card">
+
+                <a href="" class="video-link" data-id="{{ video.id }}">
+                    <video class="product-img img-fluid" autoplay loop muted playsinline>
+                        <source src="{{ video.video.url }}" type="video/mp4">
+                        Your Browser doesn't support Video tag.
+                    </video>
+                </a>
+                <div class="video-title" style="text-align: center; margin-top: 10px;">
+                    <h5>{{ video.title }}</h5>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<!-- Bootstrap Modal -->
+<!-- Modal -->
+<div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content position-relative">
+            <!-- Close Button -->
+            <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"
+                aria-label="Close"
+                style="z-index:1051; background-color: #6D3F0BF2; border-radius: 50%; width: 2.5rem; height: 2.5rem;">
+            </button>
+
+            <!-- Content will be injected here -->
+            <div class="modal-body" id="videoModalBody">
+                <!-- Split layout injected dynamically -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Auto-scroll logic for carousel
+        const row = document.getElementById('videoScrollRow');
+        if (row) {
+            const cards = row.querySelectorAll('.video-card');
+            let currentIndex = 0;
+            let visibleCount = Math.floor(row.parentElement.offsetWidth / cards[0].offsetWidth);
+
+            function updateVisibleCount() {
+                visibleCount = Math.max(1, Math.floor(row.parentElement.offsetWidth / cards[0].offsetWidth));
+            }
+
+            function moveToNext() {
+                updateVisibleCount();
+                currentIndex++;
+                if (currentIndex > cards.length - visibleCount) currentIndex = 0;
+                row.style.transform = `translateX(-${currentIndex * (cards[0].offsetWidth + 24)}px)`;
+            }
+
+            let interval = setInterval(moveToNext, 2500);
+            row.parentElement.addEventListener('mouseenter', () => clearInterval(interval));
+            row.parentElement.addEventListener('mouseleave', () => interval = setInterval(moveToNext, 2500));
+            window.addEventListener('resize', () => {
+                updateVisibleCount();
+                row.style.transform = `translateX(-${currentIndex * (cards[0].offsetWidth + 24)}px)`;
+            });
+        }
+
+        // Modal logic
+        document.body.addEventListener('click', function (e) {
+            const videoBtn = e.target.closest('.video-link');
+            const productBtn = e.target.closest('.view-product-in-video-btn');
+            const modalElement = document.getElementById('videoModal');
+            const modal = new bootstrap.Modal(modalElement);
+            const modalBody = document.getElementById('videoModalBody');
+
+            // Load video + iframe in split layout
+            if (productBtn) {
+                e.preventDefault();
+                const productUrl = productBtn.getAttribute('data-url');
+                const videoUrl = productBtn.closest('.product')?.getAttribute('data-video-url') || '';
+                if (window.innerWidth <= 480) {
+        // Mobile: redirect directly, without modal and without ?from_video
+        const url = new URL(productUrl, window.location.origin);
+        url.searchParams.delete('from_video');
+        window.location.href = url.pathname;
+        return;
+    }
+
+                modalBody.innerHTML = `
+        <div class="modal-split-layout">
+          <div class="left-video">
+            <video controls autoplay muted playsinline>
+              <source src="${videoUrl}" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          <div class="right-iframe">
+            <iframe id="videoModalIframe" src="${productUrl}" allowfullscreen></iframe>
+          </div>
+        </div>
+      `;
+
+                // After iframe loads, hide header/footer
+                const iframe = modalBody.querySelector('iframe');
+                iframe.onload = function () {
+                    const innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    setTimeout(() => {
+                        const header = innerDoc.querySelector('header') || innerDoc.querySelector('.site-header') || innerDoc.querySelector('.navbar');
+                        const footer = innerDoc.querySelector('footer') || innerDoc.querySelector('.site-footer');
+                        if (header) header.style.display = 'none';
+                        if (footer) footer.style.display = 'none';
+
+                        const style = document.createElement('style');
+                        style.textContent = `
+            header, .site-header, .navbar, footer, .site-footer {
+              display: none !important;
+              visibility: hidden !important;
+              height: 0 !important;
+              overflow: hidden;
+            }
+          `;
+                        innerDoc.head.appendChild(style);
+                    }, 100);
+                };
+
+                modal.show();
+            }
+
+            // Optional: Load full video via AJAX (not in split layout)
+            if (videoBtn) {
+                e.preventDefault();
+                const videoId = videoBtn.getAttribute('data-id');
+
+                fetch(`/video/${videoId}/`)
+                    .then(response => response.text())
+                    .then(html => {
+                        modalBody.innerHTML = html;
+                        modal.show();
+                    })
+                    .catch(err => {
+                        modalBody.innerHTML = `<div class="p-3 text-danger">Error loading video content.</div>`;
+                        modal.show();
+                        console.error(err);
+                    });
+            }
+        });
+
+        // Cleanup when modal closes
+        const videoModal = document.getElementById('videoModal');
+        videoModal.addEventListener('hidden.bs.modal', () => {
+            const iframe = document.getElementById('videoModalIframe');
+            if (iframe) iframe.remove();
+            document.getElementById('videoModalBody').innerHTML = '';
+            document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+            document.body.classList.remove('modal-open');
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
+        });
+    });
+</script>
+
+
+
+
+
+
+<!-- Shop by Occasions -->
+<div class="container12" style="background-color: #FBF0EF;">
+    <div class="shop-by-section">
+        <div class="shop-title">
+            <span class="shop-by">Shop By </span>
+            <span class="highlight">Occasions</span>
+        </div>
+    </div>
+</div>
+
+
+<section class="section-container mobile-scroll1" style="background-color: #FBF0EF;">
+    <div class="container mb-3">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="circle-row">
+                    <!-- Circle 1 -->
+                    {% for sub in occasions %}
+                    {% if sub.sub_image %}
+                    <div class="circle-container me-2 mb-2">
+                        <div class="clickable-circle circle"
+                            data-url="{% url 'products_list' %}?subcategory={{ sub.id }}">
+                            <img src="{{ sub.sub_image.url }}" alt="{{ sub.name }}">
+                        </div>
+                        <div class="arc-main"></div>
+                        <div class="arc-opposite"></div>
+                        <div class="circle-text">{{ sub.name }}</div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+
+                    <!-- Circle 2 -->
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- <div class="d-flex justify-content-between align-items-center w-100 px-5" style="background-color: #FBF0EF;">
+          <button class="btn custom-nav-button">
+              <img src="{% static 'images2/arrow_r (2).svg' %}">
+          </button>
+          <div class="d-flex align-items-center mt-3">
+              <div class="custom-pagination-dot4 active"></div>
+              <div class="custom-pagination-dot4"></div>
+              <div class="custom-pagination-dot4"></div>
+          </div>
+          <button class="btn custom-nav-button ">
+              <img src="{% static 'images2/arrow_r (1).svg' %}">
+          </button>
+      </div> -->
+
+
+
+<!--Why Trust Us   -->
+
+<div class="container12 " style="background-color: #F7E7E8;">
+    <div class="shop-by-section">
+        <div class="shop-title">
+            <div class="why"
+                style="color: #404040;text-align: center;font-family: Jomolhari;font-size: 48px;font-style: normal;font-weight: 400;line-height: 70px;">
+                Why <span class="highlight">Trust Us?</span></div>
+        </div>
+    </div>
+
+
+    <div class="oval-container">
+        <!-- Background image as an <img> tag -->
+        <div class="middle">
+        </div>
+
+
+        <!-- Foreground items -->
+        <div class="oval-item">
+            <div class="oval-img"><img src="{% static 'images2/Timer.svg' %}" alt="Person 1"></div>
+            <p class="name-text">LONG <br>LASTING</p>
+        </div>
+        <div class="oval-item">
+            <div class="oval-img"><img src="{% static 'images2/Spray.svg' %}" alt="Person 1"></div>
+            <p class="name-text">VARIETY OF <br> FRAGRANCE</p>
+        </div>
+        <div class="oval-item">
+            <div class="oval-img"><img src="{% static 'images2/premium quality.svg' %}" alt="Person 1"></div>
+            <p class="name-text">PREMIUM <br> QUALITY</p>
+        </div>
+        <div class="oval-item">
+            <div class="oval-img"><img src="{% static 'images2/Price tag.svg' %}" alt="Person 1"></div>
+            <p class="name-text">BEST IN<br> PRICE</p>
+        </div>
+        <div class="oval-item">
+            <div class="oval-img"><img src="{% static 'images2/Frame.svg' %}" alt="Person 1"></div>
+            <p class="name-text">REGISTERED <br> TRADE MARK</p>
+        </div>
+        <div class="oval-item">
+            <div class="oval-img"><img src="{% static 'images2/Leaf.svg' %}" alt="Person 1"></div>
+            <p class="name-text">100%<br> VEGAN</p>
+        </div>
+    </div>
+</div>
+
+
+<!-- reviews -->
+
+<div class="container-fluid products-section-container">
+    <div class="shop-by-section">
+        <div class="shop-title">
+            <p class="shop-by">What our clients are </p>
+            <span class="separator"> </span>
+            <span class="highlight">Saying</span>
+        </div>
+    </div>
+
+    <!-- Bootstrap Carousel Wrapper -->
+    <div id="productsCarousel4" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+        <div class="carousel-inner">
+
+            <!-- Slide 1 -->
+            <div class="carousel-item active">
+                <div class="d-flex justify-content-center flex-wrap gap-4">
+                    {% for i in "123" %}
+                    <div class="product-card card1">
+                        <div class="mt-3">
+                            <div class="star-rating mb-3">
+                                <img src="{% static 'images2/star.png' %}" alt="Star">
+                                <img src="{% static 'images2/star.png' %}" alt="Star">
+                                <img src="{% static 'images2/star.png' %}" alt="Star">
+                                <img src="{% static 'images2/star.png' %}" alt="Star">
+                            </div>
+                            <h1 class="card-title">Perfume Valley offers a stunning array of fragrances that evoke
+                                cherished memories. Their exquisite attars and perfumes, along with cozy bukhoor, create
+                                an inviting atmosphere.</h1>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-item">
+                <div class="d-flex justify-content-center flex-wrap gap-4">
+                    {% for i in "123" %}
+                    <div class="product-card card1">
+                        <div class="mt-3">
+                            <div class="star-rating mb-3">
+                                <img src="{% static 'images2/star.png' %}" alt="Star">
+                                <img src="{% static 'images2/star.png' %}" alt="Star">
+                                <img src="{% static 'images2/star.png' %}" alt="Star">
+                                <img src="{% static 'images2/star.png' %}" alt="Star">
+                            </div>
+                            <h1 class="card-title">Perfume Valley offers a stunning array of fragrances that evoke
+                                cherished memories. Their exquisite attars and perfumes, along with cozy bukhoor, create
+                                an inviting atmosphere.</h1>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-item">
+                <div class="d-flex justify-content-center flex-wrap gap-4">
+                    {% for i in "123" %}
+                    <div class="product-card card1">
+                        <div class="mt-3">
+                            <div class="star-rating mb-3">
+                                <img src="{% static 'images2/star.png' %}" alt="Star">
+                                <img src="{% static 'images2/star.png' %}" alt="Star">
+                                <img src="{% static 'images2/star.png' %}" alt="Star">
+                                <img src="{% static 'images2/star.png' %}" alt="Star">
+                            </div>
+                            <h1 class="card-title">Perfume Valley offers a stunning array of fragrances that evoke
+                                cherished memories. Their exquisite attars and perfumes, along with cozy bukhoor, create
+                                an inviting atmosphere.</h1>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Custom Navigation Controls -->
+        <div class="d-flex justify-content-between align-items-center w-100 mt-4 px-5">
+            <button class="btn custom-nav-button" data-bs-target="#productsCarousel4" data-bs-slide="prev">
+                <img src="{% static 'images2/arrow_r (2).svg' %}">
+            </button>
+            <div class="d-flex align-items-center mt-3">
+                <button type="button" data-bs-target="#productsCarousel4" data-bs-slide-to="0"
+                    class="custom-pagination-dot4-4 active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#productsCarousel4" data-bs-slide-to="1"
+                    class="custom-pagination-dot4-4" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#productsCarousel4" data-bs-slide-to="2"
+                    class="custom-pagination-dot4-4" aria-label="Slide 3"></button>
+            </div>
+            <button class="btn custom-nav-button" data-bs-target="#productsCarousel4" data-bs-slide="next">
+                <img src="{% static 'images2/arrow_r (1).svg' %}">
+            </button>
+        </div>
+    </div>
+</div>
+
+<!--  -->
+
+
+
+
+</div>
+
+
+<div class="container12" style="background-color: #F7E7E8;">
+    <div class="shop-by-section">
+        <div class="shop-title">
+            <p class="shop-by">Stay Updated: Join Our </p>
+            <span class="separator"> </span>
+            <span class="highlight">Insights Newsletter</span>
+        </div>
+    </div>
+
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="input-group" style="max-width: 500px; width: 100%;">
+            <input type="email" class="email-input form-control" placeholder="Enter your Email">
+            <button class="subscribe-btn">Subscribe</button>
+        </div>
+    </div>
+    <br>
+
+</div>
+
+
+
+
+
+
+
+<!--circle js for active until it loads state -->
+
+
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const containers = document.querySelectorAll('.circle-container');
+        let redirectTimer = null;
+
+        containers.forEach(container => {
+            const clickable = container.querySelector('.clickable-circle');
+
+            // Ensure clickable element exists before attaching the event listener
+            if (clickable) {
+                clickable.setAttribute('tabindex', '-1');
+                clickable.addEventListener('click', function (e) {
+                    e.stopPropagation();
+
+                    // Clear old redirect timer
+                    clearTimeout(redirectTimer);
+
+                    // Remove active state from all containers
+                    containers.forEach(c => c.classList.remove('active'));
+                    container.classList.add('active'); // Add active state to clicked container
+
+                    // Show spinner and add active state to clicked circle
+                    // clickable.style.opacity = 0.7;
+
+                    // Debug: Log the data-url
+                    const redirectUrl = clickable.getAttribute('data-url');
+                    console.log("Redirecting to: " + redirectUrl);
+
+                    // Mark redirect so we don’t repeat after going back
+                    sessionStorage.setItem('justRedirected', 'true');
+
+                    // Redirect after a short delay (e.g., 2 seconds)
+                    redirectTimer = setTimeout(() => {
+                        if (redirectUrl) {
+                            window.location.href = redirectUrl;
+                        } else {
+                            console.log("Redirect URL is missing or invalid.");
+                        }
+                    }, 1000); // 2 seconds delay
+                });
+            } else {
+                console.warn('Clickable circle element not found!');
+            }
+        });
+
+        // Remove active state on outside click
+        document.body.addEventListener('click', function () {
+            document.querySelectorAll('.circle-container').forEach(c => c.classList.remove('active'));
+        });
+
+        // When coming back with back button
+        window.addEventListener("pageshow", function () {
+            if (sessionStorage.getItem('justRedirected')) {
+                sessionStorage.removeItem('justRedirected');
+                document.querySelectorAll('.clickable-circle').forEach(el => {
+                    // el.style.opacity = 1; // Reset opacity
+                });
+            }
+        });
+    });
+</script>
+<script>
+    const carousel = document.querySelector('#productsCarousel1');
+    const dots = document.querySelectorAll('.custom-pagination-dot4-1');
+
+    // Listen to the slide event
+    carousel.addEventListener('slide.bs.carousel', function (event) {
+        const activeIndex = event.to;
+
+        // Update the active class on dots
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === activeIndex);
+        });
+    });
+
+
+    const carousel2 = document.querySelector('#productsCarousel2');
+    const dots2 = document.querySelectorAll('.custom-pagination-dot4-2');
+
+    carousel2.addEventListener('slide.bs.carousel', function (event) {
+        const activeIndex = event.to;
+        dots2.forEach((dot, index) => {
+            dot.classList.toggle('active', index === activeIndex);
+        });
+    });
+
+    const carousel3 = document.querySelector('#productsCarousel3');
+    const dots3 = document.querySelectorAll('.custom-pagination-dot4-3');
+
+    carousel3.addEventListener('slide.bs.carousel', function (event) {
+        const activeIndex = event.to;
+        dots3.forEach((dot, index) => {
+            dot.classList.toggle('active', index === activeIndex);
+        });
+    });
+
+    const carousel4 = document.querySelector('#productsCarousel4');
+    const dots4 = document.querySelectorAll('.custom-pagination-dot4-4');
+
+    carousel4.addEventListener('slide.bs.carousel', function (event) {
+        const activeIndex = event.to;
+        dots4.forEach((dot, index) => {
+            dot.classList.toggle('active', index === activeIndex);
+        });
+    });
+
+    const carousel5 = document.querySelector('#productsCarousel5');
+    const dots5 = document.querySelectorAll('.custom-pagination-dot4-5');
+
+    carousel5.addEventListener('slide.bs.carousel', function (event) {
+        const activeIndex = event.to;
+        dots5.forEach((dot, index) => {
+            dot.classList.toggle('active', index === activeIndex);
+        });
+    });
+</script>
+
+
+
+
+<!-- Optional: Uncomment if you want to restore the last active circle on page load -->
+<!-- <script>
+    const circles = document.querySelectorAll('.circle-container');
+    const saved = localStorage.getItem('activeCircle');
+  
+    circles.forEach(circle => {
+      const name = circle.innerText.trim();
+      if (name === saved) {
+        circle.classList.add('active');
+      }
+  
+      circle.onclick = () => {
+        circles.forEach(c => c.classList.remove('active'));
+        circle.classList.add('active');
+        localStorage.setItem('activeCircle', name);
+      };
+    });
+  </script> -->
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const row = document.getElementById('bestSellingScrollRow');
+        const prev = document.getElementById('bestSellingPrev');
+        const next = document.getElementById('bestSellingNext');
+        const scrollAmount = 340; // Adjust to your card width + gap
+
+        prev.addEventListener('click', () => {
+            row.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+        next.addEventListener('click', () => {
+            row.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.favorite').forEach(function (fav) {
+            fav.addEventListener('click', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                const productId = this.getAttribute('data-product-id');
+                const isActive = this.classList.contains('active');
+                const url = isActive ? '{% url "remove_from_wishlist" %}' : '{% url "add_to_wishlist" %}';
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'product_id=' + productId
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            this.classList.toggle('active');
+                        } else {
+                            alert('Please login to use wishlist.');
+                        }
+                    });
+            });
+        });
+    });
+</script>
+
+{% endblock content %}

@@ -1,0 +1,118 @@
+@login_required
+# def user_profile(request):
+#     user = request.user
+#     profile, _ = UserProfile.objects.get_or_create(user=user)
+
+#     orders = (
+#         Order.objects
+#         .filter(user=user)
+#         .order_by('-created_at')
+#         .prefetch_related('items__product', 'items__product_variant')  # Prefetch nested items
+#     )
+
+#     wishlist = Wishlist.objects.filter(user=user).select_related('product')
+#     addresses = AddressModel.objects.filter(user=user)
+#     help_queries = HelpQuery.objects.filter(user=user).order_by('-created_at')
+
+#     default_address = addresses.first()
+
+#     for order in orders:
+#         if not order.shiprocket_tracking_events or not isinstance(order.shiprocket_tracking_events, list):
+#             order.shiprocket_tracking_events = []
+
+#         if order.shiprocket_tracking_info and isinstance(order.shiprocket_tracking_info, str):
+#             try:
+#                 order.shiprocket_tracking_info = json.loads(order.shiprocket_tracking_info)
+#             except json.JSONDecodeError:
+#                 order.shiprocket_tracking_info = {}
+
+#         if order.shiprocket_tracking_events and isinstance(order.shiprocket_tracking_events, str):
+#             try:
+#                 order.shiprocket_tracking_events = json.loads(order.shiprocket_tracking_events)
+#             except json.JSONDecodeError:
+#                 order.shiprocket_tracking_events = []
+
+#     ordered_product_ids = OrderItem.objects.filter(order__user=user).values_list('product_id', flat=True)
+#     product_reviews = Review.objects.filter(product_id__in=ordered_product_ids)
+
+#     avg_rating_dict = {
+#         item['product_id']: {
+#             'rating': round(item['avg_rating'], 1),
+#             'percentage': round((item['avg_rating'] / 5) * 100, 2)
+#         }
+#         for item in product_reviews.values('product_id').annotate(avg_rating=Avg('rating'))
+#     }
+
+#     reviewed_product_ids = list(
+#         product_reviews.filter(user=user).values_list('product_id', flat=True)
+#     )
+
+#     tracking_stages = ["AWB Assigned", "Pickup Generated", "Out for Delivery", "Delivered"]
+
+#     if request.method == 'POST':
+#         form = UserProfileForm(request.POST, request.FILES, instance=profile)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, "Profile updated successfully!")
+#             return redirect('user_profile')
+#     else:
+#         form = UserProfileForm(instance=profile)
+
+#     return render(request, 'user_panel/user_profile2.html', {
+#         'profile': profile,
+#         'user': user,
+#         'orders': orders,
+#         'wishlist': wishlist,
+#         'addresses': addresses,
+#         'help_queries': help_queries,
+#         'form': form,
+#         'avg_rating_dict': avg_rating_dict,
+#         'reviewed_product_ids': reviewed_product_ids,
+#         'tracking_stages': tracking_stages
+#     })
+{% for order in orders %}
+
+            <div id="expectDeliverySection-{{ order.shiprocket_order_id}}" class="content-section" style="display: none;" >
+              <div class="section-body">
+                <h3 class="section-heading"> <i class="bi bi-arrow-left me-2" style="cursor: pointer;" onclick="showSection('orders-section')"></i> Order Details</h3>
+                <div class="expect-deliver-card d-flex flex-row" >
+                  <h4 class="ms-2 mt-1" style="color: #121111;font-family: Jomolhari, serif;font-size: 16px;" >Order ID</h4>
+                  <p class="ms-2 " style="color: #4D4D4D;font-family: Jomolhari, serif;font-size: 16px;margin-top: 10px;" >#{{ order.shiprocket_order_id }}</p>
+                </div>
+                
+                <div class="row">
+                  <!-- Product Details -->
+                   {% for item in order.items.all %}
+                  <div class="col-md-6 col-12 d-flex">
+                    <img src="{{ item.product.image1.url }}" alt="Item Image" class="img-fluid expect-deliver-image me-3">
+                    <div class="d-flex flex-column">
+                      <h5 class="card-title mt-2" style="color: #0c0c0c; font-family: Jomolhari, serif; font-size: 18px;">{{ item.product.name }}</h5>
+                      <p class="card-text mb-0 mt-2" style="color: #4D4D4D; font-family: Jomolhari, serif; font-size: 12px;">Brand: {{ item.product.subcategory }}</p>
+                      <div class="d-flex flex-row mt-2">
+{% if item.product_variant.size %}
+      <p class="card-text mb-0 me-2" style="color: #4D4D4D; font-family: Jomolhari, serif; font-size: 14px;">
+        Size: {{ item.product_variant.size }}
+      </p>
+      {% endif %}
+                              <p class="card-text mb-0" style="color: #4D4D4D; font-family: Jomolhari, serif; font-size: 14px; background-color: white;">Qty:{{ item.quantity }}</p>
+                      </div>
+                      <p class="card-text mb-0 mt-2" style="color: #4D4D4D; font-family: Jomolhari, serif; font-size: 18px;">₹{{ item.product_variant.price }}</p>
+                    </div>
+                  </div>
+                  {% endfor %}
+                  <!-- Shipping Details -->
+                  <div class="col-md-6 col-12">
+                    {% for address in addresses %}
+
+                    <div class="shipping-card">
+                      <h5 class="card-title " style="color: #0c0c0c; font-family: Jomolhari, serif; font-size: 20px;">Shipping Details</h5>
+                      <div class="d-flex ">
+                        <p class="card-text mb-0 mt-2 me-2" style="color: #0f0f0f; font-family: Jomolhari, serif; font-size: 18px;">{{ address.Name|default:user.username }}</p> <span class="mt-2">|</span>
+                        <p class="card-text mb-0 mt-2 ms-2" style="color: #0f0e0e; font-family: Jomolhari, serif; font-size: 18px;">{{ address.MobileNumber|default:"No phone number" }}</p>
+                      </div>
+                      <p class="card-text mb-0 " style="color: #4D4D4D; font-family: Jomolhari, serif; font-size: 16px;">{{ address.location }} - {{ address.Pincode }}</p>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+ this template is for displyig multple order detils
