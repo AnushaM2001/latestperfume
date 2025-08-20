@@ -591,9 +591,10 @@ function openEditProductModal(id) {
       const container = document.getElementById(`editproductFormContainer-${id}`);
       container.innerHTML = html;
 
-      // ✅ Show the modal after injecting content
-      const modal = bootstrap.Modal.getInstance(document.getElementById(`editproductModal-${id}`));
-      modal.hide();
+      // ✅ Correct: Show modal after content is injected
+      const modalEl = document.getElementById(`editproductModal-${id}`);
+      const modal = new bootstrap.Modal(modalEl);
+      modal.show();
 
       initEditModal(id); // ✅ Re-initialize dynamic behaviors
     });
