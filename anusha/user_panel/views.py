@@ -1222,7 +1222,7 @@ def view_cart(request):
 
     if request.session.get('gift_wrap', False):
         gift_wrap_display = Decimal('150.00')
-
+    cart_total=total_price
     current_cart_total = total_price + delivery_charges + platform_fee
 
     # Coupon
@@ -1298,7 +1298,7 @@ def view_cart(request):
         'total_price': total_price,
         'total_items': total_items,
         'address': address,
-        'amount': current_cart_total,
+        'amount': cart_total,
         'delivery_charges': delivery_charges,
         'platform_fee': platform_fee,
         'discount': discount,
