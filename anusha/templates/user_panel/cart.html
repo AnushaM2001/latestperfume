@@ -567,7 +567,7 @@ line-height: 18px;
 <div class="p-3 custom-box shadow-sm">
     <h6>Order Details</h6>
     <div class="d-flex justify-content-between mb-2">
-        <span><span data-item-count>{{ cart_item.quantity }}</span> product{% if total_items > 1 %}s{% endif %}</span>
+        <span>product{% if total_items > 1 %}s{% endif %}<span data-item-count>{{ total_items }}</span></span>
         <span data-price="subtotal">₹{{ amount|floatformat:2 }}</span>
     </div>
     <div class="d-flex justify-content-between mb-2">
@@ -576,7 +576,7 @@ line-height: 18px;
     </div>
     <div class="d-flex justify-content-between mb-2">
         <span>Platform Fee</span>
-        <span data-price="platform_fee">₹{{ platform_fees|floatformat:2 }}</span>
+        <span data-price="platform_fee">₹{{ platform_fee |floatformat:2 }}</span>
     </div>
     {% if applied_coupon %}
     <div class="d-flex justify-content-between mb-2">
