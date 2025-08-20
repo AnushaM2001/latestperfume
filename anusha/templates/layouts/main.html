@@ -19,7 +19,14 @@
     {% block extra_css %}{% endblock extra_css %}
 </head>
 <body>
-    
+    <!-- Page Loader -->
+    <div id="loader" style="display:flex; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(255,255,255,0.7); z-index:9999; justify-content:center; align-items:center;">
+        <video autoplay muted loop playsinline style="width:200px; height:200px;">
+          <source src="{% static 'images2/PerfumeBottle.mp4' %}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+    </div>
+
     {% include 'inc/header.html' %}
 
     <!-- Perfume animation (autoplay on refresh) -->
@@ -76,8 +83,12 @@
     subscribeToPush();
   }
 </script>
-
-    
+<script>
+      // Hide loader when page is fully loaded
+      window.addEventListener('load', function() {
+        document.getElementById('loader').style.display = 'none';
+      });
+    </script>
   
   
     
