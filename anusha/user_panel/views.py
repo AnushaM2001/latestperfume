@@ -705,6 +705,7 @@ def add_to_cart(request, product_id):
         variant_id = request.POST.get('variant_id')
         gift_set_id = request.POST.get('gift_set_id')
         selected_price = request.POST.get('selected_price')
+        selected_flavours = request.POST.get('selected_flavours')  # ✅ No [] in name
 
         # Redis cart key
         cart_key = f"cart:{request.user.id}"
@@ -741,6 +742,7 @@ def add_to_cart(request, product_id):
             'gift_set_id': gift_set_id,
             'quantity': new_quantity,
             'price': price,
+            'selected_flavours': selected_flavours,
             'updated_at': time.time()
         }
         r.hset(cart_key, item_key, json.dumps(item_data))
@@ -759,11 +761,12 @@ def add_to_cart(request, product_id):
             product=product,
             product_variant_id=variant_id if variant_id else None,
             gift_set_id=gift_set_id if gift_set_id else None,
-            defaults={'quantity': new_quantity, 'price': price}
+            defaults={'quantity': new_quantity, 'price': price,'selected_flavours': selected_flavours,}
         )
         if not created:
             cart_item.quantity = new_quantity
             cart_item.price = price
+            cart_item.selected_flavours= selected_flavours,
             cart_item.save()
 
         # ✅ Return response
@@ -773,6 +776,7 @@ def add_to_cart(request, product_id):
                 'message': 'Item added to cart successfully!',
                 'cart_count': r.hlen(cart_key),
                 'item_id': item_key,
+                'selected_flavours': selected_flavours,
                 'redirect_url': reverse('view_cart')
             })
 
@@ -786,6 +790,7 @@ def add_to_cart(request, product_id):
             }, status=400)
         messages.error(request, str(e))
         return redirect('product_detail', product_id=product_id)
+
     
 from decimal import Decimal
 from django.db.models import Sum
