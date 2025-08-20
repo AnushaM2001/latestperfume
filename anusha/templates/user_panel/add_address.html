@@ -181,14 +181,18 @@
                     <label class="form-label">Name</label>
                     {{ form.Name }}
                 </div>
-                <div class="col-md-6 col-12 mb-3">
-                    <label class="form-label">Phone number (+91)</label>
-                    {{ form.MobileNumber }}
-                </div>
-                <div class="col-md-6 col-12 mb-3">
-                    <label class="form-label">Alternate Phone number (+91)</label>
-                    {{ form.Alternate_MobileNumber }}
-                </div>
+               <div class="col-md-6 col-12 mb-3">
+    <label class="form-label">Phone number(10 digits)</label>
+    {{ form.MobileNumber }}
+    <div id="mobileError" class="text-danger small mt-1"></div>
+</div>
+
+<div class="col-md-6 col-12 mb-3">
+    <label class="form-label">Alternate Phone number(10 digits)</label>
+    {{ form.Alternate_MobileNumber }}
+    <div id="altMobileError" class="text-danger small mt-1"></div>
+</div>
+
             </div>
         </div>
         <div class="section-box">
@@ -225,5 +229,39 @@
         <button type="submit" class="btn-submit py-2 mt-2">Add address</button>
     </form>
 </div>
+<script>
+    function validateMobile(inputId, errorId) {
+        const input = document.getElementById(inputId);
+        const error = document.getElementById(errorId);
+
+        input.addEventListener("input", function() {
+            let value = input.value;
+
+            // Allow only numbers
+            value = value.replace(/[^0-9]/g, '');
+            input.value = value;
+
+            if (value.length === 0) {
+                error.textContent = "";
+                input.classList.remove("is-invalid", "is-valid");
+            } 
+            else if (!/^[6-9]\d{9}$/.test(value)) {
+                error.textContent = "Enter a valid 10-digit number (without +91)";
+                input.classList.add("is-invalid");
+                input.classList.remove("is-valid");
+            } 
+            else {
+                error.textContent = "";
+                input.classList.remove("is-invalid");
+                input.classList.add("is-valid");
+            }
+        });
+    }
+
+    // Apply validation on your Django form fields
+    validateMobile("id_MobileNumber", "mobileError");           // Django auto-IDs inputs as "id_<fieldname>"
+    validateMobile("id_Alternate_MobileNumber", "altMobileError");
+</script>
+
 </body>
 </html>
