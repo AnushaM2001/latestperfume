@@ -766,7 +766,7 @@ def add_to_cart(request, product_id):
         if not created:
             cart_item.quantity = new_quantity
             cart_item.price = price
-            cart_item.selected_flavours= selected_flavours,
+            cart_item.selected_flavours= selected_flavours
             cart_item.save()
 
         # ✅ Return response
