@@ -252,6 +252,14 @@
         <td>₹{{ product.original_price }}</td>
       </tr>
       <tr>
+        <th scope="row">PlatForm Fees</th>
+        <td>₹{{ product.platform_fee }}</td>
+      </tr>
+      <tr>
+        <th scope="row">Delivery Charges</th>
+        <td>₹{{ product.delivery_charges }}</td>
+      </tr>
+      <tr>
         <th scope="row">Created At</th>
         <td>{{ product.created_at|date:"D M j, g:iA" }}</td>
       </tr>
