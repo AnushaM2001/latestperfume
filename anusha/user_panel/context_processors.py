@@ -7,11 +7,12 @@ from django.utils import timezone
 def category_subcategory_navbar(request):
     now = timezone.now()
 
-    # Get all categories with subcategories
+    # ---------------------------
+    # 1. Navbar Categories Logic
+    # ---------------------------
     categories = Category.objects.prefetch_related('subcategories').order_by('-created_at')
 
-    # Filter for 'Combos' category only if a valid Festival offer exists
-    filtered_categories = []
+    navbar_categories = []
     for category in categories:
         if category.name.startswith('Buy'):
             has_valid_offer = PremiumFestiveOffer.objects.filter(
@@ -22,13 +23,36 @@ def category_subcategory_navbar(request):
                 category=category
             ).exists()
             if has_valid_offer:
-                filtered_categories.append(category)
+                navbar_categories.append(category)
         else:
-            # Add other categories normally
-            filtered_categories.append(category)
+            navbar_categories.append(category)
 
-    return {'navbar_categories': filtered_categories}
+    # ---------------------------
+    # 2. Category Section Logic
+    # ---------------------------
+    section_categories = []
+    festival_offer_active = PremiumFestiveOffer.objects.filter(
+        premium_festival='Festival',
+        is_active=True,
+        start_date__lte=now,
+        end_date__gte=now
+    ).exists()
 
+    # loop until we collect exactly 4 categories
+    for category in categories:
+        if category.name.startswith("Buy"):
+            if festival_offer_active:
+                section_categories.append(category)
+        else:
+            section_categories.append(category)
+
+        if len(section_categories) == 4:
+            break
+
+    return {
+        "navbar_categories": navbar_categories,
+        "section_categories": section_categories,
+    }
 # your_app/context_processors.py
 
 
