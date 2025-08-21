@@ -1,24 +1,35 @@
+version: "3.9"
+
 services:
   redis:
     image: redis:7-alpine
     container_name: perfume_redis
     ports:
       - "6379:6379"
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
 
   web:
     build: .
     container_name: perfume_django
     command: daphne -b 0.0.0.0 -p 8000 PerfumeValley.asgi:application
     volumes:
-      - .:/app
+      - .:/app   # In prod you might remove this and bake code into image
     ports:
       - "8000:8000"
     depends_on:
-      - redis
+      redis:
+        condition: service_healthy
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - DJANGO_SETTINGS_MODULE=PerfumeValley.settings.production
     restart: always
+
   celery_worker:
     build: .
     container_name: perfume_celery_worker
@@ -26,10 +37,13 @@ services:
     volumes:
       - .:/app
     depends_on:
-      - redis
+      redis:
+        condition: service_healthy
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - DJANGO_SETTINGS_MODULE=PerfumeValley.settings.production
+    restart: always
 
   celery_beat:
     build: .
@@ -38,8 +52,10 @@ services:
     volumes:
       - .:/app
     depends_on:
-      - redis
+      redis:
+        condition: service_healthy
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
-
+      - DJANGO_SETTINGS_MODULE=PerfumeValley.settings.production
+    restart: always
