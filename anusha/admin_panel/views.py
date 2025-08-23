@@ -121,6 +121,15 @@ def notify_admins(message, category="orders"):
         print(f"Admin user {admin_user.name} has no email.")
 
 
+@admin_login_required
+def all_notifications(request):
+    admin_user = AdminUser.objects.first()
+    if not admin_user:
+        return render(request, "notifications/all.html", {"notifications": []})
+
+    notifications = Notification.objects.filter(user=admin_user).order_by("-timestamp")
+    return render(request, "admin_panel/notification.html", {"notifications": notifications})
+
 
 
 
