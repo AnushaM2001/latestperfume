@@ -1982,7 +1982,7 @@ def submit_help_query(request):
             query.user = request.user
             query.save()
             messages.success(request, "Your query has been submitted successfully!")
-            notify_admins(f"A new query has been submitted by {query.user.email}. Query: {query.query_text}",category='queries')
+            notify_admins(f"A new query has been submitted by {query.user.email}. Query: {query.message}",category='queries')
             return redirect('user_profile')
     else:
         form = HelpQueryForm()
