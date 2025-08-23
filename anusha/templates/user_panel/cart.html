@@ -722,53 +722,58 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function initiatePayment() {
     const options = {
-      "key": keyId,
-      "amount": Amount,
-      "currency": "INR",
-      "name": "Perfume Valley",
-      "description": "Order Payment",
-      "order_id": orderId,
-      "prefill": {
-        "name": userName,
-        "email": userEmail
-      },
-      "theme": {
-        "color": "#F37254"
-      },
-      "handler": function (response) {
-        if (hasSubmitted) return;
-        hasSubmitted = true;
+        "key": keyId,
+        "amount": Amount,
+        "currency": "INR",
+        "name": "Perfume Valley",
+        "description": "Order Payment",
+        "order_id": orderId,
+        "prefill": {
+            "name": userName,
+            "email": userEmail
+        },
+        "theme": {
+            "color": "#F37254"
+        },
+        "handler": function (response) {
+            if (hasSubmitted) return;
+            hasSubmitted = true;
 
-        // Create form dynamically to POST to success view
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = orderSuccessUrl;
+            // ✅ Immediately show success feedback
+            showToast("Payment successful! Redirecting...");
 
-        const fields = {
-          'csrfmiddlewaretoken': csrfToken,
-          'razorpay_payment_id': response.razorpay_payment_id,
-          'razorpay_order_id': response.razorpay_order_id,
-          'razorpay_signature': response.razorpay_signature,
-          'total_price': totalPrice
-        };
+            // Prepare form data
+            const formData = new FormData();
+            formData.append('csrfmiddlewaretoken', csrfToken);
+            formData.append('razorpay_payment_id', response.razorpay_payment_id);
+            formData.append('razorpay_order_id', response.razorpay_order_id);
+            formData.append('razorpay_signature', response.razorpay_signature);
+            formData.append('total_price', totalPrice);
 
-        for (let key in fields) {
-          const input = document.createElement('input');
-          input.type = 'hidden';
-          input.name = key;
-          input.value = fields[key];
-          form.appendChild(input);
+            // ✅ Send payment details to backend without reloading
+            fetch(orderSuccessUrl, {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "success") {
+                    // ✅ Redirect straight to success page
+                    window.location.href = data.redirect_url;  
+                } else {
+                    showToast("Something went wrong: " + data.message);
+                }
+            })
+            .catch(err => {
+                console.error("Payment verification failed:", err);
+                showToast("Error verifying payment");
+            });
         }
-
-        document.body.appendChild(form);
-        form.submit();
-      }
     };
 
     const rzp = new Razorpay(options);
     rzp.open();
-  }
-
+}
 </script>
 <script>
   function handleCouponApply(form) {
