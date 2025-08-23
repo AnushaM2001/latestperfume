@@ -12,8 +12,10 @@ urlpatterns = [
     path('add-to-cart/<int:product_id>/', views.add_to_cart, name='add_to_cart'),
    
 
-    path('order-success/', views.order_success, name='order_success'),
+    path('order/success/', views.order_success, name='order_success'),
     path('toggle-gift-wrap/', views.toggle_gift_wrap, name='toggle_gift_wrap'),
+    path("order/success/<int:order_id>/", views.order_success_page, name="order_success_page"),
+
 
 
     # path('register/', views.register, name='register'),
