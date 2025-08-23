@@ -1506,17 +1506,18 @@ def order_success(request):
         messages.success(request, "Your order has been placed successfully!")
         send_invoice_email(user, order)
 
-        return render(request, 'user_panel/order_success.html', {"order": order})
-
-    return redirect('view_cart')
-
-
-
+        return JsonResponse({
+            "status": "success",
+            "redirect_url": f"/order/success/{order.id}/"
+        })
 
 
+    return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
+    # return redirect('view_cart')
 
-
-
+def order_success_page(request, order_id):
+    order = Order.objects.get(id=order_id, user=request.user)
+    return render(request, "user_panel/order_success.html", {"order": order})
 
 
 # 📝 User Registration
