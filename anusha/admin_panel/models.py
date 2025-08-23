@@ -515,6 +515,8 @@ class Notification(models.Model):
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES,null=True,blank=True)
     is_read = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        ordering = ['-timestamp']  # Newest first
 
     def __str__(self):
         return f"{self.user} - {self.category} - {self.message[:30]}"
