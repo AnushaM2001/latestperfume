@@ -17,6 +17,28 @@
 
 
     {% block extra_css %}{% endblock extra_css %}
+    <style>
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+.whatsapp-float img {
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+  animation: whatsapp-blink 1.2s infinite;
+}
+.whatsapp-float img:hover {
+  transform: scale(1.1);
+  animation: none; /* Stop blinking on hover */
+}
+@keyframes whatsapp-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+    </style>
 </head>
 <body>
     <!-- Page Loader -->
@@ -96,6 +118,11 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- WhatsApp Floating Icon -->
+<a href="https://wa.me/9948457293" target="_blank" class="whatsapp-float">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="50" height="50">
+</a>
 
 </body>
 </html>
