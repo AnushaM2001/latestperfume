@@ -68,7 +68,7 @@
     /* Only underline the category name on hover, not the dropdown toggle */
             .navbar-nav .nav-item .nav-link.category-name {
                 position: relative;
-                transition: color 0.2s;
+                transition: color 0.2s, transform 0.2s;
             }
             .navbar-nav .nav-item .nav-link.category-name::after {
                 content: '';
@@ -84,6 +84,10 @@
             .navbar-nav .nav-item .nav-link.category-name:hover::after {
                 width: 100%;
             }
+            .navbar-nav .nav-item .nav-link.category-name:hover {
+                transform: scale(1.1);
+                z-index: 1;
+            }
  
 
 
@@ -96,7 +100,7 @@
     top: 80px;
     right: 0;
     left: auto;
-    width: 100vw;
+    width: 45vw;
     padding: 20px 10px;
     overflow-y: auto;
     transform: translateX(100%);
@@ -137,7 +141,7 @@
   }
 
   .searchCon .card {
-    width: 100%;
+    width: 90%;
     max-width: 100vw;
     margin: 0 auto;
   }
@@ -200,12 +204,13 @@
 
 @media (min-width: 1025px) {
     #search-results .card-img-top {
-        height: 300px;
+        height: 250px;
     }
+    
 }
 /* Responsive: one product per row on mobile */
 @media (max-width: 575.98px) {
-  #search-results .row.search-row-responsive > .col-12 {
+  #search-results  {
     flex: 0 0 100%;
     max-width: 100%;
     display: block;
@@ -224,8 +229,8 @@
 }
 @media (min-width: 992px) {
   #search-results .row.search-row-responsive > .col-lg-3 {
-    flex: 0 0 25%;
-    max-width: 25%;
+    flex: 0 0 33%;
+    max-width: 100%;
     display: block;
   }
 }
@@ -749,7 +754,7 @@
                             top: 50px;
                             right: 0;
                             left: auto;
-                            width: 100vw;
+                            width: 45vw;
                             padding: 20px 10px;
                             overflow-y: auto;
                             transform: translateX(100%);
@@ -758,11 +763,13 @@
                         .searchCon.active {
                             transform: translateX(0);
                         }
+                        
+                        </style>
 
     
 
 
-</style>
+
 
                     <!-- End Search Modal -->
                
@@ -826,34 +833,36 @@
             const row = document.createElement("div");
             row.className = "row g-3 search-row-responsive";
 
-            data.results.forEach(item => {
-                const col = document.createElement("div");
-                col.className = "col-12 col-sm-12 col-md-4 col-lg-3"; // 1 on mobile, 3 on tablet, 4 on desktop
+           data.results.forEach(item => {
+    const col = document.createElement("div");
+    col.className = "col-12 col-sm-6 col-md-4 col-lg-3"; // 2 items on small screens, 3 on medium, 4 on large
 
-                col.innerHTML = `
-                    <a href="${item.url}" class="text-decoration-none text-dark search-product-link">
-                        <div class="card h-100 shadow-sm border-0">
-                            <img src="${item.image}" class="card-img-top" alt="${item.name}">
-                            <div class="card-body">
-                                <h6 class="card-title mb-1 text-truncate" style="max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.name}</h6>
-                    
-                                <div class="fw-bold text-danger">${item.price_display}
-                                    <small class="text-muted text-decoration-line-through ms-2">₹${item.original_price}</small>
-                                </div>
-                                <div class="stars-outer" style="position: relative; display: inline-block; color: #ccc; font-size: 20px;">
-    <div class="stars-inner" style="position: absolute; top: 0; left: 0; white-space: nowrap; overflow: hidden; width: ${ item.rating_percentage }%; color: #AF9164;">
-      ★★★★★
-    </div>
-    ★★★★★
-  </div>
-  <span class="text-muted">${ item.average_rating } / 5)</span>
-                            </div>
-                        </div>
-                    </a>
-                `;
+    col.innerHTML = `
+        <a href="${item.url}" class="text-decoration-none text-dark search-product-link">
+            <div class="">
+                <img src="${item.image}" class="card-img-top search-img" alt="${item.name}">
+                <div class="card-body ">
+                    <h6 class="product-title mb-1 text-truncate">${item.name}</h6>
+                    <p class="product-desc text-muted mb-2">${item.short_description ? item.short_description : ''}</p>
+                    <div class="price-section mb-2">
+                        <span class="price fw-bold text-dark" style="font-size:15px;font-family:urbanist,sans-serif" >${item.price_display}</span>
+                        <span class="original-price text-muted text-decoration-line-through ms-2">${item.original_price}</span>
+                    </div>
+                    <div class="rating-section text-start">
+                        <span class="stars-outer">
+                            <span class="stars-inner" style="width:${item.rating_percentage}%;"></span>
+                            ★★★★★
+                        </span>
+                        <span class="rating-text">(${item.average_rating})</span>
+                    </div>
+                </div>
+            </div>
+        </a>
+    `;
 
-                row.appendChild(col);
-            });
+    row.appendChild(col);
+});
+
 
             resultsDiv.appendChild(row);
         }
@@ -891,6 +900,90 @@
     });
         });
     </script>
+
+<style>
+    .product-card {
+    
+    background: rgb(250, 235, 234);
+}
+
+
+
+.search-img {
+    height: 260px; /* consistent size */
+    object-fit: contain;
+    background: rgb(250, 235, 234);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.product-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.product-desc {
+    -webkit-line-clamp: 2;
+    max-height: 34px;
+    font-size: 12px;
+    line-height: 17px;
+    color: #333;
+    margin-bottom: 3px;
+}
+
+.product-desc:after {
+    content: '';
+    display: none;
+}
+
+@supports (-webkit-line-clamp: 2) {
+    .product-desc:after {
+        display: none !important;
+    }
+}
+
+
+
+
+.price-section .price {
+    font-size: 12px;
+}
+
+.original-price {
+    font-size: 12px;
+}
+
+.rating-section {
+    display: flex;
+
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.stars-outer {
+    position: relative;
+    display: inline-block;
+    font-size: 16px;
+    color: #ccc;
+}
+
+.stars-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #AF9164; /* Gold-like color */
+}
+
+</style>
+
+
 <script>
   // Offcanvas dropdown toggle for mobile
 document.addEventListener("DOMContentLoaded", function () {
@@ -926,15 +1019,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 <script>
-        // Initialize cart count from Redis on page load
-        document.addEventListener('DOMContentLoaded', function() {
+    // Initialize cart count from Redis on page load
+    document.addEventListener('DOMContentLoaded', function() {
         if ("{{ request.user.is_authenticated|yesno:'true,false' }}" === "true") {
             fetch('/api/cart/count/')
                 .then(response => {
                     if (!response.ok) throw new Error('Network response was not ok');
                     return response.json();
                 })
-                .then data => {
+                .then(data => {
                     document.querySelectorAll('.cart-count').forEach(el => {
                         el.textContent = data.count;
                     });
@@ -944,8 +1037,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
         }
     });
+</script>
 
-</script>  
 
 
      
