@@ -53,7 +53,8 @@ from .views import (
     get_chart_data,
     socket_test_view,
     admin_help_query_list,
-    admin_help_query_reply,mark_notifications_read
+    admin_help_query_reply,mark_notifications_read,
+    all_notifications,
     
 
 )
@@ -65,6 +66,7 @@ urlpatterns = [
     path('admin-logout/', admin_logout_view, name='admin_logout'),
     path('admin-change-password/', change_admin_password_view, name='admin_change_password'),
     path('', admin_dashboard, name='admin_dashboard'),
+    path("admin/notifications/", all_notifications, name="all_notifications"),
 
     # Product Management
     path('products/', product_list, name='product_list'),
