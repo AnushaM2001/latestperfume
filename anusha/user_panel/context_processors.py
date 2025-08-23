@@ -31,17 +31,17 @@ def category_subcategory_navbar(request):
     # 2. Category Section Logic
     # ---------------------------
     section_categories = []
-    festival_offer_active = PremiumFestiveOffer.objects.filter(
-        premium_festival='Festival',
-        is_active=True,
-        start_date__lte=now,
-        end_date__gte=now
-    ).exists()
 
-    # loop until we collect exactly 4 categories
     for category in categories:
         if category.name.startswith("Buy"):
-            if festival_offer_active:
+            has_offer = PremiumFestiveOffer.objects.filter(
+                premium_festival='Festival',
+                is_active=True,
+                start_date__lte=now,
+                end_date__gte=now,
+                category=category
+        ).exists()
+            if has_offer:
                 section_categories.append(category)
         else:
             section_categories.append(category)
@@ -49,10 +49,16 @@ def category_subcategory_navbar(request):
         if len(section_categories) == 4:
             break
 
+# fallback: if still empty, just take latest 4
+    if not section_categories:
+        section_categories = categories[:4]
+
+
     return {
         "navbar_categories": navbar_categories,
         "section_categories": section_categories,
     }
+
 # your_app/context_processors.py
 
 
