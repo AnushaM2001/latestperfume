@@ -225,7 +225,7 @@
         <div class="ms-3 w-100">
           <small>#{{ order.shiprocket_order_id }}</small>
           <h5>{{ order.id }}</h5>
-                    {% if order.shiprocket_tracking_status == 'Delivered' %}
+                    {% if order.status == 'awb_assigned' or order.status == 'Completed' %}
                      {% for item in order.items.all %}
                      {% if item.product.id not in reviewed_product_ids %}
           <!-- Not Yet Reviewed -->  
@@ -235,7 +235,7 @@
           {% endif  %}
           <!-- Status Heading -->
           {% if order.shiprocket_tracking_info %}
-{% if order.shiprocket_tracking_status == 'AWB Assigned' or order.shiprocket_tracking_status == 'Pickup Generated' %}
+{% if order.shiprocket_tracking_status == 'awb_assigned' or order.shiprocket_tracking_status == 'Pickup Generated' %}
 {% with order.shiprocket_tracking_info.etd|slice:":10" as etd_date %}
   <h6 class="text-dark fw-semibold mb-1">
     Expected Delivery on {{ etd_date }}
@@ -569,7 +569,7 @@
 
                     <div class="d-flex flex-row justify-content-between mt-3 ">
                       <p class="card-text mb-0" style="color: #4D4D4D; font-family: Jomolhari, serif; font-size: 16px;">Delivery Charge</p>
-                      <p class="card-text mb-0" style="color: #4D4D4D; font-family: Jomolhari, serif; font-size: 16px;">₹{{ order.items.first.product.delivery_charge}}</p>
+                      <p class="card-text mb-0" style="color: #4D4D4D; font-family: Jomolhari, serif; font-size: 16px;">₹{{ order.items.first.product.delivery_charges}}</p>
                     </div>
                     
                     <div class="d-flex flex-row justify-content-between mt-3 ">
@@ -599,7 +599,7 @@
                   </div>
                     
 
-  {% if order.shiprocket_tracking_status == 'Delivered' %}
+  {% if order.status == 'AWB Assigned' or order.status == 'Completed' %}
   <div class="row mt-4">
     {% for item in order.items.all %}
       <div class="col-md-6 col-12 d-flex flex-column mt-3">
