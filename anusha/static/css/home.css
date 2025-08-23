@@ -234,7 +234,7 @@
         .scroll-content {
             display: inline-block;
             white-space: nowrap;
-            animation: scrollText 12s linear infinite;
+            animation: scrollText 8s linear infinite;
         }
         .scroll-container1 {
             width: 100%; /* Full width */
@@ -251,7 +251,7 @@
         .scroll-content1 {
             display: block;
             white-space: nowrap;
-            animation: scrollText 4s linear infinite;
+            animation: scrollText 2s linear infinite;
         }
 
         .scroll-content span {
@@ -571,23 +571,21 @@
             );
         }
 
-        .circle-container:hover .arc-main::before,
         .circle-container.active .arc-main::before {
             background: conic-gradient(
-            from -45deg,
-            transparent 0deg calc(90deg + var(--arc-gap)),
-            var(--hover-color) calc(90deg + var(--arc-gap)) calc(270deg - var(--arc-gap)),
-            transparent calc(270deg - var(--arc-gap)) 360deg
+                from -45deg,
+                transparent 0deg calc(90deg + var(--arc-gap)),
+                var(--hover-color) calc(90deg + var(--arc-gap)) calc(270deg - var(--arc-gap)),
+                transparent calc(270deg - var(--arc-gap)) 360deg
             );
         }
 
-        .circle-container:hover .arc-opposite::before,
         .circle-container.active .arc-opposite::before {
             background: conic-gradient(
-            from 135deg,
-            transparent 0deg calc(90deg - var(--arc-gap)/2),
-            var(--hover-color) calc(90deg - var(--arc-gap)/2) calc(180deg + var(--arc-gap)/2),
-            transparent calc(180deg + var(--arc-gap)/2) 360deg
+                from 135deg,
+                transparent 0deg calc(90deg - var(--arc-gap)/2),
+                var(--hover-color) calc(90deg - var(--arc-gap)/2) calc(180deg + var(--arc-gap)/2),
+                transparent calc(180deg + var(--arc-gap)/2) 360deg
             );
         }
 
@@ -1315,13 +1313,13 @@ word-wrap: break-word
 
         /* pruduct card */
         .product-card {
-    width: 280px;
-    flex: 0 0 auto;
-    margin: 0 15px;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
+        width: 384px;
+        flex: 0 0 auto;
+        /* margin: 0 15px; */
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
 }
 
 .product-card:hover {
@@ -1344,28 +1342,25 @@ word-wrap: break-word
     transform: scale(1.05);
 }
 
-.product-info {
-    padding: 15px;
-    background:#FBF0EF;
-    display: flex; /* Changed to flex layout */
-    justify-content: space-between; /* Push items to opposite ends */
-    align-items: center; /* Vertically center items */
-}
+/* / */
 
 .product-name {
-    font-weight: 600;
-    margin: 0; /* Remove default margins */
-    white-space: nowrap; /* Prevent text wrapping */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    line-clamp: 2; /* Standard property for compatibility */
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis; /* Add ellipsis if text is too long */
-    max-width: 60%; /* Limit width to prevent overflow */
+    text-overflow: ellipsis;
     color: #4D4D4D;
-font-size: 16px;
-font-family: Jomolhari;
-font-weight: 400;
-text-transform: capitalize;
-line-height: 18px;
-word-wrap: break-word;
+    font-size: 16px;
+    font-family: Jomolhari;
+    font-weight: 400;
+    text-transform: capitalize;
+
+    word-wrap: break-word;
+    margin: 0;
+    max-width: 100%;
+    margin-top: 31px;
 }
 
 .product-price {
@@ -1462,11 +1457,11 @@ word-wrap: break-word;
 
 @media (max-width: 768px) {
     .product-card {
-        width: 240px;
+        width: 384px;
     }
     
     .product-img-container {
-        height: 250px;
+        height: 578px;
     }
 }
 
