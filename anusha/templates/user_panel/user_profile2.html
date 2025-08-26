@@ -229,7 +229,14 @@
                      {% for item in order.items.all %}
                      {% if item.product.id not in reviewed_product_ids %}
           <!-- Not Yet Reviewed -->  
-              <a href="{% url 'write_review' item.product.id %}" class="btn btn-outline-primary btn-sm" style="float: right;">Give Rating</a>          
+<a href="#"
+   class="btn btn-outline-primary btn-sm"
+   style="float: right;"
+   data-bs-toggle="modal"
+   data-bs-target="#reviewModal"
+   data-product-id="{{ item.product.id }}">
+   Give Rating
+</a>
 {% endif %}
           {% endfor %}
           {% endif  %}
@@ -509,12 +516,12 @@
 }
 
 .timeline-step.active .timeline-icon {
-  background-color: #0d6efd;
+  background-color: maroon;
   color: white;
 }
 
 .tracking-history {
-  border-left: 2px solid #0d6efd;
+  border-left: 2px solid maroon;
   padding-left: 20px;
 }
 
@@ -617,8 +624,14 @@
                 <a href="{% url 'write_review' item.product.id %}" style="text-decoration: none;"><strong>{{ item.product.name }}</strong><br>
                 <small style="color: maroon; font-size: large;">★★★★★</small></a>
               </div>
-              <a href="{% url 'write_review' item.product.id %}" class="btn btn-outline-primary btn-sm">Give Rating</a>
-            </div>
+<a href="#"
+   class="btn btn-outline-primary btn-sm"
+   style="float: right;"
+   data-bs-toggle="modal"
+   data-bs-target="#reviewModal"
+   data-product-id="{{ item.product.id }}">
+   Give Rating
+</a>            </div>
           </div>
         {% else %}
           <!-- Already Reviewed -->
@@ -1100,6 +1113,89 @@
           </button>
 </div>
 </div>
+
+<!-------------- Review POPUP -->
+<!-- Review Modal -->
+<div class="modal fade" id="reviewModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content rounded-3 shadow-lg">
+      <form method="post" action="" id="reviewForm">
+        {% csrf_token %}
+        <div class="modal-header border-0">
+          <h5 class="modal-title fw-bold">Write a Review</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          
+          <!-- Star Rating -->
+          <div class="form-group star-rating text-center mb-3">
+            {% for i in "54321" %}
+              <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}">
+              <label for="star{{ i }}">&#9733;</label>
+            {% endfor %}
+          </div>
+
+          <!-- Review Textarea -->
+          <div class="form-group">
+           <textarea 
+  name="review_text" 
+  rows="3" 
+  class="form-control rounded-3 shadow-sm" 
+  placeholder="Write your review..." 
+  required></textarea>
+
+          </div>
+        </div>
+
+        <div class="modal-footer border-0">
+          <button type="submit" class="btn btn-primary rounded-3 px-4">Submit Review</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Star Rating Styling -->
+
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var reviewModal = document.getElementById('reviewModal');
+    reviewModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget; // Button that triggered the modal
+        var productId = button.getAttribute('data-product-id'); // Extract product ID
+        var form = reviewModal.querySelector('form'); // Find form inside modal
+        form.action = "/product/" + productId + "/ratings/"; // Update form action
+    });
+});
+</script>
+
+<style>
+  .modal-backdrop.show {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+.star-rating {
+  direction: rtl;
+  display: inline-flex;
+  gap: 5px;
+}
+.star-rating input {
+  display: none;
+}
+.star-rating label {
+  font-size: 2rem;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.star-rating input:checked ~ label {
+  color: #f5c518; /* Gold for selected stars */
+}
+
+
+</style>
+
 
 <script>
 function saveDobFromPopup() {
