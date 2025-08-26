@@ -141,6 +141,14 @@ def create_shiprocket_order(order, address, order_items):
 
     # Step 3: Totals
     giftwrap_charge = 150 if any(getattr(item, 'gift_wrap', False) for item in order_items) else 0
+    platform_fee = sum(
+    float(getattr(item, "platform_fee", 0) or 0) for item in order_items
+)
+
+    delivery_charge = sum(
+    float(getattr(item, "delivery_charges", 0) or 0) for item in order_items
+)
+
     sub_total = sum(float(item.price) * item.quantity for item in order_items)
     total_discount = sum(float(item.discount_amount or 0) for item in order_items)
     # Use order.total_price from the Order table for order_total
@@ -164,14 +172,12 @@ def create_shiprocket_order(order, address, order_items):
             "units": item_qty,
             "selling_price": item_price,
             "discount": unit_discount,  # Per-unit discount
-            "tax": "",
             "hsn": 441122
         })
 
     # Step 5: Build payload
     payload = {
-        "order_id": f"ORD-{order.shiprocket_order_id}-{int(datetime.datetime.now().timestamp())}",
-
+        "order_id": f"ORD-{order.id}",
         # "courier_id" : order.shiprocket_courier_id,
         "courier_company_id": best_courier_id,
         "order_date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
@@ -209,10 +215,10 @@ def create_shiprocket_order(order, address, order_items):
         "payment_method": "Prepaid",
         "shipping_charges": 0,
         "giftwrap_charges": round(giftwrap_charge, 2),
-        "transaction_charges": 0,
+        "transaction_charges": round(platform_fee + delivery_charge, 2),
         "total_discount": round(total_discount, 2),  # Set total discount as positive value
-        "sub_total": round(sub_total, 2),
-        "order_total": round(order_total, 2),  # Use order.total_price
+        "sub_total": round(order_total, 2),
+        # "order_total": round(order_total, 2),
 
         "length": 10,
         "breadth": 15,
@@ -273,7 +279,7 @@ def create_shiprocket_order(order, address, order_items):
                 'shiprocket_courier_id',  # Save courier ID too
                 'status'
             ])
-            notify_admins(f"✅ AWB assigned for Order #{order.id} - {order.user.email}", category="orders")
+            notify_admins(f"✅ Order is Placed {order.id}-{order.shiprocket_order_id} - {order.user.email}", category="orders")
 
             print(f"✅ Order updated with AWB: {awb_code}, Courier: {courier_name}")
         else:
@@ -302,9 +308,6 @@ def create_shiprocket_order(order, address, order_items):
         "shiprocket_response": response_data,
         "sent_payload": payload
     }
-
-
-
 
 def fetch_shiprocket_tracking(awb_code):
     url = f"https://apiv2.shiprocket.in/v1/external/courier/track/awb/{awb_code}"
