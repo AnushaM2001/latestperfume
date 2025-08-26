@@ -78,5 +78,9 @@ def festival_offer_context(request):
             'festival_offer_start': festival_offer.start_date,
             'festival_offer_end': festival_offer.end_date,
             'festival_offer_name': festival_offer.offer_name,
+            'festival_offer_category': ', '.join(festival_offer.category.values_list('name', flat=True)),
+            'festival_offer_category_ids': list(festival_offer.category.values_list('id', flat=True)),
+            'festival_offer_subcategory': ', '.join(festival_offer.subcategory.values_list('name', flat=True)),
+            'festival_offer_subcategory_ids': list(festival_offer.subcategory.values_list('id', flat=True)),
         }
     return {}  # No offer found
