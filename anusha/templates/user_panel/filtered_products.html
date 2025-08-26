@@ -1047,6 +1047,48 @@ document.getElementById("sortByDropdown").style.backgroundColor = "#981945";
 
 
 </script>
+<script>
+$(document).ready(function() {
+    // 1️⃣ Read URL params for categories/subcategories
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoriesCSV = urlParams.get("categories");
+    const subcategoriesCSV = urlParams.get("subcategories");
+
+    if (categoriesCSV) {
+        categoriesCSV.split(',').forEach(id => {
+            $(`.categoryFilter[value="${id}"]`).prop("checked", true);
+        });
+    }
+    if (subcategoriesCSV) {
+        subcategoriesCSV.split(',').forEach(id => {
+            $(`.subcategoryFilter[value="${id}"]`).prop("checked", true);
+        });
+    }
+
+    // 2️⃣ Fetch products after filters are pre-checked
+    fetchProducts();
+    autoRefresh();
+
+    // 3️⃣ Event listeners for filters
+    $('.categoryFilter, .subcategoryFilter, .sizeFilter, #priceRange').on('change', fetchProducts);
+
+    $('#priceRange').on('input', function() {
+        $('#priceRangeValue').text(this.value);
+    });
+
+    $('#clearAllFilters').on('click', function() {
+        $('.categoryFilter, .subcategoryFilter, .sizeFilter').prop('checked', false);
+        fetchProducts();
+    });
+
+    $(document).on('click', '.remove-filter', function() {
+        const type = $(this).data('type');
+        const id = $(this).data('id');
+        $(`.${type}Filter[value="${id}"]`).prop("checked", false);
+        fetchProducts();
+    });
+});
+</script>
 
 <!-- Bootstrap JS Bundle (for modal functionality) -->
 
