@@ -2325,7 +2325,7 @@ def write_review(request, product_id):
     else:
         form = ReviewForm()
 
-    return render(request, 'user_panel/rating.html', {
+    return render(request, 'user_panel/user_profile2.html', {
         'form': form,
         'product': product,
     })
