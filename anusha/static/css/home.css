@@ -1564,9 +1564,9 @@ margin-top: 50px;}
     position: absolute;
     top: 100%;
     left: 0;
-    background: #fff;
+ 
     width: 100%;
-    border: 1px solid #ddd;
+ 
     z-index: 1000;
     display: none;
     max-height: 200px;
