@@ -442,7 +442,8 @@ def product_list(request):
         products = products.filter(
             Q(name__icontains=query) |
             Q(category__name__icontains=query) |
-            Q(subcategory__name__icontains=query)
+            Q(subcategory__name__icontains=query)|
+            Q(stock_status__icontains=query)
         )
 
     # Filter by created_at date
