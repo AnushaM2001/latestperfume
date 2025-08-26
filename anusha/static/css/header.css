@@ -180,6 +180,24 @@ body, html {
 /* Full width on smaller screens */
 @media (max-width: 768px) {
     .searchCon {
+      margin-top: 15px;
+        width: 100vw;
+        left: 0;
+        right: 0;
+    }
+}
+@media (max-width: 578px) {
+    .searchCon {
+      margin-top: 0px;
+        width: 100vw;
+        left: 0;
+        right: 0;
+    }
+}
+
+@media (min-width: 1024px ) {
+    .searchCon {
+      margin-top: 10px;
         width: 100vw;
         left: 0;
         right: 0;
@@ -271,7 +289,7 @@ nav.navbar {
   }
 
   #search-results .row {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     overflow-x: auto;
   }
 
