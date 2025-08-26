@@ -1599,7 +1599,7 @@ def search_suggestions(request):
             suggestions.append({
                 'id': product.id,
                 'name': product.name,
-                'image': f"/media/{product.image1}" if product.image1 else '',
+                'image': product.image1.url if product.image1 else '',
                 'description': product.description[:100] if product.description else '',
                 'url': f"/product/{product.id}/",
                 'price_display': price_display,
