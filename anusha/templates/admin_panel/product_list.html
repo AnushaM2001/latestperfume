@@ -134,40 +134,23 @@
             </div>
             <a href="#" id="add-variant" class="add-variant-link mt-2">➕ Add Another Variant</a>
           </div>
-
-          <div id="giftset-formset" style="display:none;">
+<div id="giftset-formset">
             <h5>Giftsets</h5>
             {{ giftset_formset.management_form }}
             <div id="giftset-forms">
               {% for form in giftset_formset %}
-              {{ form.id }}
               <div class="giftset-form border rounded p-3 mb-3">
                 <div class="row">
+                  
                   {% for field in form.visible_fields %}
-                  {% if field.name == "flavours" %}
-                  <div class="col-12 mb-2">
-                    <label>{{ field.label }}</label>
-                    <div class="row">
-                      {% for checkbox in field %}
-                      <div class="col-md-4">
-                        <div class="form-check">
-                          {{ checkbox.tag }}
-                          <label class="form-check-label">{{ checkbox.choice_label }}</label>
-                        </div>
-                      </div>
-                      {% endfor %}
-                    </div>
-                  </div>
-                  {% else %}
-                  <div class="col-md-6 mb-3">{{ field|as_crispy_field }}</div>
-                  {% endif %}
+                  <div class="col-md-6 mb-3" data-field-name="{{ field.name }}">{{ field|as_crispy_field }}</div>
                   {% endfor %}
                 </div>
-                <button type="button" class="remove-giftset btn btn-outline-danger btn-sm mt-2">✖ Remove Giftset</button>
+                <button type="button" class="remove-giftset btn btn-outline-danger btn-sm mt-2">✖ Remove giftset</button>
               </div>
               {% endfor %}
             </div>
-            <a href="#" id="add-giftset" class="add-variant-link mt-2">➕ Add Another Giftset</a>
+            <a href="#" id="add-giftset" class="add-giftset-link mt-2">➕ Add Another giftset</a>
           </div>
         </div>
         <div class="modal-footer">
@@ -407,7 +390,7 @@ function initEditModal(productId) {
 
   const giftsetContainer = document.getElementById(`giftset-forms-${productId}`);
   const giftsetEmptyFormElement = document.getElementById(`giftset-empty-form-${productId}`).firstElementChild;
-  const giftsetTotal = form.querySelector('input[name="giftsets-TOTAL_FORMS"]');
+  const giftsetTotal = form.querySelector('input[name="gift_sets-TOTAL_FORMS"]');
 
   const addVariantBtn = document.getElementById(`add-variant-${productId}`);
   const addGiftsetBtn = document.getElementById(`add-giftset-${productId}`);
@@ -447,22 +430,24 @@ function initEditModal(productId) {
   }
 
   // Add Giftset
-  if (addGiftsetBtn) {
-    addGiftsetBtn.addEventListener('click', e => {
-      e.preventDefault();
-      const index = parseInt(giftsetTotal.value);
-      const newForm = giftsetEmptyFormElement.cloneNode(true);
+  // Add Giftset
+if (addGiftsetBtn) {
+  addGiftsetBtn.addEventListener('click', e => {
+    e.preventDefault();
+    const index = parseInt(giftsetTotal.value);
+    const newForm = giftsetEmptyFormElement.cloneNode(true);
 
-      newForm.querySelectorAll('input, select, textarea').forEach(el => {
-        if (el.name) el.name = el.name.replace(/__prefix__/, index);
-        if (el.id) el.id = el.id.replace(/__prefix__/, index);
-        if (el.type !== 'hidden') el.value = '';
-      });
-
-      giftsetContainer.appendChild(newForm);
-      giftsetTotal.value = index + 1;
+    newForm.querySelectorAll('input, select, textarea').forEach(el => {
+      if (el.name) el.name = el.name.replace(/__prefix__/, index);
+      if (el.id) el.id = el.id.replace(/__prefix__/, index);
+      if (el.type !== 'hidden') el.value = '';
     });
-  }
+
+    giftsetContainer.appendChild(newForm);
+    giftsetTotal.value = index + 1;
+  });
+}
+
 
   // Remove Variant
   variantContainer.addEventListener('click', e => {
@@ -650,7 +635,7 @@ function initDynamicFields(productId=null) {
     if (e.target.classList.contains('remove-variant')) e.target.closest('.variant-form').remove();
   };
 
-  if (addG) addG.onclick = e => { e.preventDefault();
+if (addG) addG.onclick = e => { e.preventDefault();
     const count = parseInt(gTotal.value);
     const clone = gForms.children[0].cloneNode(true);
     clone.querySelectorAll('input,select').forEach(el => {
