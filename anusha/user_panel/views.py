@@ -304,6 +304,18 @@ def all_view(request):
 
 
 def filtered_products(request, category_id=None, subcategory_id=None):
+    products = Product.objects.all().annotate(price=Min('variants__price'),average_rating=Avg('reviews__rating'),)
+    category_ids = request.GET.get('categories')
+    subcategory_ids = request.GET.get('subcategories')
+
+    if category_ids:
+        ids = [int(i) for i in category_ids.split(',') if i]
+        products = products.filter(category__id__in=ids)
+        
+    if subcategory_ids:
+        ids = [int(i) for i in subcategory_ids.split(',') if i]
+        products = products.filter(subcategory__id__in=ids)
+    
     category = Category.objects.filter(id=category_id).first() if category_id else None
     subcategory = Subcategory.objects.filter(id=subcategory_id).first() if subcategory_id else None
 
