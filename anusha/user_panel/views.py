@@ -262,44 +262,28 @@ from collections import defaultdict
 
 
 def all_view(request):
-    # Initialize the list of letters
     letters = list("#ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+    resolved_product_map = {letter: [] for letter in letters}
 
-    # Prepare final per-letter maps
-    resolved_category_map = {}
-    resolved_subcategory_map = {}
+    # Fetch all products with related category & subcategory
+    products = Product.objects.select_related('category', 'subcategory').all()
 
-    # Initialize empty list for each letter
-    for letter in letters:
-        resolved_category_map[letter] = []
-        resolved_subcategory_map[letter] = []
-
-    # Fill categories
-    for cat in Category.objects.all():
-        first_char = cat.name[0].upper()
+    for product in products:
+        first_char = product.name[0].upper()
         key = '#' if first_char.isdigit() else first_char
-        if key in resolved_category_map:
-            resolved_category_map[key].append(cat)
-
-    # Fill subcategories
-    for sub in Subcategory.objects.all():
-        first_char = sub.name[0].upper()
-        key = '#' if first_char.isdigit() else first_char
-        if key in resolved_subcategory_map:
-            resolved_subcategory_map[key].append(sub)
+        if key in resolved_product_map:
+            resolved_product_map[key].append(product)
 
     context = {
-    'letters': letters,
-    'letter_sections': [
-        {
-            'letter': letter,
-            'categories': resolved_category_map[letter],
-            'subcategories': resolved_subcategory_map[letter],
-        }
-        for letter in letters
-    ]
-}
-
+        'letters': letters,
+        'letter_sections': [
+            {
+                'letter': letter,
+                'products': resolved_product_map[letter],
+            }
+            for letter in letters if resolved_product_map[letter]  # only non-empty
+        ]
+    }
     return render(request, 'user_panel/All.html', context)
 
 
