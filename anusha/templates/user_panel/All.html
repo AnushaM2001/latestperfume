@@ -1,134 +1,141 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Categories A-Z</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background-color: #FBF0EF;
-        }
-        .letter-header {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            margin-bottom: 20px;
-        }
-        .letter-header button {
-            width: 40px;
-            height: 40px;
-            border: 1px solid #ccc;
-            background-color: white;
-            cursor: pointer;
-            font-weight: bold;
-            border-radius: 8px;
-        }
-        .letter-header button.active {
-            background-color: #6D3F0BF2;
-            color: white;
-        }
-        .letter-section-wrapper {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 0;
-            border: 1px solid #ccc;
-            border-collapse: collapse;
-        }
-        .letter-section {
-            border: 1px solid #ccc;
-            min-height: 150px;
-            display: flex;
-            flex-direction: column;
-        }
-        .letter-section.hidden {
-            display: none;
-        }
-        .letter-box {
-            padding: 15px;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
-        .letter-box h3 {
-            margin: 0;
-            font-size: 20px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 5px;
-        }
-        .category-list ul {
-            list-style: none;
-            padding-left: 0;
-            margin: 10px 0 0 0;
-        }
-        .category-list li {
-            padding: 5px;
-            border-top: 1px solid #e0e0e0;
-            font-size: 20px;
-        }
-         .category-list li:hover {
-            color: #981942;
-        }
-        .category-list li:first-child {
-            border-top: none;
-        }
-    </style>
-</head>
-<body>
-    <h2 style="text-align: center;">All Items List</h2>
+{% extends 'layouts/main.html' %}
+{% block title %}Products A-Z{% endblock %}
 
-    <div class="letter-header">
+{% block content %}
+<h2 style="text-align: center; margin: 20px 0; background-color:#6D3F0B; color: white; padding: 20px;">All Products</h2>
+
+<!-- Letter buttons -->
+<div class="letter-header">
+    <button type="button" onclick="showAll(this)">All</button>
     {% for i in letters %}
-        <button onclick="filterLetter('{{ i }}', this)">{{ i }}</button>
+        <button type="button" onclick="filterLetter('{{ i }}', this)">{{ i }}</button>
     {% endfor %}
 </div>
 
+<!-- Product Sections -->
 <div class="letter-section-wrapper">
-   {% for section in letter_sections %}
+    {% for section in letter_sections %}
     <div class="letter-section" data-letter="{{ section.letter }}">
-        <div class="letter-box">
-            <h3>{{ section.letter }}</h3>
-            <div class="category-list">
-                <ul>
-                    {% for cat in section.categories %}
-                        <a href="{% url 'products_list' %}?category={{ cat.id }}" style="text-decoration: none; color: #6D3F0BF2;">
-                            <li>{{ cat.name }}</li>
+        <h3 class="letter-title">{{ section.letter }}</h3>
+        <ul>
+            {% for product in section.products %}
+                <li>
+                    {% if product.subcategory %}
+                        <a href="{% url 'products_list' %}?subcategory={{ product.subcategory.id }}">
+                            {{ product.name }}
                         </a>
-                   
-                    {% endfor %}
-
-                    {% for sub in section.subcategories %}
-                        <a href="{% url 'products_list' %}?subcategory={{ sub.id }}" style="text-decoration: none; color: #6D3F0BF2;">
-                            <li>{{ sub.name }}</li>
+                    {% else %}
+                        <a href="{% url 'products_list' %}?category={{ product.category.id }}">
+                            {{ product.name }}
                         </a>
-                   
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
     </div>
-{% endfor %}
-
+    {% endfor %}
 </div>
 
+<!-- CSS -->
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #FAEBEA;
+    }
+    .letter-header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 20px;
+        gap: 6px;
+    }
+    .letter-header button {
+        padding: 8px 14px;
+        border: 1px solid #ccc;
+        background: white;
+        cursor: pointer;
+        border-radius: 4px;
+        font-weight: bold;
+        transition: 0.2s;
+    }
+    .letter-header button.active,
+    .letter-header button:hover {
+        background: maroon;
+        color: white;
+        border-color: maroon;
+    }
 
+    .letter-section-wrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+    .letter-section {
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 15px;
+    }
+    .letter-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: maroon;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 5px;
+    }
+    .letter-section ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    .letter-section li {
+        margin: 6px 0;
+    }
+    .letter-section li a {
+        text-decoration: none;
+        color: #444;
+        font-size: 16px;
+        transition: 0.2s;
+    }
+    .letter-section li a:hover {
+        color: maroon;
+        font-weight: bold;
+    }
+</style>
 
-    </div>
+<!-- JS -->
+<script>
+    function filterLetter(letter, btn) {
+        // highlight active button
+        document.querySelectorAll('.letter-header button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
 
-    <script>
-        function filterLetter(letter, btn) {
-            document.querySelectorAll('.letter-header button').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+        // show only selected letter
+        document.querySelectorAll('.letter-section').forEach(section => {
+            if (section.getAttribute('data-letter') === letter) {
+                section.style.display = "block";
+            } else {
+                section.style.display = "none";
+            }
+        });
+    }
 
-            document.querySelectorAll('.letter-section').forEach(section => {
-                if (section.getAttribute('data-letter') === letter) {
-                    section.classList.remove('hidden');
-                } else {
-                    section.classList.add('hidden');
-                }
-            });
-        }
-    </script>
-</body>
-</html>
+    function showAll(btn) {
+        // highlight active button
+        document.querySelectorAll('.letter-header button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // show all
+        document.querySelectorAll('.letter-section').forEach(section => {
+            section.style.display = "block";
+        });
+    }
+
+    // Default: show All
+    document.addEventListener("DOMContentLoaded", function () {
+        showAll(document.querySelector(".letter-header button"));
+    });
+</script>
+
+{% endblock %}
