@@ -29,7 +29,7 @@
     margin: 0 !important;
     cursor: pointer;
 }
-.card:hover {
+.card-filter:hover {
     transform: scale(1.05);
     z-index: 3;
 }
@@ -37,7 +37,7 @@
     display: flex;
     align-items: stretch;
     justify-content: center;
-    height: 328px;
+    height: 298px;
     padding: 0;
     margin: 0;
     overflow: hidden;
@@ -47,13 +47,11 @@
 }
 .card-img-top.main-img,
 .card-img-top.hover-img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    margin: 0;
-    padding: 0;
+    height:298px;
+    overflow: hidden;
+   
+    position: relative;
+
 }
 .card-img-top.hover-img {
     display: none;
@@ -65,26 +63,29 @@
 .card-img:hover .hover-img { display: block; }
 
 .card-body {
-    padding: 12px;
-    background: #FBF0EF;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 0 0 10px 10px;
-    border-top: 1.5px solid #D8CBBD;
-    font-size: 18px;
+     
+      
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
 }
 .card-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    line-clamp: 2; /* Standard property for compatibility */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: #4D4D4D;
-    font-size: calc(12px + 0.3vw);
+    font-size: 16px;
     font-family: Jomolhari;
     font-weight: 400;
     text-transform: capitalize;
-    line-height: 18px;
+
+    word-wrap: break-word;
     margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    max-width: 100%;
+    margin-top: 30px;
 }
 .card-text {
     color: #4D4D4D;
@@ -110,29 +111,27 @@
     z-index: 2;
     cursor: pointer;
 }
-.card:hover .favorite { display: flex; }
+.card-filter:hover .favorite { display: flex; }
 
 .cart {
-    width: 100% !important;
-    min-width: 0;
-    max-width: 100%;
-    height: 58px !important;
-    opacity: 1 !important;
-    gap: 12px !important;
-    padding: 20px 10px !important;
-    background: #6D3F0BF2 !important;
-    display: none;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    color: white;
-    font-size: 18px;
-    font-family: Jomolhari;
-    text-transform: capitalize;
-    justify-content: center;
-    align-items: center;
-    z-index: 2;
+            display: none;
+        position: absolute;
+        bottom:0px;
+        /* Position at bottom of image container */
+        left: 51%;
+        transform: translateX(-50%);
+        background-color: #6D3F0BF2;
+        color: white;
+        height: 55px;
+        width: calc(111% - 20px);
+        /* Full width minus padding */
+        justify-content: center;
+        gap: 12px;
+        align-items: center;
+        z-index: 2;
+        font-size: 18px;
+        font-family: Jomolhari;
+        text-transform: capitalize;
 }
 .card:hover .cart { display: flex; }
 
@@ -177,11 +176,46 @@
     #productGrid .col-6,
     #productGrid .col-sm-6,
     #productGrid .col-md-6 {
-        flex: 0 0 100% !important;
-        max-width: 100% !important;
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+    
     }
-    .card-img-top { height: 180px; }
+     .cart {
+        width: 100% !important;
+        left: 50% !important;
+       
+    }
+    .favorite, .badge-rating {
+        z-index: 5;
+    }
+    .card {
+        overflow: hidden;
+        position: relative;
+        width: 100% !important;
+        height: 100% !important;
+        left: -15px;
+    }
+
+    .card-img {
+        position: relative;
+        height:auto; /* Adjust for mobile */
+        overflow: hidden;
+    }
+    .card-img-top.main-img,
+    .card-img-top.hover-img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        border-radius:0px;
+    }
+    .card-img-top.hover-img {
+    display: none;
+    position: static; /* or remove position entirely */
 }
+
+   
+}
+
 @media (min-width: 576px) and (max-width: 767.98px) {
     #productGrid .col-sm-4 {
         flex: 0 0 33.333%;
@@ -337,7 +371,7 @@
 
 .badge-rating {
     position: absolute;
-    bottom: 10px;
+
     right: 10px;
     background-color: #ecebe7;
     color: #333;
@@ -347,9 +381,9 @@
     z-index: 2;
     font-weight: 600;
     box-shadow: 0 0 4px rgba(0,0,0,0.1);
-    transition: opacity 0.2s, z-index 0.2s;
+    
 }
-.card:hover .badge-rating { z-index: 0; opacity: 0; }
+.card:hover .badge-rating { z-index: 5; opacity: 1; }
 
 
 /* --- Banner --- */
@@ -378,7 +412,10 @@
 .font-jomolhari { font-family: 'Jomolhari', serif; }
 .font-sf-pro { font-family: 'SF Pro Display', sans-serif; }
 
-
+html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+}
 
 </style>
 <style>
@@ -451,6 +488,8 @@
     padding-top: 0 !important;
 }
 
+
+
 </style>
 {% endblock extra_css %}
 
@@ -506,7 +545,7 @@
                                 </div>
                                 <div id="categoryContent" class="drpdwn" style="display: none;">
                                     <ul class="w-100" aria-labelledby="categoryDropdown" style="list-style-type:none;">
-                                        {% for cat in navbar_categories %}
+                                        {% for cat in categories %}
                                         <li>
                                             <label class="dropdown-item d-flex align-items-center">
                                                 <input class="form-check-input me-2 categoryFilter" type="checkbox" value="{{ cat.id }}" {% if cat.id == category.id %}selected{% endif %} id="cat{{ cat.id }}" data-name="{{ cat.name }}">
@@ -758,7 +797,7 @@ function fetchProducts() {
 
                     html += `
 <div class="col-6 col-md-4 col-lg-3 mb-4">
-  <div class="card h-100 position-relative product-card ${prod.stock_status === 'Out of Stock' ? 'disabled-card' : ''}" data-original-price="${prod.price}">
+  <div class="card  position-relative product-card ${prod.stock_status === 'Out of Stock' ? 'disabled-card' : ''}" data-original-price="${prod.price}">
     
     <div class="card-img position-relative">
       <img src="${prod.image}" class="card-img-top main-img ${prod.stock_status === 'Out of Stock' ? 'blurred' : ''}" alt="${prod.name}">
@@ -772,10 +811,7 @@ function fetchProducts() {
       ${prod.stock_status === 'Low Stock' ? `
         <span class="low-stock-blink">Low Stock</span>` : ''}
 
-      <span class="badge-rating">
-        <i class="bi bi-star-fill me-1" style="color:#AF9164;"></i>
-        ${(prod.average_rating !== undefined && prod.average_rating !== null ? prod.average_rating.toFixed(1) : '0.0')} | ${prod.review_count || 0}
-      </span>
+    
 
       ${prod.discounted_price && prod.offer_code ? `
       <div class="offer-info-bar" id="offer-${prod.id}">
@@ -794,6 +830,10 @@ function fetchProducts() {
       </a>
     </div>
     <div class="card-body">
+          <span class="badge-rating">
+        <i class="bi bi-star-fill me-1" style="color:#AF9164;"></i>
+        ${(prod.average_rating !== undefined && prod.average_rating !== null ? prod.average_rating.toFixed(1) : '0.0')} | ${prod.review_count || 0}
+      </span>
       <h5 class="card-title">${prod.name}</h5>
       ${prod.discounted_price ? `
         <p class="card-text text-danger fw-bold">₹${prod.discounted_price}</p>
@@ -812,7 +852,7 @@ function fetchProducts() {
             if (res.category_banner_url) {
                 $('#category-banner').html(`
                     <img src="${res.category_banner_url}" alt="Category Banner" class="img-fluid">
-                    <div class="banner-title">${res.category_name}</div>
+                    
                 `).show();
             } else {
                 $('#category-banner').hide();
@@ -821,7 +861,7 @@ function fetchProducts() {
             if (res.subcategory_banner_url) {
                 $('#subcategory-banner').html(`
                     <img src="${res.subcategory_banner_url}" alt="Subcategory Banner" class="img-fluid">
-                    <div class="banner-title">${res.subcategory_name}</div>
+                  
                 `).show();
             } else {
                 $('#subcategory-banner').hide();
@@ -932,7 +972,7 @@ document.addEventListener('DOMContentLoaded', startCountdowns);
           <button class="btn btn-secondary w-100" id="categoryDropdownModal">Category</button>
           <div id="categoryContentModal" class="mt-2" style="display:none;">
             <ul class="list-unstyled">
-              {% for cat in categories %}
+              {% for cat in navbar_categories %}
               <li>
                 <label>
                   <input type="checkbox" class="form-check-input me-2 categoryFilterModal" value="{{ cat.id }}" data-name="{{ cat.name }}">
@@ -1047,6 +1087,9 @@ document.getElementById("sortByDropdown").style.backgroundColor = "#981945";
 
 
 </script>
+
+<!-- Bootstrap JS Bundle (for modal functionality) -->
+
 <script>
 $(document).ready(function() {
     // 1️⃣ Read URL params for categories/subcategories
