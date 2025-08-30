@@ -545,7 +545,7 @@ html, body {
                                 </div>
                                 <div id="categoryContent" class="drpdwn" style="display: none;">
                                     <ul class="w-100" aria-labelledby="categoryDropdown" style="list-style-type:none;">
-                                        {% for cat in categories %}
+                                        {% for cat in navbar_categories %}
                                         <li>
                                             <label class="dropdown-item d-flex align-items-center">
                                                 <input class="form-check-input me-2 categoryFilter" type="checkbox" value="{{ cat.id }}" {% if cat.id == category.id %}selected{% endif %} id="cat{{ cat.id }}" data-name="{{ cat.name }}">
