@@ -318,8 +318,9 @@
 .swiper-button-next:hover,.swiper-button-prev:hover{background-color:rgba(109,63,11,0.95);}
 .swiper-pagination-bullet{width:10px;height:10px;background:#ccc;opacity:1;margin:0 5px;border-radius:50%;transition:background 0.3s;}
 .swiper-pagination-bullet-active{background:#007bff;}
-  
-</style>
+    </style>
+
+
 
 
    
@@ -338,7 +339,7 @@
         <!-- Images Column -->
         <div class="col-lg-6">
             <div class="d-flex flex-column flex-md-row gap-3">
-                <div class="d-flex flex-column gap-2 order-1 order-md-0">
+                <div class="d-flex flex-column flex-md-column flex-sm-row gap-2 order-1 order-md-0">
                     {% if product.image2 %}
                     <div class="overflow-hidden rounded thumb-image mb-2" style="height: 80px; width: 80px;">
                         <img src="{{ product.image2.url }}" class="img-fluid h-100 w-100 object-fit-cover" style="object-fit: cover;" onclick="changeMainImage(this)">
@@ -364,8 +365,9 @@
                         <img src="{{ product.plastic_image.url }}" class="img-fluid h-100 w-100 object-fit-cover" style="object-fit: cover;" onclick="changeMainImage(this)">
                     </div>
                     {% endif %}
-
-                 
+                      <div class="overflow-hidden rounded thumb-image mb-2" style="height: 80px; width: 80px;">
+                          <img   src="{{ product.image1.url }}" class="img-fluid w-100 h-100 object-fit-fill" onclick="changeMainImage(this)" >
+                    </div>
                 </div>
                 <style>
                 @media (max-width: 576px) {
@@ -610,22 +612,7 @@
 {% endif %}
 
 
-                       <!-- Amazon/Flipkart-style Cart Notification with Progress Bar -->
-                        <div id="cart-notification" class="cart-popup d-none">
-                            <div class="progress-bar-container">
-                                <div class="progress-bar"></div>
-                            </div>
-                            <div class="notification-header">
-                                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#067D62" width="24" height="24">
-                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
-                                </svg>
-                                <span class="notification-message">Added to Cart</span>
-                            </div>
-                        <div class="d-flex flex-row gap-3">
-                           <a href="{% url 'home' %}" class="btn btn-outline-secondary" style="outline: none;" > Continue shopping </a>
-                            <a href="{% url 'view_cart'  %}" class="btn btn-outline-danger">View Cart</a>
-                        </div>
-                        </div>
+                  
                  
 
                     <form method="POST" id="add-to-cart-form">
@@ -643,8 +630,8 @@
                             </div>
                             
                             <button type="submit" class="btn gradient-btn text-white" id="addToCartBtn" data-product-id="{{ product.id }}">
-    Add to Cart
-</button>
+                                Add to Cart
+                            </button>
 
                             <a href="{% url 'home' %}" class="btn btn-outline-secondary" style="outline: none;" > Continue shopping </a>
                         </div>
@@ -656,7 +643,22 @@
     </div>
 </div>
 
-
+     <!-- Amazon/Flipkart-style Cart Notification with Progress Bar -->
+                        <div id="cart-notification" class="cart-popup d-none">
+                            <div class="progress-bar-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="notification-header">
+                                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#067D62" width="24" height="24">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                                </svg>
+                                <span class="notification-message">Added to Cart</span>
+                            </div>
+                        <div class="d-flex flex-row gap-3">
+                           <a href="{% url 'home' %}" class="btn btn-outline-secondary" style="outline: none;" > Continue shopping </a>
+                            <a href="{% url 'view_cart'  %}" class="btn btn-outline-danger">View Cart</a>
+                        </div>
+                        </div>
 
 
         <!--  -->
