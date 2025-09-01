@@ -1845,6 +1845,7 @@ import time
 @login_required(login_url='email_login')
 def user_profile(request):
     user = request.user
+    name = request.user.username.split('@')[0]
     profile, _ = UserProfile.objects.get_or_create(user=user)
 
     orders = (
@@ -1927,6 +1928,7 @@ def user_profile(request):
         'avg_rating_dict': avg_rating_dict,
         'reviewed_product_ids': reviewed_product_ids,
         'tracking_stages': tracking_stages,
+        'display_name':name,
     })
 
 
