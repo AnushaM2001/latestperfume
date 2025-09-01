@@ -23,7 +23,7 @@
                 <div class="ms-md-3 mt-2 w-100">
                   {% with addresses|dictsortreversed:"id"|first as latest_address %}
                   <!-- Name -->
-                  <h4 class="user-name">{{ latest_address.Name|default:user.username }}</h4>
+                  <h4 class="user-name">{{ latest_address.Name|default:display_name }}</h4>
 
                   <!-- HR and Edit in one row -->
                   <div class="d-flex align-items-center flex-wrap">
@@ -835,7 +835,7 @@
                     </div>
                     <div class="card d-flex flex-column" style="background-color: #FBF0EF;border-radius: 10px;">
 
-                      <div class="d-flex flex-row justify-content-between mt-3" onclick="toggleInfo(this)" style="cursor: pointer;">
+                      <div class="d-flex justify-content-between mt-3" onclick="toggleInfo(this)" style="cursor: pointer;">
                         <h3 class="help-heading ms-3">Updating profile Information</h3>
                         <i class="bi bi-chevron-right me-4 toggle-icon" style="color: #090909; font-size: 18px;"></i>
                       </div>
@@ -846,26 +846,26 @@
                       </div>
 
                      <hr>
-                      <div class="d-flex flex-row justify-content-between mt-2">
+                      <div class="d-flex justify-content-between mt-2">
                        <h3 class="help-heading ms-3 "> General Information</h3>
                        <i class="bi bi-chevron-right me-4" style="color: #090909; font-size: 18px;"></i>
                        
                       </div>
                      <hr>
    
-                     <div class="d-flex flex-row justify-content-between mt-2">
+                     <div class="d-flex  justify-content-between mt-2">
                        <h3 class="help-heading ms-3 ">Payment and Fare Issues</h3>
                        <i class="bi bi-chevron-right me-4" style="color: #090909; font-size: 18px;"></i>
                       </div>
                      <hr>
    
-                     <div class="d-flex flex-row justify-content-between mt-2">
+                     <div class="d-flex  justify-content-between mt-2">
                        <h3 class="help-heading ms-3 "> Saftey and Security </h3>
                        <i class="bi bi-chevron-right me-4" style="color: #090909; font-size: 18px;"></i>
                       </div>
                      <hr>
    
-                     <div class="d-flex flex-row justify-content-between mt-2 mb-3">
+                     <div class="d-flex  justify-content-between mt-2 mb-3">
                        <h3 class="help-heading ms-3 "> Ride Booking Issues </h3>
                        <i class="bi bi-chevron-right me-4" style="color: #090909; font-size: 18px;"></i>   
                       </div>
@@ -901,7 +901,9 @@
               
               <form method="POST" action="{% url 'submit_help_query' %}">
                 {% csrf_token %}
-                <textarea name="subject" rows="4" placeholder="Tell us your problem" class="text-query"></textarea>
+                <div class="mb-3">
+                  <textarea name="subject" rows="4" placeholder="Tell us your problem" class="text-query form-control w-100" style="resize: vertical; min-height: 100px;"></textarea>
+                </div>
                 
                 <div class="d-flex justify-content-center align-items-center">
                   <button type="submit" class="query-btn mt-3">Submit</button>
@@ -930,14 +932,16 @@
                                     {{ address.Building }}, {{ address.location }}, {{ address.City }} - {{ address.Pincode }}
                                 </p>
                         </div>
-                      <div class="dropdown m-4">
-                         <i class="bi bi-three-dots-vertical" style="font-size: 25px;color: #666;" data-bs-toggle="dropdown"></i>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="{% url 'edit_address' address.id %}">Edit</a></li>
-                                    <li><a class="dropdown-item text-danger" href="{% url 'delete_address' address.id %}">Delete</a></li>
-                                </ul>
-                            </div>
+                        <div class="dropdown m-4">
+                          <button class="btn btn-link p-0" type="button" id="dropdownMenuButton-{{ address.id }}" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; color: #666;">
+                            <i class="bi bi-three-dots-vertical"></i>
+                          </button>
+                          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-{{ address.id }}">
+                            <li><a class="dropdown-item" href="{% url 'add_address'  %}">Edit</a></li>
+                            <li><a class="dropdown-item text-danger" href="{% url 'delete_address' address.id %}">Delete</a></li>
+                          </ul>
                         </div>
+                      </div>
                         {% if address.is_default %}
                         <div class="d-flex justify-content-end me-3 mb-2">
                             <span class="badge bg-primary">Default</span>
@@ -1500,17 +1504,43 @@ function showSection(sectionId) {
 }
 </script>
 
-
 <script>
-window.addEventListener('DOMContentLoaded', () => {
-    const savedSection = sessionStorage.getItem('activeSection');
-    if (savedSection) {
-        showSection(savedSection);
-    } else {
-        showSection('help-section');  // Default section
+window.onload = function() {
+    // Get all sections and nav links
+    const sections = document.querySelectorAll('.content-section');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    // Hide all sections
+    sections.forEach(sec => sec.style.display = 'none');
+
+    // Get last active section from localStorage (default: profile-section)
+    const activeSection = localStorage.getItem('activeSection') || 'profile-section';
+    if (document.getElementById(activeSection)) {
+        document.getElementById(activeSection).style.display = 'block';
     }
-});
+
+    // Add click event to each nav link
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Hide all sections
+            sections.forEach(sec => sec.style.display = 'none');
+
+            // Show clicked section
+            const sectionId = this.getAttribute('data-section');
+            if (document.getElementById(sectionId)) {
+                document.getElementById(sectionId).style.display = 'block';
+                localStorage.setItem('activeSection', sectionId);
+            }
+        });
+    });
+};
 </script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 
 {% endblock content %} 
