@@ -18,7 +18,7 @@
     min-width: 0 !important;
  
     border: 1.5px solid #D8CBBD;
-    background: #FFFFFF;
+    background: #FBF0EF;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out;
@@ -65,7 +65,7 @@
 .card-body {
      
       
-        background-color: #fff;
+        background-color: #FBF0EF;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease-in-out;
 }
@@ -349,15 +349,45 @@
     color: white;
     z-index: 10;
     white-space: nowrap;
-    width: calc(100% - 20px); /* optional: fit parent width */
+    width: auto; /* optional: fit parent width */
 }
 
 .discount-percentage {
-    background-color: green;
-    padding: 2px 6px;
+    display: inline-block;
+    background: linear-gradient(90deg, #00d404 0%, #0cda01 100%);
     color: #fff;
-    border-radius: 4px;
-    font-weight: bold;
+    font-size: 0.85rem;
+    font-family: 'SF Pro Display', 'Jomolhari', Arial, sans-serif;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 16px 16px 16px 0;
+    box-shadow: 0 2px 8px rgba(255, 111, 0, 0.15);
+    letter-spacing: -0.5px;
+    margin-left: 8px;
+    margin-top: 2px;
+    vertical-align: middle;
+    min-width: 60px;
+    text-align: center;
+    border: 2px solid #fff3e0;
+    position: relative;
+    z-index: 2;
+    transition: background 0.2s;
+}
+@media (max-width: 576px) {
+    .discount-percentage {
+        font-size: 0.60rem;
+        padding: 3px 8px;
+        border-radius: 12px 12px 12px 0;
+        min-width: 50px;
+        margin-left: 4px;
+    }
+}
+@media (max-width: 400px) {
+    .discount-percentage {
+        font-size: 0.60rem;
+        padding: 2px 6px;
+        min-width: 50px;
+    }
 }
 
 .aa {
@@ -366,7 +396,7 @@
     color: #f5f3f3;
     padding: 2px 6px;
     border-radius: 4px;
-    margin-left: auto;
+    margin-left: -4px;
 }
 
 .badge-rating {
@@ -456,6 +486,7 @@ html, body {
 
 .text-muted {
   color: #888 !important;
+  font-size:12px;
 }
 
 .add-to-cart-btn {
@@ -752,6 +783,7 @@ html, body {
     <script>
 let autoRefreshInterval = null;
 
+
 function fetchProducts() {
     let categories = [];
     let subcategories = [];
@@ -773,7 +805,6 @@ function fetchProducts() {
     });
 
     let max_price = $('#priceRange').val();
-
     renderSelectedFilters(selectedFilters);
 
     $.ajax({
@@ -797,8 +828,13 @@ function fetchProducts() {
 
                     html += `
 <div class="col-6 col-md-4 col-lg-3 mb-4">
-  <div class="card  position-relative product-card ${prod.stock_status === 'Out of Stock' ? 'disabled-card' : ''}" data-original-price="${prod.price}">
+  <div class="card position-relative product-card ${prod.stock_status === 'Out of Stock' ? 'disabled-card' : ''}">
     
+    <!-- ✅ Favorite Icon -->
+   <div class="favorite ${prod.is_favorite ? 'active' : ''}" data-product-id="${prod.id}">
+    <img src="{% static 'images2/favorite.svg' %}" alt="favorite">
+   </div>
+
     <div class="card-img position-relative">
       <img src="${prod.image}" class="card-img-top main-img ${prod.stock_status === 'Out of Stock' ? 'blurred' : ''}" alt="${prod.name}">
       ${prod.image2 ? `<img src="${prod.image2}" class="card-img-top hover-img ${prod.stock_status === 'Out of Stock' ? 'blurred' : ''}" alt="${prod.name}">` : ''}
@@ -811,18 +847,16 @@ function fetchProducts() {
       ${prod.stock_status === 'Low Stock' ? `
         <span class="low-stock-blink">Low Stock</span>` : ''}
 
-    
-
       ${prod.discounted_price && prod.offer_code ? `
       <div class="offer-info-bar" id="offer-${prod.id}">
         <span class="offer-badge">
-          <span class="discount-percentage">${discountPercentage}% OFF</span>
-<span id="countdown-${prod.id}" data-endtime="${prod.offer_end_time}" class="aa"></span>
-
-
+         
+          <span id="countdown-${prod.id}" data-endtime="${prod.offer_end_time}" class="aa"></span>
         </span>
       </div>` : ''}
+     
 
+    
       <a href="/product/${prod.id}/">
         <div class="cart text-white text-center fs-6 fw-normal font-jomolhari text-capitalize">
           <img src="{% static 'images2/shopping_cart.svg' %}" alt=""> Add to Cart
@@ -830,15 +864,24 @@ function fetchProducts() {
       </a>
     </div>
     <div class="card-body">
-          <span class="badge-rating">
+      <span class="badge-rating">
         <i class="bi bi-star-fill me-1" style="color:#AF9164;"></i>
         ${(prod.average_rating !== undefined && prod.average_rating !== null ? prod.average_rating.toFixed(1) : '0.0')} | ${prod.review_count || 0}
       </span>
       <h5 class="card-title">${prod.name}</h5>
       ${prod.discounted_price ? `
         <p class="card-text text-danger fw-bold">₹${prod.discounted_price}</p>
-        <p class="text-muted"><del>₹${prod.price}</del></p>` : `
-        <p class="card-text fw-bold text-danger">₹${prod.price}</p>`}
+        <p class="text-muted"><del></del></p>` : `
+         <div class="d-flex align-items-center ">
+            <p class="card-text fw-bold text-danger me-2 mb-0">₹${prod.price}</p>`}
+            <p class="text-muted mt-3"><del>${prod.price}</del></p>
+            ${prod.discounted_price && prod.offer_code ? `
+                <div class="offer-info-bar" id="offer-${prod.id}">
+                    <span class="offer-badge">
+                    <span class="discount-percentage  mb-0">${discountPercentage}% OFF</span>
+                    
+                </div>` : ''}
+        </div>
     </div>
   </div>
 </div>`;
@@ -850,19 +893,13 @@ function fetchProducts() {
             $('#productGrid').html(html);
 
             if (res.category_banner_url) {
-                $('#category-banner').html(`
-                    <img src="${res.category_banner_url}" alt="Category Banner" class="img-fluid">
-                    
-                `).show();
+                $('#category-banner').html(`<img src="${res.category_banner_url}" alt="Category Banner" class="img-fluid">`).show();
             } else {
                 $('#category-banner').hide();
             }
 
             if (res.subcategory_banner_url) {
-                $('#subcategory-banner').html(`
-                    <img src="${res.subcategory_banner_url}" alt="Subcategory Banner" class="img-fluid">
-                  
-                `).show();
+                $('#subcategory-banner').html(`<img src="${res.subcategory_banner_url}" alt="Subcategory Banner" class="img-fluid">`).show();
             } else {
                 $('#subcategory-banner').hide();
             }
@@ -874,6 +911,7 @@ function fetchProducts() {
         }
     });
 }
+
 
 
 
@@ -1108,11 +1146,11 @@ $(document).ready(function() {
         });
     }
 
-    // 2️⃣ Fetch products after filters are pre-checked
+    //  Fetch products after filters are pre-checked
     fetchProducts();
     autoRefresh();
 
-    // 3️⃣ Event listeners for filters
+    // Event listeners for filters
     $('.categoryFilter, .subcategoryFilter, .sizeFilter, #priceRange').on('change', fetchProducts);
 
     $('#priceRange').on('input', function() {
