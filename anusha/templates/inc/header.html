@@ -366,8 +366,9 @@
         <!-- Icons (right on all screens) -->
         <div class="d-flex align-items-center gap-3 order-3 ms-auto flex-shrink-0" style="line-height: 1;">
             <i class="bi bi-search d-inline-block" onclick="toggleSearchSection()" style="cursor: pointer; font-size: 19px;"></i>
-            <i class="bi bi-heart d-inline-block" style="cursor: pointer; font-size: 19px;"></i>
-            <img src="{% static 'images2/shipping.svg' %}" class="d-none d-md-inline-block" style="height: 24px;">
+           <a href="{% url 'user_profile' %}?section=wishlist">
+                <i class="bi bi-heart d-inline-block" style="cursor: pointer; font-size: 19px;"></i>
+            </a>            <img src="{% static 'images2/shipping.svg' %}" class="d-none d-md-inline-block" style="height: 24px;">
             <a href="{% url 'view_cart' %}" class="position-relative d-inline-block">
                 <img src="{% static 'images2/cart.svg' %}" style="cursor: pointer; width: 24px; height: 24px;" alt="Cart">
                   <span id="cart-count" class="cart-count position-absolute translate-middle badge rounded-pill bg-danger">
